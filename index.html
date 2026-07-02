@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026 北京 QCon 參會心得 | JHIH CHUN</title>
+<!--
+  ══════════════ 維護說明 ══════════════
+  1. 補 YouTube 連結：搜尋 const DATA，在對應場次的 "yt": "" 填入網址。
+  2. 寫心得：到 <main id="essay"> 區，複製一個 <section class="essay-block"> 範本，
+     在 data-refs 填入相關場次 id（逗號分隔，id 可在「全部場次」卡片右上角看到），
+     系統會自動在段落下方產生可點擊的場次連結卡。
+  3. PDF 放在 ./PDF/ 資料夾，檔名不要改，連結會自動生效。
+-->
+<style>
+:root{
+  --ink:#1e293b; --muted:#64748b; --bg:#f8fafc; --card:#ffffff;
+  --accent:#2563eb; --accent2:#f59e0b; --line:#e2e8f0;
+  --navy:#0f172a;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75}
+a{color:var(--accent)}
+header.hero{background:linear-gradient(135deg,#0f172a 0%,#1e3a8a 100%);color:#fff;
+  padding:64px 24px 48px;text-align:center}
+header.hero h1{font-size:clamp(26px,4vw,40px);letter-spacing:.02em}
+header.hero p.sub{color:#cbd5e1;margin-top:10px;font-size:15px}
+.stats{display:flex;gap:28px;justify-content:center;margin-top:26px;flex-wrap:wrap}
+.stats div{text-align:center}
+.stats b{font-size:26px;display:block}
+.stats span{font-size:12px;color:#94a3b8}
+nav#topnav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);
+  backdrop-filter:blur(8px);border-bottom:1px solid var(--line);
+  display:flex;gap:4px;justify-content:center;padding:10px 8px}
+nav#topnav a{text-decoration:none;color:var(--ink);padding:8px 18px;border-radius:20px;font-size:14px;font-weight:600}
+nav#topnav a:hover{background:#eef2ff}
+section.page{max-width:1080px;margin:0 auto;padding:56px 20px}
+section.page>h2{font-size:24px;margin-bottom:6px}
+section.page>p.desc{color:var(--muted);font-size:14px;margin-bottom:24px}
+/* ---- graph ---- */
+#graphWrap{position:relative;background:var(--card);border:1px solid var(--line);
+  border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(15,23,42,.06)}
+#graphSvg{display:block;width:100%;height:640px;cursor:grab;touch-action:none}
+#graphSvg.dragging{cursor:grabbing}
+#graphTools{position:absolute;top:12px;left:12px;display:flex;gap:8px;flex-wrap:wrap}
+#graphTools button{border:1px solid var(--line);background:#fff;border-radius:8px;
+  padding:6px 12px;font-size:13px;cursor:pointer}
+#graphTools button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+#legend{position:absolute;bottom:12px;left:12px;background:rgba(255,255,255,.9);
+  border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:12px;color:var(--muted)}
+.node{cursor:pointer}
+.node text{font-size:11px;fill:#475569;pointer-events:none}
+.node.attended text{fill:#1d4ed8;font-weight:700}
+.node circle{stroke:#fff;stroke-width:1.5}
+.themeNode{cursor:default}
+.themeNode text{font-size:13px;font-weight:700;fill:var(--ink);paint-order:stroke;stroke:#ffffffcc;stroke-width:4}
+.edge{stroke:#cbd5e1;stroke-width:1;fill:none}
+.edge.hi{stroke:var(--accent);stroke-width:2}
+/* ---- essay ---- */
+.essay-block{background:var(--card);border:1px solid var(--line);border-radius:14px;
+  padding:26px 28px;margin-bottom:22px;box-shadow:0 2px 10px rgba(15,23,42,.04)}
+.essay-block h3{font-size:19px;margin-bottom:10px;color:var(--navy)}
+.essay-block p{margin-bottom:10px;font-size:15.5px}
+.essay-block .placeholder{color:#94a3b8;font-style:italic}
+.refs{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;padding-top:12px;border-top:1px dashed var(--line)}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;padding:5px 12px;
+  border-radius:16px;border:1px solid var(--line);background:#f1f5f9;cursor:pointer;color:var(--ink)}
+.chip:hover{border-color:var(--accent);background:#eef2ff}
+.chip .dot{width:8px;height:8px;border-radius:50%}
+/* ---- list ---- */
+#filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;align-items:center}
+#filters button{border:1px solid var(--line);background:#fff;border-radius:16px;
+  padding:5px 13px;font-size:13px;cursor:pointer}
+#filters button.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+#searchBox{border:1px solid var(--line);border-radius:16px;padding:6px 14px;font-size:13px;min-width:200px}
+#cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;
+  display:flex;flex-direction:column;gap:8px;position:relative}
+.card.attended{border-left:4px solid var(--accent)}
+.card h4{font-size:14.5px;line-height:1.5;padding-right:34px}
+.card .id{position:absolute;top:10px;right:12px;font-size:11px;color:#cbd5e1;font-family:monospace}
+.card .meta{font-size:12.5px;color:var(--muted)}
+.tag{display:inline-block;font-size:11px;padding:2px 9px;border-radius:10px;color:#fff}
+.badge{display:inline-block;font-size:11px;padding:2px 8px;border-radius:10px;
+  background:#dbeafe;color:#1d4ed8;font-weight:700;margin-left:6px}
+.links{display:flex;gap:8px;margin-top:auto;flex-wrap:wrap}
+.btn{font-size:12.5px;padding:5px 12px;border-radius:8px;text-decoration:none;border:1px solid var(--line)}
+.btn.yt{background:#fee2e2;color:#b91c1c;border-color:#fecaca}
+.btn.pdf{background:#eef2ff;color:#3730a3;border-color:#e0e7ff}
+.btn.dis{background:#f8fafc;color:#94a3b8;pointer-events:none}
+/* ---- modal ---- */
+#modalBg{position:fixed;inset:0;background:rgba(15,23,42,.5);display:none;
+  align-items:center;justify-content:center;z-index:100;padding:20px}
+#modalBg.show{display:flex}
+#modal{background:#fff;border-radius:16px;max-width:560px;width:100%;padding:28px;
+  box-shadow:0 20px 60px rgba(0,0,0,.3)}
+#modal h3{font-size:18px;line-height:1.5;margin-bottom:8px;padding-right:24px}
+#modal .meta{font-size:13.5px;color:var(--muted);margin-bottom:14px}
+#modal .links{margin-top:16px}
+#modal .btn{font-size:14px;padding:8px 16px}
+#mClose{float:right;border:none;background:none;font-size:20px;cursor:pointer;color:var(--muted)}
+footer{text-align:center;color:var(--muted);font-size:13px;padding:40px 20px;border-top:1px solid var(--line);margin-top:40px}
+@media(max-width:640px){#graphSvg{height:480px}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <h1>2026 北京 QCon 參會心得</h1>
+  <p class="sub">全球軟體開發大會 · 北京 · 2026/04 · by JHIH CHUN</p>
+  <div class="stats">
+    <div><b id="stTotal">–</b><span>收錄場次</span></div>
+    <div><b id="stAtt">–</b><span>親身參與（逐字稿＋影片）</span></div>
+    <div><b id="stThemes">–</b><span>主題分類</span></div>
+  </div>
+</header>
+
+<nav id="topnav">
+  <a href="#graph">知識圖</a>
+  <a href="#essay">我的心得</a>
+  <a href="#all">全部場次</a>
+</nav>
+
+<section class="page" id="graph">
+  <h2>會議知識圖</h2>
+  <p class="desc">滾輪縮放、拖曳平移；點擊場次節點可查看 YouTube 影片或下載 PDF 講稿。藍色＝我有到場聆聽的場次。</p>
+  <div id="graphWrap">
+    <svg id="graphSvg" viewBox="0 0 1200 1200" xmlns="http://www.w3.org/2000/svg"></svg>
+    <div id="graphTools">
+      <button id="btnOnlyAtt">只看有參加 ★</button>
+      <button id="btnReset">重設視角</button>
+    </div>
+    <div id="legend">● 藍點＝有參加（15 場）　● 灰點＝僅講稿 PDF　字級大＝主題節點</div>
+  </div>
+</section>
+
+<main class="page" id="essay">
+  <h2>我的心得</h2>
+  <p class="desc">每個段落下方的小卡，是與該段觀點相關的場次，點擊可看影片連結或下載講稿。</p>
+
+  <!-- ═══ 心得範本：複製整個 <section> 即可新增段落；data-refs 填相關場次 id ═══ -->
+  <section class="essay-block" data-refs="s02,s07">
+    <h3>（範例段落一）Coding 已死？自主系統時代的真實訊號</h3>
+    <p class="placeholder">［這裡填入你的心得：例如黃東旭「人不再寫代碼」的論點，與圓桌上各方對 Demo 到生產落差的討論，你自己的觀察是什麼……］</p>
+  </section>
+
+  <section class="essay-block" data-refs="s09,s13,s15">
+    <h3>（範例段落二）從 Vibe 到 Spec：AI Coding 的收斂方向</h3>
+    <p class="placeholder">［這裡填入你的心得：TocoAI 的 DSL-Spec、網易的 Spec Driven、螞蟻的平台化，三者殊途同歸之處……］</p>
+  </section>
+
+  <section class="essay-block" data-refs="s06,s03">
+    <h3>（範例段落三）記憶與安全：Agent 規模化前的兩道坎</h3>
+    <p class="placeholder">［這裡填入你的心得……］</p>
+  </section>
+  <!-- ═══ 心得範本結束 ═══ -->
+</main>
+
+<section class="page" id="all">
+  <h2>全部場次</h2>
+  <p class="desc">共 77 場：15 場親身參與（★，附逐字稿與 YouTube），其餘 62 場為官方講稿 PDF。</p>
+  <div id="filters">
+    <input id="searchBox" placeholder="搜尋講題 / 講者…">
+    <button id="fAtt">★ 只看有參加</button>
+  </div>
+  <div id="themeFilters" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px"></div>
+  <div id="cards"></div>
+</section>
+
+<div id="modalBg"><div id="modal">
+  <button id="mClose">✕</button>
+  <h3 id="mTitle"></h3>
+  <div class="meta" id="mMeta"></div>
+  <div id="mBody" style="font-size:14px;color:#475569"></div>
+  <div class="links" id="mLinks"></div>
+</div></div>
+
+<footer>2026 北京 QCon 參會筆記 · 由 JHIH CHUN 整理 · 講稿 PDF 版權屬原講者與 QCon 主辦方</footer>
+
+<script>
+const DATA = {
+ "themes": {
+  "K": "主題演講與趨勢",
+  "C": "AI Coding 與研發提效",
+  "A": "Agent 工程與架構",
+  "M": "Agent 記憶系統",
+  "O": "可觀測性與 AIOps",
+  "I": "AI Infra 與推理",
+  "MM": "多模態與模型",
+  "S": "安全與風控",
+  "T": "智能化測試",
+  "U": "生成式 UI 與交互",
+  "D": "數據 Agent 與推薦",
+  "V": "行業應用落地",
+  "R": "具身智能與機器人",
+  "W": "組織與未來工作"
+ },
+ "sessions": [
+  {
+   "id": "s01",
+   "title": "3 天會議開場",
+   "speaker": "QCon 大會",
+   "theme": "K",
+   "attended": true,
+   "pdf": null,
+   "yt": "",
+   "transcripts": [
+    "0573_3天會議開場_逐字稿_校正版.md"
+   ]
+  },
+  {
+   "id": "s02",
+   "title": "The Age of Autonomous Systems：自主系統的時代",
+   "speaker": "黃東旭（PingCAP 聯合創始人兼 CTO）",
+   "theme": "K",
+   "attended": true,
+   "pdf": "黄东旭-The Age of Autonomous Systems 自主系统的时代.pdf",
+   "yt": "",
+   "transcripts": [
+    "0574_The Age of Autonomous Systems 自主系统的时代_逐字稿_校正版.md"
+   ]
+  },
+  {
+   "id": "s03",
+   "title": "智能革命時代：自主智能體興起與安全範式重塑",
+   "speaker": "韋韜 博士",
+   "theme": "S",
+   "attended": true,
+   "pdf": "韦韬博士-智能革命时代：自主智能体兴起与安全范式重塑.pdf",
+   "yt": "",
+   "transcripts": [
+    "0575_智能革命时代：自主智能体兴起与安全范式重塑_校正版.md"
+   ]
+  },
+  {
+   "id": "s04",
+   "title": "模型之外（Outside LLM）",
+   "speaker": "閻棟 博士（Bosch 首席 AI 科學家）",
+   "theme": "K",
+   "attended": true,
+   "pdf": null,
+   "yt": "",
+   "transcripts": [
+    "0577_模型之外_校正版.md"
+   ]
+  },
+  {
+   "id": "s05",
+   "title": "殺死「流水線」：ColaOS（ListenHub）如何構建 AI 時代的液態超級團隊",
+   "speaker": "徐文健（ListenHub）",
+   "theme": "W",
+   "attended": true,
+   "pdf": "徐文健-杀死&ldquo;流水线&rdquo;： ColaOS（ListenHub）如何构建 AI 时代的液态超级团队.pdf",
+   "yt": "",
+   "transcripts": [
+    "0578_杀死“流水线”： ColaOS（ListenHub）如何构建 AI 时代的液态超级团队(上半場)_校正版.md",
+    "0578_杀死“流水线”： ColaOS（ListenHub）如何构建 AI 时代的液态超级团队(下半場)_逐字稿_校正版.md"
+   ]
+  },
+  {
+   "id": "s06",
+   "title": "AI Agent 的記憶中間件：火山 Mem0 架構拆解及落地實踐",
+   "speaker": "季旭 博士",
+   "theme": "M",
+   "attended": true,
+   "pdf": "季旭 博士-AI Agent 的记忆中间件：火山 Mem0 架构拆解及落地实践.pdf",
+   "yt": "",
+   "transcripts": [
+    "0582-0583_AI Agent 的记忆中间件：火山 Mem0 架构拆解及落地实践_校正版.md"
+   ]
+  },
+  {
+   "id": "s07",
+   "title": "【圓桌】Agent 落地的真實代價：從 Demo 到生產",
+   "speaker": "鄭然 主持（百度智能雲）等",
+   "theme": "K",
+   "attended": true,
+   "pdf": null,
+   "yt": "",
+   "transcripts": [
+    "0584_圓桌_逐字稿_校正版.md"
+   ]
+  },
+  {
+   "id": "s08",
+   "title": "從 AI 取數到智能分析：企業級數據 Agent 的多階段演進（Diana）",
+   "speaker": "王新波（Shopee Data Infra）",
+   "theme": "D",
+   "attended": true,
+   "pdf": "王新波-从 AI 取数到智能分析：企业级数据-Agent 的多阶段演进与工程化落地.pdf",
+   "yt": "",
+   "transcripts": [
+    "Shopee_从AI取数到智能分析_逐字稿_校正版.md"
+   ]
+  },
+  {
+   "id": "s09",
+   "title": "DSL-Spec：TocoAI 的後端 Harness Engineering 實踐",
+   "speaker": "曹偲（TocoAI）",
+   "theme": "C",
+   "attended": true,
+   "pdf": "曹偲-DSL-Spec：TocoAI 的后端 Harness Engineering 实践.pdf",
+   "yt": "",
+   "transcripts": [
+    "TocoAI_DSL-Spec後端HarnessEngineering_逐字稿_校正版.md"
+   ]
+  },
+  {
+   "id": "s10",
+   "title": "從單點輔助到 Agent 閉環",
+   "speaker": "蔡明哲（Ubiquiti）",
+   "theme": "C",
+   "attended": true,
+   "pdf": "蔡明哲-从单点辅助到 Agent 闭环.pdf",
+   "yt": "",
+   "transcripts": [
+    "Ubiquiti_從單點輔助到Agent閉環_逐字稿_校正版.md"
+   ]
+  },
+  {
+   "id": "s11",
+   "title": "盡在上下文：JoyCode 的企業級 AI Coding 實踐",
+   "speaker": "徐翔（京東）",
+   "theme": "C",
+   "attended": true,
+   "pdf": "徐翔-尽在上下文&mdash;&mdash;JoyCode 的企业级 AI Coding 实践.pdf",
+   "yt": "",
+   "transcripts": [
+    "京東JoyCode_盡在上下文_逐字稿_校正版.md"
+   ]
+  },
+  {
+   "id": "s12",
+   "title": "可複製的 AI Coding 全棧實戰：比 OpenSpec 更輕量、更絲滑",
+   "speaker": "鄧立山（淘寶閃購）",
+   "theme": "C",
+   "attended": true,
+   "pdf": "邓立山-可复制的 AI Coding 全栈实战：比 OpenSpec 更轻量、更丝滑.pdf",
+   "yt": "",
+   "transcripts": [
+    "淘寶閃購_可複製的AICoding全棧實戰_逐字稿_校正版.md"
+   ]
+  },
+  {
+   "id": "s13",
+   "title": "從 Vibe Coding 到 Spec Driven：網易智企智能化軟件工廠",
+   "speaker": "姜天意（網易智企 CodeWave）",
+   "theme": "C",
+   "attended": true,
+   "pdf": null,
+   "yt": "",
+   "transcripts": [
+    "網易智企_從VibeCoding到SpecDriven_逐字稿_校正版.md"
+   ]
+  },
+  {
+   "id": "s14",
+   "title": "從雲原生到 Agent Engineering：AI 時代的軟件架構躍遷",
+   "speaker": "鍾勇（菜鳥集團）",
+   "theme": "A",
+   "attended": true,
+   "pdf": null,
+   "yt": "",
+   "transcripts": [
+    "菜鳥_從雲原生到AgentEngineering_逐字稿_校正版.md"
+   ]
+  },
+  {
+   "id": "s15",
+   "title": "讓每個員工都有一個 Coding Agent：螞蟻 Vibe Coding 平台",
+   "speaker": "彭佩喬（螞蟻集團）",
+   "theme": "C",
+   "attended": true,
+   "pdf": "彭佩乔-让每个员工都有一个 Coding Agent：蚂蚁 Vibe Coding 平台落地半年后的实践经验 .pdf",
+   "yt": "",
+   "transcripts": [
+    "螞蟻Muse_讓每個員工都有CodingAgent_逐字稿_校正版.md"
+   ]
+  },
+  {
+   "id": "s16",
+   "title": "从推理到执行：构建 AI Agent 全链路无侵入可观测体系",
+   "speaker": "Clement",
+   "theme": "O",
+   "attended": false,
+   "pdf": "Clement-从推理到执行：构建 AI Agent 全链路无侵入可观测体系.pdf",
+   "yt": "",
+   "transcripts": []
+  },
+  {
+   "id": "s17",
+   "title": "From Computer Use to Datacenter Use for AI",
+   "speaker": "",
+   "theme": "K",
+   "attended": false,
+   "pdf": "From Computer Use to Datacenter Use for AI.pdf",
+   "yt": "",
+   "transcripts": []
+  },
+  {
+   "id": "s18",
+   "title": "智能体安全：基于AI Native的防御架构和实践",
+   "speaker": "Sunny Duan",
+   "theme": "S",
+   "attended": false,
+   "pdf": "Sunny Duan-智能体安全：基于AI Native的防御架构和实践.pdf",
+   "yt": "",
+   "transcripts": []
+  },
+  {
+   "id": "s19",
+   "title": "基于业务流程管理的客户端AI Agent智能化测试实践",
+   "speaker": "仲思宇",
+   "theme": "T",
+   "attended": false,
+   "pdf": "仲思宇-基于业务流程管理的客户端AI Agent智能化测试实践.pdf",
+   "yt": "",
+   "transcripts": []
+  },
+  {
+   "id": "s20",
+   "title": "存量修复 + 增量拦截：B 站代码债务治理实践",
+   "speaker": "何之真",
+   "theme": "C",
+   "attended": false,
+   "pdf": "何之真-存量修复 + 增量拦截：B 站代码债务治理实践.pdf",
+   "yt": "",
+   "transcripts": []
+  },
+  {
+   "id": "s21",
+   "title": "面向工业场景的机器人操作（Robotic Manipulation）方案设计及落地实践",
+   "speaker": "何泳澔",
+   "theme": "R",
+   "attended": false,
+   "pdf": "何泳澔-面向工业场景的机器人操作（Robotic Manipulation）方案设计及落地实践.pdf",
+   "yt": "",
+   "transcripts": []
+  },
+  {
+   "id": "s22",
+   "title": "当玩家成为“神”，他希望与怎样的 AI 共处？",
+   "speaker": "党宇航",
+   "theme": "U",
+   "attended": false,
+   "pdf": "党宇航-当玩家成为&ldquo;神&rdquo;，他希望与怎样的 AI 共处？.pdf",
+   "yt": "",
+   "transcripts": []
+  },
+  {
+   "id": "s23",
+   "title": "有道龙虾LobsterAI的养成与实践",
+   "speaker": "刘刚",
+   "theme": "V",
+   "attended": false,
+   "pdf": "刘刚-有道龙虾LobsterAI的养成与实践.pdf",
+   "yt": "",
+   "transcripts": []
+  },
+  {
+   "id": "s24",
+   "title": "让推理引擎可被“看见”：大模型推理端到端 Token 级可观测工程实践",
+   "speaker": "刘杨",
+   "theme": "O",
+   "attended": false,
+   "pdf": "刘杨-让推理引擎可被&ldquo;看见&rdquo;：大模型推理端到端 Token 级可观测工程实践.pdf",
+   "yt": "",
+   "transcripts": []
+  },
+  {
+   "id": "s25",
+   "title": "基于 “假设-验证” 闭环的 RCA Agent 实践",
+   "speaker": "刘至浩",
+   "theme": "O",
+   "attended": false,
+   "pdf": "刘至浩-基于 &ldquo;假设-验证&rdquo; 闭环的 RCA Agent 实践.pdf",
+   "yt": "",
+   "transcripts": []
+  },
+  {
+   "id": "s26",
+   "title": "DeepResearch X OpenClaw：实现路径与 Token 成本控制",
+   "speaker": "卢亿雷",
+   "theme": "A",
+   "attended": false,
+   "pdf": "卢亿雷-DeepResearch X OpenClaw：实现路径与 Token 成本控制.pdf",
+   "yt": "",
+   "transcripts": []
+  },
+  {
+   "id": "s27",
+   "title": "从WIMP到RMCP",
+   "speaker": "吕菲",
+   "theme": "U",
+   "attended": false,
+   "pdf": "吕菲-从WIMP到RMCP.pdf",
+   "yt": "",
+   "transcripts": []
+  },
+  {
+   "id": "s28",
+   "title": "从烟囱到积木：基于 openYuanrong 的 AI Infra 实践",
+   "speaker": "吴杰",
+   "theme": "I",
+   "attended": false,
+   "pdf": "吴杰-从烟囱到积木：基于 openYuanrong 的 AI Infra 实践.pdf",
+   "yt": "",
+   "transcripts": []
+  },
+  {
+   "id": "s29",
+   "title": "构建 AI 的“第二大脑”：大规模多模态记忆平台技术实践",
+   "speaker": "周祥",
+   "theme": "M",
+   "attended": false,
+   "pdf": "周祥-构建 AI 的&ldquo;第二大脑&rdquo;：大规模多模态记忆平台技术实践.pdf",
+   "yt": "",
+   "transcripts": []
+  },
+  {
+   "id": "s30",
+   "title": "面向 AI 原生负载的统一弹性调度体系：Aether 架构实践",
+   "speaker": "季万强",
+   "theme": "I",
+   "attended": false,
+   "pdf": "季万强-面向 AI 原生负载的统一弹性调度体系：Aether 架构实践.pdf",
+   "yt": "",
+   "transcripts": []
+  },
+  {
+   "id": "s31",
+   "title": "从拉群救火到AI排查：端到端智能诊断体系的工程实践",
+   "speaker": "宁振航",
+   "theme": "O",
+   "attended": false,
+   "pdf": "宁振航-从拉群救火到AI排查：端到端智能诊断体系的工程实践.pdf",
+   "yt": "",
+   "transcripts": []
+  },
+  {
+   "id": "s32",
+   "title": "多模态+Agent 在培训与教育领域的应用",
+   "speaker": "尹辰轩",
+   "theme": "V",
+   "attended": false,
+   "pdf": "尹辰轩-多模态+Agent 在培训与教育领域的应用.pdf",
+   "yt": "",
+   "transcripts": []
+  },
+  {
+   "id": "s33",
+   "title": "小红书 GUI Agent 在智能化测试中的工程落地实践",
+   "speaker": "张亦驰",
+   "theme": "T",
+   "attended": false,
+   "pdf": "张亦驰-小红书 GUI Agent 在智能化测试中的工程落地实践.pdf",
+   "yt": "",
+   "transcripts": []
+  },
+  {
+   "id": "s34",
+   "title": "Qwen-VL-Embedding：多模态向量与排序模型的发展与应用",
+   "speaker": "张延钊",
+   "theme": "MM",
+   "attended": false,
+   "pdf": "张延钊-Qwen-VL-Embedding：多模态向量与排序模型的发展与应用.pdf",
+   "yt": "",
+   "transcripts": []
+  },
+  {
+   "id": "s35",
+   "title": "Evomap如何让Agent从单体智能到群体进化",
+   "speaker": "张昊阳",
+   "theme": "A",
+   "attended": false,
+   "pdf": "张昊阳-Evomap如何让Agent从单体智能到群体进化.pdf",
+   "yt": "",
+   "transcripts": []
+  },
+  {
+   "id": "s36",
+   "title": "当 K8s 遇见 Ray：大模型时代 AI Workload 调度的通用范式",
+   "speaker": "",
+   "theme": "I",
+   "attended": false,
+   "pdf": "当 K8s 遇见 Ray：大模型时代 AI Workload 调度的通用范式.pdf",
+   "yt": "",
+   "transcripts": []
+  },
+  {
+   "id": "s37",
+   "title": "打破“人月神话”，Agent 重塑风控场景产运研职能",
+   "speaker": "王东旭",
+   "theme": "S",
+   "attended": false,
+   "pdf": "打破&ldquo;人月神话&rdquo;，Agent 重塑风控场景产运研职能-王东旭.pdf",
+   "yt": "",
+   "transcripts": []
+  },
+  {
+   "id": "s38",
+   "title": "Agent 记忆系统在 eBay 支付风控团队的探索与实践",
+   "speaker": "施凯",
+   "theme": "M",
+   "attended": false,
+   "pdf": "施凯-Agent 记忆系统在 eBay 支付风控团队的探索与实践.pdf",
+   "yt": "",
+   "transcripts": []
+  },
+  {
+   "id": "s39",
+   "title": "智能体架构的降龙十八掌：从原型到工程落地的“生死取舍”",
+   "speaker": "晁岳攀 (鸟窝)",
+   "theme": "A",
+   "attended": false,
+   "pdf": "晁岳攀 (鸟窝)-智能体架构的降龙十八掌：从原型到工程落地的&ldquo;生死取舍&rdquo;.pdf",
+   "yt": "",
+   "transcripts": []
+  },
+  {
+   "id": "s40",
+   "title": "从 LLM 到 Omni：vLLM-Omni 的全模态推理架构演进",
+   "speaker": "朱江云",
+   "theme": "I",
+   "attended": false,
+   "pdf": "朱江云-从 LLM 到 Omni：vLLM-Omni 的全模态推理架构演进.pdf",
+   "yt": "",
+   "transcripts": []
+  },
+  {
+   "id": "s41",
+   "title": "从 Copilot 到 Director：多模态智能体如何接管 AIGC 流程",
+   "speaker": "李云鑫",
+   "theme": "MM",
+   "attended": false,
+   "pdf": "李云鑫-从 Copilot 到 Director：多模态智能体如何接管 AIGC 流程.pdf",
+   "yt": "",
+   "transcripts": []
+  },
+  {
+   "id": "s42",
+   "title": "具身智能 Agent：从 VLA_VA 模型到物理世界交互的落地实践",
+   "speaker": "李元庆",
+   "theme": "R",
+   "attended": false,
+   "pdf": "李元庆-具身智能 Agent：从 VLA_VA 模型到物理世界交互的落地实践.pdf",
+   "yt": "",
+   "transcripts": []
+  },
+  {
+   "id": "s43",
+   "title": "淘宝闪购：从骑手智能助手业务落地到 Agent 平台化建设",
+   "speaker": "李克华",
+   "theme": "V",
+   "attended": false,
+   "pdf": "李克华-淘宝闪购：从骑手智能助手业务落地到 Agent 平台化建设.pdf",
+   "yt": "",
+   "transcripts": []
+  },
+  {
+   "id": "s44",
+   "title": "从 Copilot 到 DataAgent：企业级智能数据开发治理平台的技术演进和实践",
+   "speaker": "李卓豪",
+   "theme": "D",
+   "attended": false,
+   "pdf": "李卓豪-从 Copilot 到 DataAgent：企业级智能数据开发治理平台的技术演进和实践.pdf",
+   "yt": "",
+   "transcripts": []
+  },
+  {
+   "id": "s45",
+   "title": "从“不可验证”到“可迭代”：分析型 AI 的多智能体工程实践",
+   "speaker": "李哲 博士",
+   "theme": "A",
+   "attended": false,
+   "pdf": "李哲 博士-从&ldquo;不可验证&rdquo;到&ldquo;可迭代&rdquo;：分析型 AI 的多智能体工程实践.pdf",
+   "yt": "",
+   "transcripts": []
+  },
+  {
+   "id": "s46",
+   "title": "让 AI 运行在工程资产上：从 PRD 到上线的交付闭环、Hybrid 执行、 Doc 与 Code 联动",
+   "speaker": "李文鹏",
+   "theme": "C",
+   "attended": false,
+   "pdf": "李文鹏-让 AI 运行在工程资产上：从 PRD 到上线的交付闭环、Hybrid 执行、 Doc 与 Code 联动.pdf",
+   "yt": "",
+   "transcripts": []
+  },
+  {
+   "id": "s47",
+   "title": "xLLM-Rec：面向生成式推荐的高性能推理",
+   "speaker": "杨培军",
+   "theme": "I",
+   "attended": false,
+   "pdf": "杨培军-xLLM-Rec：面向生成式推荐的高性能推理.pdf",
+   "yt": "",
+   "transcripts": []
+  },
+  {
+   "id": "s48",
+   "title": "生成式 UI ：AI 交互新模式探索",
+   "speaker": "林瑞虹",
+   "theme": "U",
+   "attended": false,
+   "pdf": "林瑞虹-生成式 UI ：AI 交互新模式探索.pdf",
+   "yt": "",
+   "transcripts": []
+  },
+  {
+   "id": "s49",
+   "title": "构建 Coding Agent 的飞轮：Feedback Loop、Benchmark、Agent Engineers",
+   "speaker": "牛万鹏",
+   "theme": "C",
+   "attended": false,
+   "pdf": "牛万鹏-构建 Coding Agent 的飞轮：Feedback Loop、Benchmark、Agent Engineers.pdf",
+   "yt": "",
+   "transcripts": []
+  },
+  {
+   "id": "s50",
+   "title": "面向IoT 主动智能的用户历史压缩建模与生成式推荐实践",
+   "speaker": "王思文",
+   "theme": "D",
+   "attended": false,
+   "pdf": "王思文-面向IoT 主动智能的用户历史压缩建模与生成式推荐实践.pdf",
+   "yt": "",
+   "transcripts": []
+  },
+  {
+   "id": "s51",
+   "title": "理解与生成一体化：统一多模态大模型的自回归路线",
+   "speaker": "王曜明 博士",
+   "theme": "MM",
+   "attended": false,
+   "pdf": "王曜明 博士-理解与生成一体化：统一多模态大模型的自回归路线.pdf",
+   "yt": "",
+   "transcripts": []
+  },
+  {
+   "id": "s52",
+   "title": "AI-in-SRE-Loop",
+   "speaker": "田云龙",
+   "theme": "O",
+   "attended": false,
+   "pdf": "田云龙-AI-in-SRE-Loop.pdf",
+   "yt": "",
+   "transcripts": []
+  },
+  {
+   "id": "s53",
+   "title": "京东零售 AIGC 百亿素材供给实践",
+   "speaker": "石孝钢",
+   "theme": "MM",
+   "attended": false,
+   "pdf": "石孝钢-京东零售 AIGC 百亿素材供给实践.pdf",
+   "yt": "",
+   "transcripts": []
+  },
+  {
+   "id": "s54",
+   "title": "从盲目调优到数据驱动-大规模 Agent 的评估工程实践",
+   "speaker": "章平",
+   "theme": "A",
+   "attended": false,
+   "pdf": "章平-从盲目调优到数据驱动-大规模 Agent 的评估工程实践.pdf",
+   "yt": "",
+   "transcripts": []
+  },
+  {
+   "id": "s55",
+   "title": "面向内容风控垂直领域的大小模型研发实践",
+   "speaker": "胡宜峰",
+   "theme": "S",
+   "attended": false,
+   "pdf": "胡宜峰-面向内容风控垂直领域的大小模型研发实践.pdf",
+   "yt": "",
+   "transcripts": []
+  },
+  {
+   "id": "s56",
+   "title": "从“工具”到“同事”——AI 时代的产品进化",
+   "speaker": "苏杰",
+   "theme": "K",
+   "attended": false,
+   "pdf": "苏杰-从&ldquo;工具&rdquo;到&ldquo;同事&rdquo;&mdash;&mdash;AI 时代的产品进化.pdf",
+   "yt": "",
+   "transcripts": []
+  },
+  {
+   "id": "s57",
+   "title": "AI 大模型重塑垂域任务：淘宝闪购搜推商品理解的全新建模",
+   "speaker": "董正心",
+   "theme": "D",
+   "attended": false,
+   "pdf": "董正心-AI 大模型重塑垂域任务：淘宝闪购搜推商品理解的全新建模.pdf",
+   "yt": "",
+   "transcripts": []
+  },
+  {
+   "id": "s58",
+   "title": "大前端性能优化新范式：AI 火焰图在亿级 App 中的落地",
+   "speaker": "蔡雪建",
+   "theme": "O",
+   "attended": false,
+   "pdf": "蔡雪建-大前端性能优化新范式：AI 火焰图在亿级 App 中的落地.pdf",
+   "yt": "",
+   "transcripts": []
+  },
+  {
+   "id": "s59",
+   "title": "从 AIOps 到 Agent Ops：故障定位 Agent 的设计与实践",
+   "speaker": "裴彤",
+   "theme": "O",
+   "attended": false,
+   "pdf": "裴彤 - 从 AIOps 到 Agent Ops：故障定位 Agent 的设计与实践.pdf",
+   "yt": "",
+   "transcripts": []
+  },
+  {
+   "id": "s60",
+   "title": "从一次会话到亿级并发：构建可扩展、可隔离的 AI Agent 运行环境",
+   "speaker": "赵庆杰",
+   "theme": "A",
+   "attended": false,
+   "pdf": "赵庆杰-从一次会话到亿级并发：构建可扩展、可隔离的 AI Agent 运行环境.pdf",
+   "yt": "",
+   "transcripts": []
+  },
+  {
+   "id": "s61",
+   "title": "从个人经验到组织资产：小米运维知识沉淀的闭环实践",
+   "speaker": "赵文成",
+   "theme": "O",
+   "attended": false,
+   "pdf": "赵文成-从个人经验到组织资产：小米运维知识沉淀的闭环实践.pdf",
+   "yt": "",
+   "transcripts": []
+  },
+  {
+   "id": "s62",
+   "title": "数据闭环的差异化重构：从百 PB 自动驾驶经验到具身智能 AI 原生基建实践",
+   "speaker": "赵晗",
+   "theme": "R",
+   "attended": false,
+   "pdf": "赵晗-数据闭环的差异化重构：从百 PB 自动驾驶经验到具身智能 AI 原生基建实践.pdf",
+   "yt": "",
+   "transcripts": []
+  },
+  {
+   "id": "s63",
+   "title": "企业 AI 应用全景：从试点热潮到规模落地的真实分水岭",
+   "speaker": "赵钰莹",
+   "theme": "K",
+   "attended": false,
+   "pdf": "赵钰莹-企业 AI 应用全景：从试点热潮到规模落地的真实分水岭.pdf",
+   "yt": "",
+   "transcripts": []
+  },
+  {
+   "id": "s64",
+   "title": "AI 搜索场景下的生成式 UI 工程实践",
+   "speaker": "邓小红",
+   "theme": "U",
+   "attended": false,
+   "pdf": "邓小红-AI 搜索场景下的生成式 UI 工程实践.pdf",
+   "yt": "",
+   "transcripts": []
+  },
+  {
+   "id": "s65",
+   "title": "蔚来销售大模型的工程应用与优化实践",
+   "speaker": "邰康盛",
+   "theme": "V",
+   "attended": false,
+   "pdf": "邰康盛-蔚来销售大模型的工程应用与优化实践.pdf",
+   "yt": "",
+   "transcripts": []
+  },
+  {
+   "id": "s66",
+   "title": "复杂业务场景下 RCA Agent 的探索实践",
+   "speaker": "郭勇良",
+   "theme": "O",
+   "attended": false,
+   "pdf": "郭勇良-复杂业务场景下 RCA Agent 的探索实践.pdf",
+   "yt": "",
+   "transcripts": []
+  },
+  {
+   "id": "s67",
+   "title": "蚂蚁阿福：从 0 到生产的医疗 Agent 工程化落地",
+   "speaker": "郭春晓",
+   "theme": "V",
+   "attended": false,
+   "pdf": "郭春晓-蚂蚁阿福：从 0 到生产的医疗 Agent 工程化落地.pdf",
+   "yt": "",
+   "transcripts": []
+  },
+  {
+   "id": "s68",
+   "title": "Ming-Flash-Omni：全模态统一大模型的关键技术与实践",
+   "speaker": "郭清沛",
+   "theme": "MM",
+   "attended": false,
+   "pdf": "郭清沛-Ming-Flash-Omni：全模态统一大模型的关键技术与实践.pdf",
+   "yt": "",
+   "transcripts": []
+  },
+  {
+   "id": "s69",
+   "title": "给 Agent 做“CT”：大规模 Agent 的可观测与质量保障体系",
+   "speaker": "钱世俊",
+   "theme": "O",
+   "attended": false,
+   "pdf": "钱世俊-给 Agent 做&ldquo;CT&rdquo;：大规模 Agent 的可观测与质量保障体系.pdf",
+   "yt": "",
+   "transcripts": []
+  },
+  {
+   "id": "s70",
+   "title": "让开关自我消亡：AI 赋能的 Feature Flag 全生命周期治理",
+   "speaker": "闫文亮",
+   "theme": "C",
+   "attended": false,
+   "pdf": "闫文亮-让开关自我消亡：AI 赋能的 Feature Flag 全生命周期治理.pdf",
+   "yt": "",
+   "transcripts": []
+  },
+  {
+   "id": "s71",
+   "title": "ZillizTown：基于 Milvus 与 Claude Code 打造企业版 OpenClaw",
+   "speaker": "陈彪",
+   "theme": "A",
+   "attended": false,
+   "pdf": "陈彪-ZillizTown：基于 Milvus 与 Claude Code 打造企业版 OpenClaw.pdf",
+   "yt": "",
+   "transcripts": []
+  },
+  {
+   "id": "s72",
+   "title": "OpenSandbox：重新思考 Agent 时代的 Runtime",
+   "speaker": "陶宇田",
+   "theme": "A",
+   "attended": false,
+   "pdf": "陶宇田-OpenSandbox：重新思考 Agent 时代的 Runtime.pdf",
+   "yt": "",
+   "transcripts": []
+  },
+  {
+   "id": "s73",
+   "title": "自回归模型在视觉生成领域中的应用",
+   "speaker": "韩剑",
+   "theme": "MM",
+   "attended": false,
+   "pdf": "韩剑-自回归模型在视觉生成领域中的应用.pdf",
+   "yt": "",
+   "transcripts": []
+  },
+  {
+   "id": "s74",
+   "title": "淘宝闪购AI 驱动 UI 自动化提效实践",
+   "speaker": "项泳彪",
+   "theme": "T",
+   "attended": false,
+   "pdf": "项泳彪-淘宝闪购AI 驱动 UI 自动化提效实践.pdf",
+   "yt": "",
+   "transcripts": []
+  },
+  {
+   "id": "s75",
+   "title": "AIOps Agent在运维RCA场景下的研发范式与数据飞轮实践",
+   "speaker": "马云雷",
+   "theme": "O",
+   "attended": false,
+   "pdf": "马云雷-AIOps Agent在运维RCA场景下的研发范式与数据飞轮实践.pdf",
+   "yt": "",
+   "transcripts": []
+  },
+  {
+   "id": "s76",
+   "title": "把 UI 生成接进流水线：基于半监督评测体系的 UI 自动化生产实践",
+   "speaker": "黄兆嵩",
+   "theme": "U",
+   "attended": false,
+   "pdf": "黄兆嵩-把 UI 生成接进流水线：基于半监督评测体系的 UI 自动化生产实践.pdf",
+   "yt": "",
+   "transcripts": []
+  },
+  {
+   "id": "s77",
+   "title": "超级团队进行时：从用 AI 到 AI 自己找活干",
+   "speaker": "黄闻欣",
+   "theme": "W",
+   "attended": false,
+   "pdf": "黄闻欣-超级团队进行时：从用 AI 到 AI 自己找活干.pdf",
+   "yt": "",
+   "transcripts": []
+  }
+ ]
+};
+
+const PALETTE = ["#2563eb","#0891b2","#059669","#65a30d","#ca8a04","#ea580c",
+  "#dc2626","#db2777","#9333ea","#7c3aed","#4f46e5","#0d9488","#b45309","#475569"];
+const themeKeys = Object.keys(DATA.themes);
+const themeColor = {}; themeKeys.forEach((k,i)=>themeColor[k]=PALETTE[i%PALETTE.length]);
+const byId = {}; DATA.sessions.forEach(s=>byId[s.id]=s);
+
+/* stats */
+document.getElementById("stTotal").textContent = DATA.sessions.length;
+document.getElementById("stAtt").textContent = DATA.sessions.filter(s=>s.attended).length;
+document.getElementById("stThemes").textContent = themeKeys.length;
+
+/* ============ modal ============ */
+const modalBg=document.getElementById("modalBg");
+function openModal(s){
+  document.getElementById("mTitle").textContent=(s.attended?"★ ":"")+s.title;
+  document.getElementById("mMeta").innerHTML =
+    `<span class="tag" style="background:${themeColor[s.theme]}">${DATA.themes[s.theme]}</span>`+
+    (s.attended?`<span class="badge">有參加</span>`:"")+
+    (s.speaker?`　${esc(s.speaker)}`:"");
+  document.getElementById("mBody").textContent = s.attended
+    ? "我有到場聆聽這場演講，並整理了逐字稿。" : "此場未到場，提供官方講稿 PDF 下載。";
+  document.getElementById("mLinks").innerHTML = linkBtns(s,true);
+  modalBg.classList.add("show");
+}
+document.getElementById("mClose").onclick=()=>modalBg.classList.remove("show");
+modalBg.onclick=e=>{if(e.target===modalBg)modalBg.classList.remove("show");};
+function esc(t){const d=document.createElement("div");d.textContent=t;return d.innerHTML;}
+function linkBtns(s,big){
+  let h="";
+  if(s.attended) h += s.yt
+    ? `<a class="btn yt" target="_blank" rel="noopener" href="${s.yt}">▶ YouTube 影片</a>`
+    : `<span class="btn dis">▶ YouTube 連結待補</span>`;
+  if(s.pdf) h += `<a class="btn pdf" href="PDF/${encodeURIComponent(s.pdf)}" download>⬇ 講稿 PDF</a>`;
+  return h;
+}
+
+/* ============ knowledge graph ============ */
+const svg=document.getElementById("graphSvg");
+const NS="http://www.w3.org/2000/svg";
+const CX=600, CY=600, R_THEME=205, R_LEAF=430;
+let onlyAtt=false;
+function buildGraph(){
+  svg.innerHTML="";
+  const g=document.createElementNS(NS,"g"); g.id="viewport"; svg.appendChild(g);
+  const list = DATA.sessions.filter(s=>!onlyAtt||s.attended);
+  const groups = themeKeys.map(k=>({k, items:list.filter(s=>s.theme===k)})).filter(t=>t.items.length);
+  const n=list.length; let idx=0;
+  const edges=document.createElementNS(NS,"g"); g.appendChild(edges);
+  const nodes=document.createElementNS(NS,"g"); g.appendChild(nodes);
+  groups.forEach(gr=>{
+    const a0=(idx/n)*2*Math.PI - Math.PI/2;
+    const a1=((idx+gr.items.length-1)/n)*2*Math.PI - Math.PI/2;
+    const am=(a0+a1)/2;
+    const tx=CX+R_THEME*Math.cos(am), ty=CY+R_THEME*Math.sin(am);
+    edges.appendChild(line(CX,CY,tx,ty,"edge"));
+    gr.items.forEach(s=>{
+      const a=(idx/n)*2*Math.PI - Math.PI/2; idx++;
+      const x=CX+R_LEAF*Math.cos(a), y=CY+R_LEAF*Math.sin(a);
+      edges.appendChild(line(tx,ty,x,y,"edge"));
+      const nd=document.createElementNS(NS,"g");
+      nd.setAttribute("class","node"+(s.attended?" attended":""));
+      const c=document.createElementNS(NS,"circle");
+      c.setAttribute("cx",x);c.setAttribute("cy",y);
+      c.setAttribute("r",s.attended?8:5.5);
+      c.setAttribute("fill",s.attended?"#2563eb":themeColor[s.theme]+"99");
+      nd.appendChild(c);
+      const t=document.createElementNS(NS,"text");
+      let deg=a*180/Math.PI, flip=(deg>90||deg<-90);
+      const lx=CX+(R_LEAF+14)*Math.cos(a), ly=CY+(R_LEAF+14)*Math.sin(a);
+      t.setAttribute("x",lx);t.setAttribute("y",ly);
+      t.setAttribute("transform",`rotate(${flip?deg+180:deg} ${lx} ${ly})`);
+      t.setAttribute("text-anchor",flip?"end":"start");
+      t.setAttribute("dominant-baseline","middle");
+      t.textContent=(s.attended?"★":"")+trunc(s.title,16);
+      nd.appendChild(t);
+      nd.addEventListener("click",()=>openModal(s));
+      nd.addEventListener("mouseenter",()=>c.setAttribute("r",s.attended?11:8));
+      nd.addEventListener("mouseleave",()=>c.setAttribute("r",s.attended?8:5.5));
+      nodes.appendChild(nd);
+    });
+    const tn=document.createElementNS(NS,"g"); tn.setAttribute("class","themeNode");
+    const tc=document.createElementNS(NS,"circle");
+    tc.setAttribute("cx",tx);tc.setAttribute("cy",ty);tc.setAttribute("r",13);
+    tc.setAttribute("fill",themeColor[gr.k]);
+    tn.appendChild(tc);
+    const tt=document.createElementNS(NS,"text");
+    tt.setAttribute("x",tx);tt.setAttribute("y",ty-20);tt.setAttribute("text-anchor","middle");
+    tt.textContent=DATA.themes[gr.k]+"("+gr.items.length+")";
+    tn.appendChild(tt);
+    nodes.appendChild(tn);
+  });
+  const ctr=document.createElementNS(NS,"g"); ctr.setAttribute("class","themeNode");
+  const cc=document.createElementNS(NS,"circle");
+  cc.setAttribute("cx",CX);cc.setAttribute("cy",CY);cc.setAttribute("r",46);cc.setAttribute("fill","#0f172a");
+  ctr.appendChild(cc);
+  const ct=document.createElementNS(NS,"text");
+  ct.setAttribute("x",CX);ct.setAttribute("y",CY);ct.setAttribute("text-anchor","middle");
+  ct.setAttribute("dominant-baseline","middle");ct.setAttribute("fill","#fff");
+  ct.setAttribute("style","fill:#fff;font-size:15px;font-weight:700");
+  ct.textContent="QCon 2026";
+  ctr.appendChild(ct);
+  nodes.appendChild(ctr);
+  applyView();
+}
+function line(x1,y1,x2,y2,cls){
+  const l=document.createElementNS(NS,"line");
+  l.setAttribute("x1",x1);l.setAttribute("y1",y1);l.setAttribute("x2",x2);l.setAttribute("y2",y2);
+  l.setAttribute("class",cls);return l;
+}
+function trunc(t,n){return t.length>n?t.slice(0,n)+"…":t;}
+
+/* pan / zoom */
+let view={x:0,y:0,k:1};
+function applyView(){
+  const vp=document.getElementById("viewport");
+  if(vp)vp.setAttribute("transform",`translate(${view.x} ${view.y}) scale(${view.k})`);
+}
+svg.addEventListener("wheel",e=>{
+  e.preventDefault();
+  const f=e.deltaY<0?1.12:0.89;
+  const nk=Math.min(5,Math.max(.4,view.k*f));
+  view.x=600-(600-view.x)*(nk/view.k); view.y=600-(600-view.y)*(nk/view.k);
+  view.k=nk; applyView();
+},{passive:false});
+let drag=null;
+svg.addEventListener("pointerdown",e=>{drag={x:e.clientX,y:e.clientY};svg.classList.add("dragging");svg.setPointerCapture(e.pointerId);});
+svg.addEventListener("pointermove",e=>{
+  if(!drag)return;
+  const sc=1200/svg.clientWidth;
+  view.x+=(e.clientX-drag.x)*sc; view.y+=(e.clientY-drag.y)*sc;
+  drag={x:e.clientX,y:e.clientY}; applyView();
+});
+svg.addEventListener("pointerup",()=>{drag=null;svg.classList.remove("dragging");});
+document.getElementById("btnReset").onclick=()=>{view={x:0,y:0,k:1};applyView();};
+document.getElementById("btnOnlyAtt").onclick=function(){
+  onlyAtt=!onlyAtt; this.classList.toggle("on",onlyAtt); buildGraph();
+};
+buildGraph();
+
+/* ============ essay ref chips ============ */
+document.querySelectorAll(".essay-block").forEach(b=>{
+  const refs=(b.dataset.refs||"").split(",").map(x=>x.trim()).filter(Boolean);
+  if(!refs.length)return;
+  const wrap=document.createElement("div");wrap.className="refs";
+  refs.forEach(id=>{
+    const s=byId[id]; if(!s)return;
+    const ch=document.createElement("span");ch.className="chip";
+    ch.innerHTML=`<span class="dot" style="background:${s.attended?"#2563eb":themeColor[s.theme]}"></span>`+
+      (s.attended?"★ ":"📄 ")+esc(trunc(s.title,22));
+    ch.onclick=()=>openModal(s);
+    wrap.appendChild(ch);
+  });
+  b.appendChild(wrap);
+});
+
+/* ============ all sessions list ============ */
+const cardsEl=document.getElementById("cards");
+let fTheme=null,fAtt=false,fQ="";
+function renderCards(){
+  cardsEl.innerHTML="";
+  DATA.sessions.filter(s=>
+    (!fTheme||s.theme===fTheme)&&(!fAtt||s.attended)&&
+    (!fQ||(s.title+s.speaker).toLowerCase().includes(fQ))
+  ).forEach(s=>{
+    const d=document.createElement("div");
+    d.className="card"+(s.attended?" attended":"");
+    d.innerHTML=`<span class="id">${s.id}</span>
+      <div><span class="tag" style="background:${themeColor[s.theme]}">${DATA.themes[s.theme]}</span>${s.attended?'<span class="badge">★ 有參加</span>':""}</div>
+      <h4>${esc(s.title)}</h4>
+      <div class="meta">${esc(s.speaker||"")}</div>
+      <div class="links">${linkBtns(s)}</div>`;
+    cardsEl.appendChild(d);
+  });
+}
+const tf=document.getElementById("themeFilters");
+themeKeys.forEach(k=>{
+  const b=document.createElement("button");
+  b.textContent=DATA.themes[k];
+  b.style.cssText="border:1px solid var(--line);background:#fff;border-radius:16px;padding:4px 12px;font-size:12.5px;cursor:pointer";
+  b.onclick=()=>{
+    fTheme=(fTheme===k)?null:k;
+    [...tf.children].forEach(x=>{x.style.background="#fff";x.style.color="";});
+    if(fTheme){b.style.background=themeColor[k];b.style.color="#fff";}
+    renderCards();
+  };
+  tf.appendChild(b);
+});
+document.getElementById("fAtt").onclick=function(){fAtt=!fAtt;this.classList.toggle("on",fAtt);renderCards();};
+document.getElementById("searchBox").oninput=function(){fQ=this.value.trim().toLowerCase();renderCards();};
+renderCards();
+</script>
+</body>
+</html>
