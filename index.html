@@ -35,9 +35,10 @@ nav#topnav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);
   display:flex;gap:4px;justify-content:center;padding:10px 8px}
 nav#topnav a{text-decoration:none;color:var(--ink);padding:8px 18px;border-radius:20px;font-size:14px;font-weight:600}
 nav#topnav a:hover{background:#eef2ff}
-section.page{max-width:1080px;margin:0 auto;padding:56px 20px}
-section.page>h2{font-size:24px;margin-bottom:6px}
-section.page>p.desc{color:var(--muted);font-size:14px;margin-bottom:24px}
+.page{max-width:1280px;margin:0 auto;padding:56px 40px}
+.page>h2{font-size:24px;margin-bottom:6px}
+.page>p.desc{color:var(--muted);font-size:14px;margin-bottom:24px}
+@media(max-width:700px){.page{padding:40px 18px}}
 /* ---- graph ---- */
 #graphWrap{position:relative;background:var(--card);border:1px solid var(--line);
   border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(15,23,42,.06)}
@@ -68,6 +69,15 @@ section.page>p.desc{color:var(--muted);font-size:14px;margin-bottom:24px}
   border-radius:16px;border:1px solid var(--line);background:#f1f5f9;cursor:pointer;color:var(--ink)}
 .chip:hover{border-color:var(--accent);background:#eef2ff}
 .chip .dot{width:8px;height:8px;border-radius:50%}
+.essay-block .callout{margin:12px 0 12px 22px;padding:10px 16px;border-left:3px solid var(--accent);background:#eff6ff;border-radius:0 8px 8px 0;font-size:15px;color:#1e3a8a;font-weight:600}
+#progressBar{position:fixed;top:0;left:0;height:3px;background:var(--accent);width:0;z-index:200}
+.essay-cols{display:flex;gap:26px;align-items:flex-start}
+.essay-cols .txt{flex:1.45;min-width:0}
+.essay-cols .figside{flex:1;min-width:0}
+.figside figure{margin:0;background:#f8fafc;border:1px solid var(--line);border-radius:10px;padding:14px;text-align:center}
+.figside img,.figside svg{max-width:100%;height:auto;display:block;margin:0 auto}
+.figside figcaption{font-size:12px;color:var(--muted);margin-top:8px}
+@media(max-width:760px){.essay-cols{flex-direction:column}}
 /* ---- list ---- */
 #filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;align-items:center}
 #filters button{border:1px solid var(--line);background:#fff;border-radius:16px;
@@ -105,6 +115,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:40px 20px;bor
 </style>
 </head>
 <body>
+<div id="progressBar"></div>
 
 <header class="hero">
   <h1>2026 北京 QCon 參會心得</h1>
@@ -131,7 +142,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:40px 20px;bor
       <button id="btnOnlyAtt">只看有參加 ★</button>
       <button id="btnReset">重設視角</button>
     </div>
-    <div id="legend">● 藍點＝有參加（15 場）　● 灰點＝僅講稿 PDF　字級大＝主題節點</div>
+    <div id="legend">● 藍點＝我有參加、有錄影（15 場）　● 灰點＝僅講稿 PDF　字級大＝主題節點</div>
   </div>
 </section>
 
@@ -139,27 +150,756 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:40px 20px;bor
   <h2>我的心得</h2>
   <p class="desc">每個段落下方的小卡，是與該段觀點相關的場次，點擊可看影片連結或下載講稿。</p>
 
-  <!-- ═══ 心得範本：複製整個 <section> 即可新增段落；data-refs 填相關場次 id ═══ -->
-  <section class="essay-block" data-refs="s02,s07">
-    <h3>（範例段落一）Coding 已死？自主系統時代的真實訊號</h3>
-    <p class="placeholder">［這裡填入你的心得：例如黃東旭「人不再寫代碼」的論點，與圓桌上各方對 Demo 到生產落差的討論，你自己的觀察是什麼……］</p>
+  <!-- 心得段落：複製整個 section 即可新增；figside 放 SVG 或 img -->
+  <section class="essay-block">
+    <h3>兩次 QCon：從砍掉重練開始</h3>
+    <div class="essay-cols">
+      <div class="txt">
+        <p>Hi，大家好！<br>
+        這次想跟大家分享 2026 年我去北京參加 QCon 的心得，<br>
+        這是我第二次參加中國的 QCon。<br>
+        我接觸 AI 應用算滿早的，大概在 GPT-2 的年代，就開始自己搞一些 Side Project。<br>
+        上一次參加是 2024 年在上海辦的那場，那一年也讓我收穫非常多。</p>
+        <p>同年我剛好拿了一個新創競賽的獎——【AI 智能測資查找】這個專案。<br>
+        名字有點饒口，用大家比較熟的說法，就是【Text to SQL】這項技術。</p>
+        <p>2024 年上海那場聽完，回來第一天，我就把手上正在 running 的 Prototype 砍了。<br>
+        因為那時候我已經接觸了 Vibe Coding 的工作流，<br>
+        所以「整個項目拉掉重做」這件事，對我來說反而是很自然的決定。</p>
+      </div>
+      <div class="figside">
+        <figure>
+          <svg viewBox="0 0 260 140" xmlns="http://www.w3.org/2000/svg">
+<line x1="20" y1="70" x2="240" y2="70" stroke="#cbd5e1" stroke-width="2"/>
+<circle cx="45" cy="70" r="6" fill="#94a3b8"/><text x="45" y="52" text-anchor="middle" font-size="11" fill="#64748b">GPT-2</text>
+<text x="45" y="92" text-anchor="middle" font-size="10" fill="#94a3b8">開始做 Side Project</text>
+<circle cx="130" cy="70" r="8" fill="#2563eb"/><text x="130" y="48" text-anchor="middle" font-size="11" fill="#1d4ed8">2024 上海</text>
+<text x="130" y="94" text-anchor="middle" font-size="10" fill="#64748b">回來第一天</text>
+<text x="130" y="108" text-anchor="middle" font-size="10" fill="#dc2626">砍掉 Prototype 重練</text>
+<circle cx="215" cy="70" r="8" fill="#2563eb"/><text x="215" y="48" text-anchor="middle" font-size="11" fill="#1d4ed8">2026 北京</text>
+<text x="215" y="94" text-anchor="middle" font-size="10" fill="#64748b">看清專案瓶頸</text></svg>
+          <figcaption>兩次 QCon，兩次認知升級</figcaption>
+        </figure>
+      </div>
+    </div>
   </section>
 
-  <section class="essay-block" data-refs="s09,s13,s15">
-    <h3>（範例段落二）從 Vibe 到 Spec：AI Coding 的收斂方向</h3>
-    <p class="placeholder">［這裡填入你的心得：TocoAI 的 DSL-Spec、網易的 Spec Driven、螞蟻的平台化，三者殊途同歸之處……］</p>
+  <section class="essay-block">
+    <h3>Vibe Coding：經驗才是壁壘</h3>
+    <div class="essay-cols">
+      <div class="txt">
+        <p>關於 Vibe Coding 的發展，我也算小有見解。<br>
+        我認為它對軟體工程師這個產業的影響是巨大的，<br>
+        但準確來說，這更像是所有工程師同時拿到了一件「神器」。<br>
+        把職場比喻成戰場：<br>
+        對 Junior 或完全不懂行的人來說，做軟體工程項目，大概就是拿到一把刀；<br>
+        但對 Senior、對技術有熱情的人來說，那是拿到坦克或飛彈這麼誇張。</p>
+        <div class="callout">同一件神器，有人拿到刀，有人拿到坦克——「經驗」成了 AI 應用時代真正的壁壘。</div>
+        <p>Senior 工程師的優勢，在於長期累積、內化的經驗——<br>
+        我們知道著手一個項目的時候，要怎麼跟 AI 協作才會順。</p>
+        <p>話題有點扯遠了。<br>
+        總之我想說的是：每次參加 QCon，新的知識、跟講師的交流，都讓我收穫很多。<br>
+        2024 年參加完，我充滿信心地回來重寫專案；<br>
+        2026 年參加完，我知道了自己專案的瓶頸在哪，<br>
+        也感嘆資源是真的有差——人才、環境、資金……都是。<br>
+        但我不怎麼氣餒，畢竟有多少資源做多少事，<br>
+        有時候正是需要這些認知，才能把力氣放在對的事情上。</p>
+      </div>
+      <div class="figside">
+        <figure>
+          <svg viewBox="0 0 260 160" xmlns="http://www.w3.org/2000/svg">
+<rect x="80" y="10" width="100" height="28" rx="6" fill="#eef2ff" stroke="#2563eb"/>
+<text x="130" y="28" text-anchor="middle" font-size="11" fill="#1d4ed8">AI「神器」</text>
+<path d="M105 42 L65 62" stroke="#94a3b8" stroke-width="1.5"/><path d="M155 42 L195 62" stroke="#94a3b8" stroke-width="1.5"/>
+<rect x="35" y="110" width="56" height="30" fill="#f1f5f9" stroke="#94a3b8"/>
+<text x="63" y="102" text-anchor="middle" font-size="11" fill="#64748b">Junior</text>
+<text x="63" y="129" text-anchor="middle" font-size="10" fill="#64748b">一把刀</text>
+<rect x="167" y="68" width="56" height="72" fill="#dbeafe" stroke="#2563eb"/>
+<text x="195" y="60" text-anchor="middle" font-size="11" fill="#1d4ed8">Senior</text>
+<text x="195" y="106" text-anchor="middle" font-size="10" fill="#1d4ed8">坦克、飛彈</text>
+<text x="130" y="155" text-anchor="middle" font-size="10" fill="#94a3b8">經驗 ＝ 戰力倍率</text></svg>
+          <figcaption>同一件神器，不同的戰力</figcaption>
+        </figure>
+      </div>
+    </div>
   </section>
 
-  <section class="essay-block" data-refs="s06,s03">
-    <h3>（範例段落三）記憶與安全：Agent 規模化前的兩道坎</h3>
-    <p class="placeholder">［這裡填入你的心得……］</p>
+  <section class="essay-block" data-refs="s01,s07">
+    <h3>2024 vs 2026：聽眾都「進化」過一輪</h3>
+    <div class="essay-cols">
+      <div class="txt">
+        <p>要說 2024 的 QCon 跟 2026 的 QCon 差在哪？<br>
+        我可以很明白地說：差得可多了。<br>
+        大家可以去 QCon 官網看看，差不多每一季都有一場大型會議，<br>
+        主題方向各有側重，場地就在北京、上海、深圳這幾個城市輪。<br>
+        為什麼 AI 應用的會議要辦得這麼頻繁？<br>
+        因為這個領域還在高速迭代——你幾個月前剛做好的專案，現在很可能完全不是這樣搞了。</p>
+        <p>講到目前的 AI 應用，大家可能都聽過這些詞：<br>
+        1.1 比 1.11 大、草莓不會拼、幻覺、Prompt 提示詞工程、RAG、Skill 與 Agent、小龍蝦、Harness……<br>
+        到現在，已經開始有人出來說：Harness 是過去式了。<br>
+        隨著 LLM 模型越來越強，有些技術會被淘汰，有些東西則會留下來。</p>
+        <p>但這兩年 QCon 變的不只是講師。<br>
+        光從台下的提問就能發現：大部分聽眾根本都「進化」過一輪了。<br>
+        2024 年，大家還在摸索——哪個模型好用？Prompt 要怎麼寫？embedding 跟 RAG 怎麼做？<br>
+        2026 年，大家在問的是——要怎麼導入實作？導入之後，企業和團隊發現了什麼問題？組織發生了什麼質變？</p>
+        <p>所以你會發現，2026 年的會議內容不太討論技術了。</p>
+        <div class="callout">不是技術消失了，是聽眾的「出廠設定」升級了——2024 年那輪技術討論，大家早就摸熟了。</div>
+        <p>現在檯面上討論的，是這些走在前面的企業：<br>
+        導入 AI 之後，他們觀察到什麼問題？又是怎麼解決的？</p>
+        <p>這件事讓我有點差距感。<br>
+        坦白說，很難在不了解 AI 技術的情況下，跳過「理解應用」直接進到「導入」環節。<br>
+        這樣做很容易打不到痛點、為了導入而導入——<br>
+        因為一開始就沒辦法理解 AI 應用的邊界，導入後的預期自然會產生巨大落差。<br>
+        最慘的情況，是導入之後才回頭看成效。</p>
+      </div>
+      <div class="figside">
+        <figure>
+          <svg viewBox="0 0 260 170" xmlns="http://www.w3.org/2000/svg">
+<rect x="10" y="14" width="115" height="140" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
+<text x="67" y="36" text-anchor="middle" font-size="12" fill="#64748b">2024 在問</text>
+<text x="67" y="66" text-anchor="middle" font-size="10.5" fill="#475569">哪個模型好用？</text>
+<text x="67" y="92" text-anchor="middle" font-size="10.5" fill="#475569">怎麼寫 Prompt？</text>
+<text x="67" y="118" text-anchor="middle" font-size="10.5" fill="#475569">怎麼做 RAG？</text>
+<rect x="135" y="14" width="115" height="140" rx="8" fill="#eef2ff" stroke="#2563eb"/>
+<text x="192" y="36" text-anchor="middle" font-size="12" fill="#1d4ed8">2026 在問</text>
+<text x="192" y="66" text-anchor="middle" font-size="10.5" fill="#1e40af">怎麼導入實作？</text>
+<text x="192" y="92" text-anchor="middle" font-size="10.5" fill="#1e40af">導入後發現什麼問題？</text>
+<text x="192" y="118" text-anchor="middle" font-size="10.5" fill="#1e40af">組織發生什麼質變？</text></svg>
+          <figcaption>提問的層次，就是聽眾的進化</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="essay-block">
+    <h3>關於這個網站：109 場、23 場、1 小時</h3>
+    <div class="essay-cols">
+      <div class="txt">
+        <p>這次大會總共 109 個場次，<br>
+        這個網頁上「只」呈現講師願意公開 PDF 講義的場次——<br>
+        畢竟沒有講義，放上來的意義也不大。</p>
+        <p>不過說實話，我覺得純看 PDF 的意義也不怎麼大：<br>
+        當下很多觀點跟認知，是沒辦法透過 PDF 吸收的。<br>
+        所以我參加的每一場都有錄影，放在我的 YouTube 頻道。</p>
+        <p>先請大家多包涵：很多時候會拍到前面觀眾的頭，<br>
+        我實在不好意思一直擋住後面人的視野。<br>
+        但其實聽演講不一定要看清楚 Slide 上的字，<br>
+        把注意力放在講者身上，就能獲得滿多訊息了。</p>
+        <div class="callout">網頁上有標「★」的場次，代表我有全程錄影，可以上 YouTube 聽完整的演講。</div>
+        <p>總共 109 場，我參加會議基本上不想休息、不想有斷檔，<br>
+        3 天下來最多也只能跑 23 場，<br>
+        而我只有 1 小時可以跟大家分享。<br>
+        如果這樣你們都能聽懂，那你們都是老師了——這就不是演講，是報告了。</p>
+        <p>所以我一直在想：參加完回來，我到底想跟大家說什麼？<br>
+        這些 AI 應用技術，本來就不是 1 小時能弄明白的東西。<br>
+        我想分享的，是這些科技巨頭和企業導入 AI 之後，<br>
+        那些可能跟大家目前認知「有落差」的觀點。<br>
+        個人觀點會有些偏頗，但鐵定不是空穴來風——我都有影片留存佐證。</p>
+        <p>其實人類就跟 AI 一樣：window context 有限的情況下，鐵定解決不了資訊細節遺失的問題。</p>
+      </div>
+      <div class="figside">
+        <figure>
+          <svg viewBox="0 0 260 160" xmlns="http://www.w3.org/2000/svg">
+<rect x="20" y="16" width="220" height="30" rx="4" fill="#dbeafe" stroke="#2563eb"/>
+<text x="130" y="35" text-anchor="middle" font-size="11" fill="#1d4ed8">大會全部場次：109 場</text>
+<rect x="62" y="66" width="136" height="30" rx="4" fill="#bfdbfe" stroke="#2563eb"/>
+<text x="130" y="85" text-anchor="middle" font-size="11" fill="#1e40af">3 天全勤親身參加：23 場</text>
+<rect x="95" y="116" width="70" height="30" rx="4" fill="#2563eb"/>
+<text x="130" y="135" text-anchor="middle" font-size="11" fill="#ffffff">分享：1 小時</text></svg>
+          <figcaption>所以挑「認知差異」講，細節看影片</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="essay-block" data-refs="s09,s11,s12,s13,s15">
+    <h3>AI Coding 對企業的影響：流水線的困境</h3>
+    <div class="essay-cols">
+      <div class="txt">
+        <p>那我就開始拉。<br>
+        大家可以在上面的會議知識圖，點「只看有參加」來看：<br>
+        我有興趣的方向，集中在【AI Coding】相關的場次。<br>
+        前面說了我們不聊技術，<br>
+        那就來聊聊這次很多場演講都提到的——AI Coding 對企業的影響。</p>
+        <div class="callout">我先說結論：未來一個高效的 AI Native 團隊，勢必不會再把工作範圍做明顯的劃分。</div>
+        <p>什麼是「工作範圍的劃分」？<br>
+        隨便看看我們眼下大部分的專案是怎麼分工的：<br>
+        PO、PM、SA、SD、PG、QA、DevOps、DBA……基本上就是這樣切，對吧？</p>
+        <p>那大家再想一個問題：<br>
+        這 8 個人——有些專案一個崗位還不只一個人——<br>
+        大家都用 AI 在工作，會發生什麼事？<br>
+        這 8 個人各自跟 AI 的往來，是透過什麼方式交流的？</p>
+        <p>基本上，8×2，這個團隊等於是 16 個「人」在溝通。<br>
+        而且 AI 的資訊還得靠「人」來協調轉傳，<br>
+        而人一轉傳，就有時間成本、就會遺漏資訊。</p>
+      </div>
+      <div class="figside">
+        <figure>
+          <svg viewBox="0 0 280 180" xmlns="http://www.w3.org/2000/svg">
+<g font-size="10" text-anchor="middle">
+<rect x="10" y="20" width="38" height="24" rx="4" fill="#f1f5f9" stroke="#94a3b8"/><text x="29" y="36" fill="#475569">PO</text>
+<rect x="55" y="20" width="38" height="24" rx="4" fill="#f1f5f9" stroke="#94a3b8"/><text x="74" y="36" fill="#475569">PM</text>
+<rect x="100" y="20" width="38" height="24" rx="4" fill="#f1f5f9" stroke="#94a3b8"/><text x="119" y="36" fill="#475569">SA</text>
+<rect x="145" y="20" width="38" height="24" rx="4" fill="#f1f5f9" stroke="#94a3b8"/><text x="164" y="36" fill="#475569">SD</text>
+<rect x="190" y="20" width="38" height="24" rx="4" fill="#f1f5f9" stroke="#94a3b8"/><text x="209" y="36" fill="#475569">PG</text>
+<rect x="235" y="20" width="38" height="24" rx="4" fill="#f1f5f9" stroke="#94a3b8"/><text x="254" y="36" fill="#475569">QA</text>
+<circle cx="29" cy="78" r="13" fill="#fee2e2" stroke="#dc2626"/><text x="29" y="82" fill="#b91c1c">AI</text>
+<circle cx="74" cy="78" r="13" fill="#fee2e2" stroke="#dc2626"/><text x="74" y="82" fill="#b91c1c">AI</text>
+<circle cx="119" cy="78" r="13" fill="#fee2e2" stroke="#dc2626"/><text x="119" y="82" fill="#b91c1c">AI</text>
+<circle cx="164" cy="78" r="13" fill="#fee2e2" stroke="#dc2626"/><text x="164" y="82" fill="#b91c1c">AI</text>
+<circle cx="209" cy="78" r="13" fill="#fee2e2" stroke="#dc2626"/><text x="209" y="82" fill="#b91c1c">AI</text>
+<circle cx="254" cy="78" r="13" fill="#fee2e2" stroke="#dc2626"/><text x="254" y="82" fill="#b91c1c">AI</text></g>
+<line x1="29" y1="44" x2="29" y2="65" stroke="#94a3b8"/><line x1="74" y1="44" x2="74" y2="65" stroke="#94a3b8"/>
+<line x1="119" y1="44" x2="119" y2="65" stroke="#94a3b8"/><line x1="164" y1="44" x2="164" y2="65" stroke="#94a3b8"/>
+<line x1="209" y1="44" x2="209" y2="65" stroke="#94a3b8"/><line x1="254" y1="44" x2="254" y2="65" stroke="#94a3b8"/>
+<path d="M42 78 L61 78 M87 78 L106 78 M132 78 L151 78 M177 78 L196 78 M222 78 L241 78" stroke="#dc2626" stroke-width="1.2" stroke-dasharray="3 3"/>
+<text x="140" y="118" text-anchor="middle" font-size="11" fill="#b91c1c">各自的 AI 互不知情 → 認知割裂</text>
+<text x="140" y="140" text-anchor="middle" font-size="11" fill="#475569">8 崗位 × 2 ＝ 16 個溝通節點</text>
+<text x="140" y="162" text-anchor="middle" font-size="11" fill="#475569">資訊靠「人」轉傳：延遲＋遺漏</text></svg>
+          <figcaption>流水線 ＋ 各自的 AI ＝ 溝通成本翻倍</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="essay-block">
+    <h3>情境舉例：一份 PRD 的旅程</h3>
+    <div class="essay-cols">
+      <div class="txt">
+        <p>來個情境舉例。</p>
+        <p>PO 接到需求，跟 AI 討論寫出一份 PRD，交給下一棒——可能是 PM；<br>
+        PM 看了需求、跟 PO 討論之後，改了這份文件。</p>
+        <p>好，「改」這個動作——是誰改的？<br>
+        如果該由 PO 改，那 PO 是讓 AI 改嗎？<br>
+        如果不是，PO 人工改完再轉給 PM——<br>
+        這裡就出現了第一道裂縫：PO 跟「PO 的 AI」，認知不連貫了。</p>
+        <p>接下來，PRD 交到 SA、SD 手上。<br>
+        SA、SD 一看：技術上有困難；或者這需求牽涉跨系統，PO／PM 對系統的認知根本有誤——<br>
+        只好退回去，讓 PO／PM 重新討論確認。</p>
+        <p>又或者，PG 開發到一半，發現業務邏輯跑不通，<br>
+        口頭問了 SA 或 SD。<br>
+        這時候我相信絕大多數人，就是直接先改 Code，<br>
+        不會有人要求 SA／SD 重發一份 SDD。</p>
+        <p>好，就算一切都按流程走——<br>
+        每個環節只要沒拿到最新版的 PRD、SDD，就是不能動工。</p>
+      </div>
+      <div class="figside">
+        <figure>
+          <svg viewBox="0 0 260 190" xmlns="http://www.w3.org/2000/svg">
+<g font-size="10" text-anchor="middle">
+<rect x="14" y="18" width="50" height="26" rx="4" fill="#f1f5f9" stroke="#94a3b8"/><text x="39" y="35" fill="#475569">PO＋AI</text>
+<rect x="105" y="18" width="50" height="26" rx="4" fill="#f1f5f9" stroke="#94a3b8"/><text x="130" y="35" fill="#475569">PM＋AI</text>
+<rect x="196" y="18" width="52" height="26" rx="4" fill="#f1f5f9" stroke="#94a3b8"/><text x="222" y="35" fill="#475569">SA／SD</text>
+<rect x="105" y="86" width="50" height="26" rx="4" fill="#f1f5f9" stroke="#94a3b8"/><text x="130" y="103" fill="#475569">PG＋AI</text></g>
+<rect x="70" y="20" width="24" height="22" rx="2" fill="#fff" stroke="#2563eb"/>
+<text x="82" y="35" text-anchor="middle" font-size="9" fill="#1d4ed8">PRD</text>
+<path d="M64 31 L70 31 M94 31 L105 31 M155 31 L196 31" stroke="#2563eb" stroke-width="1.3"/>
+<path d="M190 27 L197 31 L190 35" stroke="#2563eb" stroke-width="1.3" fill="none"/>
+<path d="M155 44 Q142 62 138 84" stroke="#dc2626" stroke-width="1.2" stroke-dasharray="4 3" fill="none"/>
+<path d="M120 86 Q80 60 68 46" stroke="#dc2626" stroke-width="1.2" stroke-dasharray="4 3" fill="none"/>
+<path d="M74 52 L67 45 L77 44" stroke="#dc2626" stroke-width="1.2" fill="none"/>
+<text x="185" y="70" text-anchor="middle" font-size="9.5" fill="#b91c1c">跑不通，口頭問</text>
+<text x="66" y="72" text-anchor="middle" font-size="9.5" fill="#b91c1c">退回重確認</text>
+<text x="130" y="138" text-anchor="middle" font-size="11" fill="#b91c1c">改了文件——是誰改的？</text>
+<text x="130" y="158" text-anchor="middle" font-size="11" fill="#b91c1c">各自的 AI 知道嗎？</text>
+<text x="130" y="180" text-anchor="middle" font-size="10.5" fill="#475569">每個環節都在製造認知落差</text></svg>
+          <figcaption>文件在流水線上漂流，認知在半路遺失</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="essay-block" data-refs="s07">
+    <h3>有沒有看到問題在哪？</h3>
+    <div class="essay-cols">
+      <div class="txt">
+        <p>有沒有看到，整個流程下來有哪些問題？</p>
+        <p><b>1. 溝通成本增加非常多。</b><br>
+        以前是「人＋文件」，現在多了 AI。<br>
+        用過 AI 的人都知道，跟 AI 協作有個非常重要的前提：<br>
+        要讓 AI 所理解的世界，跟實際狀況保持一致。<br>
+        今天東西是人動手改的、AI 不知道，<br>
+        那在同一個對話視窗裡，AI 還以為文件是舊的——整個思考討論就有嚴重的盲區。</p>
+        <p><b>2. 每個人都用了 AI，提效在哪？</b><br>
+        現在整條鏈路的人都在用 AI，<br>
+        但現實中開會、電話裡談定的內容，<br>
+        每個人還得額外花時間，跟「各自的 AI」再說明一次——<br>
+        而每個人的理解、表達能力又都不一樣。</p>
+        <div class="callout">最核心的靈魂拷問：用了 AI，有辦法承接 2 倍以上的工作量嗎？如果不行，那為什麼要用？</div>
+        <p><b>3. AI 的認知極端割裂。</b><br>
+        我們每個人都在跟自己的 AI 協作，<br>
+        但 AI 能看到的，永遠只有那個崗位上的窗口，<br>
+        每個環節的 AI，都只能就「當下的認知」做輸出。<br>
+        任何一個環節有異動，只要沒有從頭到尾把資訊傳遞完，各自的 AI 就會開始產生歧異。</p>
+        <p>而且，異動點並不總是發生在流水線的最前端——<br>
+        可能是 PG 發現業務跑不通，也可能是 SA 在設計時就覺得不對勁。</p>
+        <p>如果工作依然維持這種流水線架構，AI 應用只會增加溝通成本。</p>
+      </div>
+      <div class="figside">
+        <figure>
+          <svg viewBox="0 0 260 170" xmlns="http://www.w3.org/2000/svg">
+<rect x="20" y="12" width="220" height="40" rx="6" fill="#fee2e2" stroke="#dc2626"/>
+<text x="130" y="30" text-anchor="middle" font-size="11" fill="#b91c1c">① 溝通成本暴增</text>
+<text x="130" y="45" text-anchor="middle" font-size="10" fill="#991b1b">人＋文件之外，還要餵飽各自的 AI</text>
+<rect x="20" y="64" width="220" height="40" rx="6" fill="#ffedd5" stroke="#ea580c"/>
+<text x="130" y="82" text-anchor="middle" font-size="11" fill="#9a3412">② 靈魂拷問：提效在哪？</text>
+<text x="130" y="97" text-anchor="middle" font-size="10" fill="#9a3412">用了 AI，接得下 2 倍工作量嗎？</text>
+<rect x="20" y="116" width="220" height="40" rx="6" fill="#fef3c7" stroke="#ca8a04"/>
+<text x="130" y="134" text-anchor="middle" font-size="11" fill="#854d0e">③ AI 認知極端割裂</text>
+<text x="130" y="149" text-anchor="middle" font-size="10" fill="#854d0e">每個 AI 只看得到自己崗位的窗口</text></svg>
+          <figcaption>流水線架構下，AI 應用的三道硬傷</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="essay-block" data-refs="s05,s06,s15">
+    <h3>任務酒館：像遊戲組隊一樣工作</h3>
+    <div class="essay-cols">
+      <div class="txt">
+        <p>在很多場演講裡，我都看到導入 AI 之後，組織和工作流程被翻動的痕跡。<br>
+        其中有一場我印象特別深：<br>
+        他們直接把公司組織打散，做了一個叫「任務酒館」的項目。</p>
+        <p>任務酒館是什麼意思？<br>
+        這個概念，我覺得非常像遊戲裡的組隊：<br>
+        公司有一面很大的任務牆，上面貼滿專案任務，<br>
+        所有人都看得到，所有人都可以自由組隊去承接。</p>
+        <p>這樣做的好處是什麼？<br>
+        隊伍規模小、每個人都清楚專案目標。</p>
+        <p>更關鍵的是：這種運作下，團隊所有人從需求到開發，都跟「同一個 AI 環境」溝通——<br>
+        大家在同一個資料夾、同一套 AI 記憶策略下處理專案。</p>
+        <div class="callout">整個小隊，從需求到上線，共用同一個 AI 大腦。</div>
+        <p>AI 現在已經是通用型的應用，<br>
+        所以能直接壓縮掉原本工作職掌的切割問題：<br>
+        寫 PRD、SDD、開發、測試的時候，AI 認知得到所有的流程細節。</p>
+        <p>人的專項能力被弱化，轉而專注在商業 knowhow 上。<br>
+        今天已經不需要專門有人負責寫 PRD、SDD、測試腳本——<br>
+        這些 AI 都做得到，不需要特化的執掌角色。</p>
+        <p>當然，本來就有這些技能的人，在溝通上還是有優勢，<br>
+        只是優勢的差距變小了——<br>
+        因為文件幾乎都由 AI 產生，人只需要站在「給指示、給目標」的位置上協作。</p>
+      </div>
+      <div class="figside">
+        <figure>
+          <svg viewBox="0 0 260 190" xmlns="http://www.w3.org/2000/svg">
+<rect x="15" y="14" width="90" height="110" rx="6" fill="#fff7ed" stroke="#ea580c"/>
+<text x="60" y="32" text-anchor="middle" font-size="11" fill="#9a3412">任務牆</text>
+<g fill="#fed7aa" stroke="#ea580c">
+<rect x="25" y="42" width="32" height="18" rx="2"/><rect x="63" y="42" width="32" height="18" rx="2"/>
+<rect x="25" y="66" width="32" height="18" rx="2"/><rect x="63" y="66" width="32" height="18" rx="2"/>
+<rect x="25" y="90" width="32" height="18" rx="2"/><rect x="63" y="90" width="32" height="18" rx="2"/></g>
+<path d="M110 69 L140 69" stroke="#94a3b8" stroke-width="1.5"/>
+<path d="M135 64 L142 69 L135 74" stroke="#94a3b8" stroke-width="1.5" fill="none"/>
+<text x="126" y="58" text-anchor="middle" font-size="10" fill="#64748b">自由組隊</text>
+<circle cx="180" cy="40" r="10" fill="#dbeafe" stroke="#2563eb"/>
+<circle cx="215" cy="40" r="10" fill="#dbeafe" stroke="#2563eb"/>
+<circle cx="197" cy="62" r="10" fill="#dbeafe" stroke="#2563eb"/>
+<rect x="160" y="88" width="80" height="36" rx="6" fill="#eef2ff" stroke="#2563eb"/>
+<text x="200" y="103" text-anchor="middle" font-size="10.5" fill="#1d4ed8">同一個 AI 環境</text>
+<text x="200" y="117" text-anchor="middle" font-size="10.5" fill="#1d4ed8">共享記憶</text>
+<line x1="180" y1="50" x2="190" y2="86" stroke="#2563eb" stroke-width="1"/>
+<line x1="215" y1="50" x2="207" y2="86" stroke="#2563eb" stroke-width="1"/>
+<line x1="197" y1="72" x2="198" y2="86" stroke="#2563eb" stroke-width="1"/>
+<text x="130" y="158" text-anchor="middle" font-size="10.5" fill="#475569">小隊規模小、目標清楚</text>
+<text x="130" y="176" text-anchor="middle" font-size="10.5" fill="#475569">全流程共用一套 AI 認知，不再割裂</text></svg>
+          <figcaption>打散職能、組小隊、共享一個 AI 大腦</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="essay-block" data-refs="s05">
+    <h3>跟以往很不一樣的團隊</h3>
+    <div class="essay-cols">
+      <div class="txt">
+        <p>所以這種團隊的運作，跟以往非常不一樣。</p>
+        <p>每個人對專案從頭到尾的理解深度與廣度，有了質的飛躍。</p>
+        <p>以前 PG 開發一個功能，可能從來不知道它用在哪個前端、什麼場景；<br>
+        以前 PM 提需求，從來不知道什麼可行、什麼不可行，連時程都只能靠開發人員畫押；<br>
+        以前 QA 只能憑 Code 寫測試腳本，每次都要重新開會聽一遍專案的來龍去脈。</p>
+        <p>所以在讓 AI 真正進入協作之前，<br>
+        該思考的其實是：怎麼解決前面說的溝通成本與資訊破碎問題。<br>
+        一個「所有人目標明確、對 AI 認知友善」的環境，尤為重要。</p>
+        <div class="callout">這也是為什麼，這次 QCon 有這麼多講者不約而同地提到——「AI 共享記憶」的設計。</div>
+        <p>而要落實這個概念，不同規模的公司有不同的樣貌：<br>
+        小公司偏向「所有人都必須熟悉這套工作流，不能適應的人淘汰」；<br>
+        大公司則是投入大量團隊，去打造能這樣運作的環境。<br>
+        這兩種路線，都有對應的演講可以細品。</p>
+        <p>以上就是我這次的觀察之一：<br>
+        這屆 QCon 裡，能看到非常多公司在組織架構上，都動了真格的調整。</p>
+      </div>
+      <div class="figside">
+        <figure>
+          <svg viewBox="0 0 260 180" xmlns="http://www.w3.org/2000/svg">
+<rect x="12" y="14" width="112" height="130" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
+<text x="68" y="34" text-anchor="middle" font-size="12" fill="#64748b">以前：各看一角</text>
+<g font-size="9.5" fill="#64748b">
+<rect x="26" y="46" width="84" height="20" rx="3" fill="#e2e8f0"/><text x="68" y="60" text-anchor="middle">PG：只看到 Code</text>
+<rect x="26" y="74" width="84" height="20" rx="3" fill="#e2e8f0"/><text x="68" y="88" text-anchor="middle">PM：不知可不可行</text>
+<rect x="26" y="102" width="84" height="20" rx="3" fill="#e2e8f0"/><text x="68" y="116" text-anchor="middle">QA：每次重新開會</text></g>
+<path d="M130 79 L146 79" stroke="#2563eb" stroke-width="1.5"/>
+<path d="M141 74 L148 79 L141 84" stroke="#2563eb" stroke-width="1.5" fill="none"/>
+<rect x="152" y="14" width="96" height="130" rx="8" fill="#eef2ff" stroke="#2563eb"/>
+<text x="200" y="34" text-anchor="middle" font-size="12" fill="#1d4ed8">現在：全案視野</text>
+<rect x="164" y="46" width="72" height="76" rx="4" fill="#dbeafe" stroke="#2563eb"/>
+<text x="200" y="72" text-anchor="middle" font-size="9.5" fill="#1e40af">需求 → 設計</text>
+<text x="200" y="90" text-anchor="middle" font-size="9.5" fill="#1e40af">開發 → 測試</text>
+<text x="200" y="108" text-anchor="middle" font-size="9.5" fill="#1e40af">一路看到底</text>
+<text x="130" y="168" text-anchor="middle" font-size="10.5" fill="#475569">理解的深度與廣度：質的飛躍</text></svg>
+          <figcaption>從管窺到全景</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="essay-block" data-refs="s01,s02">
+    <h3>AI Coding 之後，工程師的工作變成什麼樣？</h3>
+    <div class="essay-cols">
+      <div class="txt">
+        <p>再來，我們可以聊聊——<br>
+        AI Coding 對「軟體工程師」的工作內容，發生了什麼樣的變化？</p>
+        <p>在 2024 年，如果你問我「AI 寫 Code 可不可行」，<br>
+        我可能回答得很模糊、很不確定；<br>
+        但現在，我可以 100% 確定：可行。<br>
+        重點只剩下——你對業務跟技術的掌握度，高不高。</p>
+        <p>QCon 第一天早上的開場演講，台上 Speaker 的見解就很直接：</p>
+        <div class="callout">Coding 基本上已經死掉了，軟件正迎來「寒武紀大爆發」的時代。</div>
+        <p>他說，前幾年參加大會，主辦方會提前一個月跟他要 PPT；<br>
+        現在他可以很大方地說：<br>
+        「我要是現在就給你 PPT，等我上台演講的時候，內容早就不是這麼回事了。」<br>
+        （拖稿也就有了正當性。）<br>
+        可見這個行業迭代的速度，就是這麼快。</p>
+      </div>
+      <div class="figside">
+        <figure>
+          <svg viewBox="0 0 260 150" xmlns="http://www.w3.org/2000/svg">
+<rect x="14" y="18" width="106" height="52" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
+<text x="67" y="40" text-anchor="middle" font-size="11" fill="#64748b">2024：AI 寫 Code？</text>
+<text x="67" y="58" text-anchor="middle" font-size="11" fill="#94a3b8">嗯……不好說</text>
+<path d="M126 44 L140 44" stroke="#2563eb" stroke-width="1.5"/>
+<path d="M136 39 L142 44 L136 49" stroke="#2563eb" stroke-width="1.5" fill="none"/>
+<rect x="146" y="18" width="100" height="52" rx="8" fill="#eef2ff" stroke="#2563eb"/>
+<text x="196" y="40" text-anchor="middle" font-size="11" fill="#1d4ed8">2026：可行</text>
+<text x="196" y="58" text-anchor="middle" font-size="11" fill="#1d4ed8">100% 確定</text>
+<rect x="46" y="96" width="168" height="36" rx="8" fill="#fff7ed" stroke="#ea580c"/>
+<text x="130" y="112" text-anchor="middle" font-size="10.5" fill="#9a3412">唯一的變數：</text>
+<text x="130" y="126" text-anchor="middle" font-size="10.5" fill="#9a3412">你對業務×技術的掌握度</text></svg>
+          <figcaption>問題已經從「能不能」變成「你掌握多少」</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="essay-block" data-refs="s15">
+    <h3>三種人，同一個訂票系統</h3>
+    <div class="essay-cols">
+      <div class="txt">
+        <p>沒有【編程語言】，就沒有【軟件】。<br>
+        但現在，我們基本上可以不透過學習編程語言，完成軟件的開發——<br>
+        打破這個框架的，正是 AI Coding。</p>
+        <p>那現況是什麼？<br>
+        一個人只要會說話、會打字，就能當軟體工程師嗎？</p>
+        <p>舉個例子，現在有 3 種人：<br>
+        完全不會寫代碼的人、Junior 工程師、Senior 工程師。<br>
+        我認為這 3 種人，基本上都能靠 AI 完成一個訂票系統，<br>
+        而且終點都一樣——系統穩定、沒有問題。<br>
+        差別只差在【開發速度與質量】：</p>
+        <p><b>完全不會寫代碼的人：</b>可能連環境都不會裝，AI 得先花時間，帶著他把語言跟軟體裝起來。<br>
+        <b>Junior 工程師：</b>可以很快地把工作交辦給 AI，但想像不到系統未來會長出什麼功能，架構的彈性很低。<br>
+        <b>Senior 工程師：</b>一開始就能明確評估系統壓力、未來擴充性、維運便利性——可能要等上線後，才會遇到那些從沒想過的問題。</p>
+        <p>這 3 種人終究都能把功能做出來，<br>
+        但時程可以是 6 個月、1 個月、1 個禮拜的差距。<br>
+        而且這個差距，會隨著 LLM 越來越強而縮短——<br>
+        因為我們可能不需要跟 AI 講那麼多，AI 自己就想得到。</p>
+        <p>目前解決個體差異的方式，是靠 Skill 與 Agent 的設計：<br>
+        所有人都一樣跟 AI 對話，<br>
+        但 AI 透過標準流程、參考文件，穩定地輸出生產力。</p>
+        <p>這正好呼應我一開始說的：</p>
+        <div class="callout">大家用的 AI 都一樣，但個體差異，可以讓生產力差十萬八千里。</div>
+        <p>所以企業導入 AI 出現「不符預期」的現象，有一部分原因就在這：<br>
+        個體之間使用 AI，本來就存在差異。<br>
+        這些差異目前看起來，只能靠個人的經驗積累，或 Skill、Agent 文本來彌補。<br>
+        或者，等更強大的 AGI 出現。<br>
+        但「企業文化」跟「企業內部知識」，始終不在這些頂尖模型的訓練資料裡——<br>
+        等一個真正懂企業內核的 LLM……似乎遙遙無期。</p>
+      </div>
+      <div class="figside">
+        <figure>
+          <svg viewBox="0 0 260 160" xmlns="http://www.w3.org/2000/svg">
+<text x="14" y="26" font-size="10.5" fill="#64748b">不會寫代碼</text>
+<rect x="14" y="34" width="232" height="14" rx="3" fill="#fecaca"/>
+<text x="238" y="45" text-anchor="end" font-size="10" fill="#7f1d1d">6 個月</text>
+<text x="14" y="72" font-size="10.5" fill="#64748b">Junior</text>
+<rect x="14" y="80" width="120" height="14" rx="3" fill="#fed7aa"/>
+<text x="128" y="91" text-anchor="end" font-size="10" fill="#7c2d12">1 個月</text>
+<text x="14" y="118" font-size="10.5" fill="#64748b">Senior</text>
+<rect x="14" y="126" width="46" height="14" rx="3" fill="#bbf7d0"/>
+<text x="64" y="137" font-size="10" fill="#14532d">1 週</text>
+<text x="130" y="156" text-anchor="middle" font-size="10" fill="#94a3b8">終點相同：穩定的訂票系統；差在速度與質量</text></svg>
+          <figcaption>都做得完，但時程差了 24 倍</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="essay-block" data-refs="s02,s49">
+    <h3>我也不寫代碼了：碼農已死</h3>
+    <div class="essay-cols">
+      <div class="txt">
+        <p>理解了 AI 工具的使用存在「個體化差異」之後，<br>
+        我們來想像：當每個人都能順手地跟 AI 協作時，<br>
+        Coding 跟生產文件這兩件事，會發生什麼變化。</p>
+        <p>先聊 Coding。<br>
+        從 2024 年——應該是 5 月吧——<br>
+        我就幾乎沒有手寫過任何一行代碼了。<br>
+        （除非是真的很小的改動，我懶得跟 AI 解釋的那種。）</p>
+        <p>AI Gen Code 這件事很早就開始了，<br>
+        這裡就先不展開「完全不手動調整代碼時，工作流該怎麼調整」。</p>
+        <p>但在這次 QCon 上，許多講師都表示：基本上已經不手動碰任何代碼了。<br>
+        這是一個滿有意義的指標——<br>
+        我觀察，這次能站上講台的講師，大多來自大公司：AWS、螞蟻金服、京東……</p>
+        <div class="callout">當這些世界級 Tier 0、Tier 1 的工程師都不碰代碼時，很難再有理由說服我需要手寫程式。</div>
+        <p>所以對軟體工程師來說，第一個最大的衝擊是：<br>
+        不手寫代碼，工作流要怎麼變？<br>
+        其實這代表——碼農已死。<br>
+        不會獨立思考、不會表述需求的工程師，已經確定在這個產業裡畢業了。</p>
+        <p>因為連頂尖工程師都相信人類沒有寫代碼的必要時，<br>
+        就證明了：不管「速度」還是「品質」，人類都輸給了 AI。<br>
+        前 1、2 年還在提倡「AI 產生的 Code 需要人類 Review」的時代，甚至即將迎來終結。</p>
+      </div>
+      <div class="figside">
+        <figure>
+          <svg viewBox="0 0 260 150" xmlns="http://www.w3.org/2000/svg">
+<rect x="30" y="14" width="200" height="34" rx="6" fill="#eef2ff" stroke="#2563eb"/>
+<text x="130" y="30" text-anchor="middle" font-size="10.5" fill="#1d4ed8">AWS · 螞蟻 · 京東……</text>
+<text x="130" y="43" text-anchor="middle" font-size="10.5" fill="#1d4ed8">Tier 0 / Tier 1 工程師：不碰代碼</text>
+<path d="M130 52 L130 68" stroke="#94a3b8" stroke-width="1.5"/>
+<path d="M125 63 L130 70 L135 63" stroke="#94a3b8" stroke-width="1.5" fill="none"/>
+<g><text x="130" y="92" text-anchor="middle" font-size="12" fill="#94a3b8" text-decoration="line-through">手寫代碼</text></g>
+<rect x="40" y="106" width="180" height="32" rx="6" fill="#f0fdfa" stroke="#0d9488"/>
+<text x="130" y="120" text-anchor="middle" font-size="10.5" fill="#115e59">留下來的能力：</text>
+<text x="130" y="133" text-anchor="middle" font-size="10.5" fill="#115e59">獨立思考 ＋ 精準表述需求</text></svg>
+          <figcaption>碼農畢業，思考的人留下</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="essay-block" data-refs="s49">
+    <h3>來不及 Code Review：Side Project 的大爆發</h3>
+    <div class="essay-cols">
+      <div class="txt">
+        <p>有位講師提出一個概念：<br>
+        當所有人都用 AI 產生高品質的代碼時，你會發現一件事——</p>
+        <div class="callout">我們早就已經來不及做 Code Review。</div>
+        <p>這件事，我在做 Side Project 的時候已經完完全全體驗過。<br>
+        早在 AI 誕生以前，我就有做 Side Project 的習慣：<br>
+        以前一年做 2~3 個，從構想到落地少說半年起跳，<br>
+        中間還有大量學習程式語言的成本——<br>
+        產出速度，完全被個人的學習能力跟時間綁死。</p>
+        <p>但說到底，做 Side Project 終究是為了解決生活中的某個困難。<br>
+        「有需求」的 Side Project，永遠活得比「純學習」的久非常多。</p>
+        <p>而在 AI Gen Code 的時代，Side Project 實現與迭代的速度飛快——<br>
+        Code 根本看不完。<br>
+        以前寫半天才實現一個小功能，現在 2 天就能做出一個雛形。</p>
+        <p>甚至我現在許多 Side Project，按正常編制起碼要 5~6 個人才做得起來；<br>
+        我完全不會前端開發，如今卻已經實作了不少前端應用。</p>
+        <p>這也呼應到現況：美國矽谷有非常多小公司如雨後春筍般冒出來。<br>
+        寫代碼的門檻降低了，做出一個 Prototype 變得很輕鬆。<br>
+        而當代碼生產飛快，Code Review 反而成了專案開發週期最大的瓶頸。</p>
+      </div>
+      <div class="figside">
+        <figure>
+          <svg viewBox="0 0 260 150" xmlns="http://www.w3.org/2000/svg">
+<line x1="30" y1="120" x2="240" y2="120" stroke="#cbd5e1"/>
+<line x1="30" y1="120" x2="30" y2="20" stroke="#cbd5e1"/>
+<path d="M30 112 Q120 100 235 28" stroke="#2563eb" stroke-width="2" fill="none"/>
+<text x="176" y="34" font-size="10.5" fill="#1d4ed8">代碼產出（AI）</text>
+<path d="M30 116 L235 100" stroke="#dc2626" stroke-width="2" fill="none"/>
+<text x="170" y="94" font-size="10.5" fill="#b91c1c">Review 產能（人）</text>
+<path d="M225 40 L225 92" stroke="#94a3b8" stroke-width="1" stroke-dasharray="3 3"/>
+<text x="218" y="70" text-anchor="end" font-size="10" fill="#64748b">缺口越拉越大</text>
+<text x="135" y="142" text-anchor="middle" font-size="10" fill="#94a3b8">半年落地 → 2 天出雛形</text></svg>
+          <figcaption>產出是指數，Review 是直線</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="essay-block" data-refs="s19,s33,s74">
+    <h3>QA 的位置變了</h3>
+    <div class="essay-cols">
+      <div class="txt">
+        <p>也有 Speaker 在演講中提到：<br>
+        在過往職掌分工的組織裡，PG 產生代碼的速度遠超 QA 團隊——<br>
+        而 QA，通常是整個組織裡人力與資源最不足的單位。</p>
+        <p>如果 QA 到專案末期才加入測試，<br>
+        往往對需求、業務情境的掌握度不足，<br>
+        導致專案在既有編制下，進度就卡在 QA 這一關。</p>
+        <p>這也呼應前面說的 AI Native 團隊：<br>
+        小組織與 AI 協作，其實在需求討論的階段，QA 就可以開始規劃測試了。<br>
+        Test Case 成形的過程中，很自然地會回頭追問需求場景。</p>
+        <p>而在現行的開發流程裡，這個「回問」都是丟回給 PG、SA——<br>
+        但真正理解業務需求的人，其實還在更前面。<br>
+        這樣的循環，讓整體開發效率低下。</p>
+        <div class="callout">從大企業到新創：會善用 AI 的團隊，人員編制都不多，事情卻推進得異常快。</div>
+      </div>
+      <div class="figside">
+        <figure>
+          <svg viewBox="0 0 260 160" xmlns="http://www.w3.org/2000/svg">
+<text x="14" y="24" font-size="10.5" fill="#64748b">以前：QA 在最尾端</text>
+<g font-size="9.5" text-anchor="middle">
+<rect x="14" y="32" width="54" height="22" rx="3" fill="#f1f5f9" stroke="#94a3b8"/><text x="41" y="47" fill="#475569">需求</text>
+<rect x="76" y="32" width="54" height="22" rx="3" fill="#f1f5f9" stroke="#94a3b8"/><text x="103" y="47" fill="#475569">設計</text>
+<rect x="138" y="32" width="54" height="22" rx="3" fill="#f1f5f9" stroke="#94a3b8"/><text x="165" y="47" fill="#475569">開發</text>
+<rect x="200" y="32" width="46" height="22" rx="3" fill="#fee2e2" stroke="#dc2626"/><text x="223" y="47" fill="#b91c1c">QA 卡關</text></g>
+<text x="14" y="92" font-size="10.5" fill="#1d4ed8">現在：測試左移</text>
+<g font-size="9.5" text-anchor="middle">
+<rect x="14" y="100" width="100" height="22" rx="3" fill="#dbeafe" stroke="#2563eb"/><text x="64" y="115" fill="#1e40af">需求（QA 已加入）</text>
+<rect x="122" y="100" width="60" height="22" rx="3" fill="#dbeafe" stroke="#2563eb"/><text x="152" y="115" fill="#1e40af">設計＋測試</text>
+<rect x="190" y="100" width="56" height="22" rx="3" fill="#dbeafe" stroke="#2563eb"/><text x="218" y="115" fill="#1e40af">開發＋驗證</text></g>
+<text x="130" y="148" text-anchor="middle" font-size="10" fill="#94a3b8">Test Case 直接回問需求，不再繞路</text></svg>
+          <figcaption>QA 從瓶頸，變成從第一天就在場</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="essay-block" data-refs="s19,s54">
+    <h3>測試的難題：單一專案視角行不通</h3>
+    <div class="essay-cols">
+      <div class="txt">
+        <p>所以大家可以回到上面的知識圖看看：<br>
+        這次跟測試相關的會議大幅增加，幾乎 3 成的場次都與測試有關。</p>
+        <p>而許多測試都面臨同一個問題——<br>
+        所謂的測試，不應該圍繞著「單一專案」來思考。</p>
+        <p>今天 QA 團隊替某個專案寫了測試腳本，<br>
+        我們都希望它的可複用性很好，回歸測試可以輕鬆做。<br>
+        但現實是：測試資料會變、程式邏輯會變、公司內部有成千上萬個專案……</p>
+        <div class="callout">用單一專案的視角做測試，最後只會發現一件事：需求根本做不完。</div>
+        <p>從程式代碼反向建立測試腳本，市面上已經有很多好用的 AI 工具，<br>
+        但多半只做到「檢核面」的測試。<br>
+        真正大的那一塊，是所謂「業務的知識圖譜」——<br>
+        在許多演講中，可以看到很多公司正嘗試把業務 know-how 做 RAG 落地，或包成 MCP 工具。</p>
+      </div>
+      <div class="figside">
+        <figure>
+          <svg viewBox="0 0 260 150" xmlns="http://www.w3.org/2000/svg">
+<rect x="14" y="20" width="110" height="100" rx="8" fill="#fef2f2" stroke="#dc2626"/>
+<text x="69" y="42" text-anchor="middle" font-size="11" fill="#b91c1c">單一專案視角</text>
+<text x="69" y="64" text-anchor="middle" font-size="9.5" fill="#991b1b">測試資料會變</text>
+<text x="69" y="82" text-anchor="middle" font-size="9.5" fill="#991b1b">程式邏輯會變</text>
+<text x="69" y="100" text-anchor="middle" font-size="9.5" fill="#991b1b">專案成千上萬</text>
+<path d="M130 70 L146 70" stroke="#94a3b8" stroke-width="1.5"/>
+<path d="M142 65 L148 70 L142 75" stroke="#94a3b8" stroke-width="1.5" fill="none"/>
+<rect x="152" y="20" width="94" height="100" rx="8" fill="#eef2ff" stroke="#2563eb"/>
+<text x="199" y="42" text-anchor="middle" font-size="11" fill="#1d4ed8">業務知識圖譜</text>
+<text x="199" y="64" text-anchor="middle" font-size="9.5" fill="#1e40af">know-how RAG</text>
+<text x="199" y="82" text-anchor="middle" font-size="9.5" fill="#1e40af">MCP 工具化</text>
+<text x="199" y="100" text-anchor="middle" font-size="9.5" fill="#1e40af">跨專案可複用</text>
+<text x="130" y="142" text-anchor="middle" font-size="10" fill="#94a3b8">否則：需求做不完</text></svg>
+          <figcaption>從追專案，改成蓋地基</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="essay-block" data-refs="s29,s61">
+    <h3>所有人都在蓋「知識圖譜」</h3>
+    <div class="essay-cols">
+      <div class="txt">
+        <p>其實今年，幾乎所有 Speaker 都不約而同地在建立所謂的「知識圖譜」。</p>
+        <p>顯而易見——「到底什麼是企業內部的 domain？」這件事，跟所有單位都有關係。<br>
+        以銀行為例：帳號分成哪幾種產品？<br>
+        這些產品的差異是什麼？對應到系統的術語又是什麼？<br>
+        User 常掛在嘴邊的「活存」，在系統裡是怎麼被儲存的？</p>
+        <p>從需求討論、SDD Spec、到測試……<br>
+        所有 AI 協作情境，都躲不開「內容檢索」與「工程管理」這兩件事。<br>
+        這幾天跟許多 Speaker 交流下來，<br>
+        這一塊，都是用非常大的人力、時間與金錢砸出來的。</p>
+        <div class="callout">企業的 domain 知識，才是 AI 落地真正的關卡——而它從來不在頂尖模型的訓練資料裡。</div>
+      </div>
+      <div class="figside">
+        <figure>
+          <svg viewBox="0 0 260 160" xmlns="http://www.w3.org/2000/svg">
+<circle cx="130" cy="80" r="34" fill="#eef2ff" stroke="#2563eb"/>
+<text x="130" y="76" text-anchor="middle" font-size="10.5" fill="#1d4ed8">企業</text>
+<text x="130" y="90" text-anchor="middle" font-size="10.5" fill="#1d4ed8">Domain</text>
+<g font-size="9.5" text-anchor="middle">
+<line x1="102" y1="58" x2="62" y2="34" stroke="#94a3b8"/><rect x="14" y="18" width="72" height="20" rx="10" fill="#f1f5f9" stroke="#94a3b8"/><text x="50" y="32" fill="#475569">產品與術語</text>
+<line x1="158" y1="58" x2="198" y2="34" stroke="#94a3b8"/><rect x="174" y="18" width="72" height="20" rx="10" fill="#f1f5f9" stroke="#94a3b8"/><text x="210" y="32" fill="#475569">系統對應</text>
+<line x1="102" y1="102" x2="62" y2="126" stroke="#94a3b8"/><rect x="14" y="122" width="72" height="20" rx="10" fill="#f1f5f9" stroke="#94a3b8"/><text x="50" y="136" fill="#475569">需求與 Spec</text>
+<line x1="158" y1="102" x2="198" y2="126" stroke="#94a3b8"/><rect x="174" y="122" width="72" height="20" rx="10" fill="#f1f5f9" stroke="#94a3b8"/><text x="210" y="136" fill="#475569">測試場景</text></g></svg>
+          <figcaption>AI 協作的每一條路，都通往 domain 知識</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="essay-block" data-refs="s08">
+    <h3>最有感的一場：跟我一模一樣的專案</h3>
+    <div class="essay-cols">
+      <div class="txt">
+        <p>今年讓我最有感的一場——也是唯一一場我全程站著聽完的——<br>
+        就是「從 AI 取數到智能分析：企業級數據 Agent 的多階段演進與工程化落地」。</p>
+        <p>這位講師要解決的問題，跟我的專案可以說 100% 一樣：<br>
+        透過自然語言，提取資料庫訊息。<br>
+        感動的是，他們團隊花了 3 年迭代，<br>
+        Step 1、Step 2 用的技術、解決困難的思路，幾乎跟我一模一樣；<br>
+        但看到後續的產品演化，我發現：那個方向，我幾乎不可能獨力完成。</p>
+        <p>會後我跟講師聊了 30~40 分鐘，也滿確定了一件事：<br>
+        要讓 AI 理解企業內部的知識圖譜，有很大一關需要「自己訓練模型」——<br>
+        這已經超出我目前的認知範圍。<br>
+        也就是在這個時候，我理解到：看樣子，我知道這個專案的終點在哪了。</p>
+        <p>他們的團隊有 20~25 人，一個月大約要燒 600~800 萬台幣，<br>
+        而且在他們公司裡，這屬於偏「科研」性質的團隊，不是以商業導向在拓展的。</p>
+        <p>其實滿開心的，能在這次會議中遇到一位講師，<br>
+        分享著跟我一模一樣的專案發展心路歷程。<br>
+        同時，也安慰自己——</p>
+        <div class="callout">有多少資源，做多少事。</div>
+      </div>
+      <div class="figside">
+        <figure>
+          <svg viewBox="0 0 260 170" xmlns="http://www.w3.org/2000/svg">
+<g font-size="9.5" text-anchor="middle">
+<rect x="20" y="20" width="64" height="24" rx="4" fill="#dbeafe" stroke="#2563eb"/><text x="52" y="36" fill="#1e40af">Step 1</text>
+<rect x="98" y="20" width="64" height="24" rx="4" fill="#dbeafe" stroke="#2563eb"/><text x="130" y="36" fill="#1e40af">Step 2</text>
+<rect x="176" y="20" width="70" height="24" rx="4" fill="#fee2e2" stroke="#dc2626"/><text x="211" y="36" fill="#b91c1c">自訓模型</text></g>
+<path d="M86 32 L96 32 M164 32 L174 32" stroke="#94a3b8" stroke-width="1.3"/>
+<text x="91" y="60" font-size="10" fill="#0d9488">← 這段思路，跟我 100% 一樣</text>
+<text x="211" y="60" text-anchor="middle" font-size="10" fill="#b91c1c">↑ 我的終點</text>
+<line x1="20" y1="76" x2="246" y2="76" stroke="#e2e8f0"/>
+<g font-size="10">
+<text x="20" y="98" fill="#475569">他們：20~25 人團隊</text>
+<text x="20" y="116" fill="#475569">月燒 600~800 萬台幣，偏科研性質</text>
+<text x="20" y="134" fill="#475569">我：1 個人的 Side Project</text>
+</g>
+<text x="130" y="160" text-anchor="middle" font-size="10.5" fill="#1d4ed8">有多少資源，做多少事</text></svg>
+          <figcaption>同一條路，走到分岔點</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="essay-block">
+    <h3>未完待續</h3>
+    <div class="essay-cols">
+      <div class="txt">
+        <p class="placeholder">［後續還會再補充，敬請期待……］</p>
+      </div>
+      <div class="figside">
+        <figure>
+          <div style="height:90px;display:flex;align-items:center;justify-content:center;color:#94a3b8;font-size:13px;border:1px dashed #cbd5e1;border-radius:8px">To be continued…</div>
+          <figcaption>下集預告</figcaption>
+        </figure>
+      </div>
+    </div>
   </section>
   <!-- ═══ 心得範本結束 ═══ -->
 </main>
 
 <section class="page" id="all">
   <h2>全部場次</h2>
-  <p class="desc">共 77 場：15 場親身參與（★，附逐字稿與 YouTube），其餘 62 場為官方講稿 PDF。</p>
+  <p class="desc">大會 3 天共 109 場。本站收錄 77 場：15 場我親身參加（★，全程錄影，可上 YouTube 聽完整演講），其餘 62 場為講師公開的講稿 PDF。</p>
   <div id="filters">
     <input id="searchBox" placeholder="搜尋講題 / 講者…">
     <button id="fAtt">★ 只看有參加</button>
@@ -1021,7 +1761,7 @@ function openModal(s){
     (s.attended?`<span class="badge">有參加</span>`:"")+
     (s.speaker?`　${esc(s.speaker)}`:"");
   document.getElementById("mBody").textContent = s.attended
-    ? "我有到場聆聽這場演講，並整理了逐字稿。" : "此場未到場，提供官方講稿 PDF 下載。";
+    ? "我有到場聆聽並全程錄影，可透過 YouTube 連結聽完整演講。" : "此場未到場，提供講師公開的講稿 PDF 下載。";
   document.getElementById("mLinks").innerHTML = linkBtns(s,true);
   modalBg.classList.add("show");
 }
@@ -1047,17 +1787,20 @@ function buildGraph(){
   const g=document.createElementNS(NS,"g"); g.id="viewport"; svg.appendChild(g);
   const list = DATA.sessions.filter(s=>!onlyAtt||s.attended);
   const groups = themeKeys.map(k=>({k, items:list.filter(s=>s.theme===k)})).filter(t=>t.items.length);
-  const n=list.length; let idx=0;
+  const PAD=2.4;
+  const totalW=groups.reduce((t,gr)=>t+gr.items.length+PAD,0);
+  let cursor=-Math.PI/2;
   const edges=document.createElementNS(NS,"g"); g.appendChild(edges);
   const nodes=document.createElementNS(NS,"g"); g.appendChild(nodes);
-  groups.forEach(gr=>{
-    const a0=(idx/n)*2*Math.PI - Math.PI/2;
-    const a1=((idx+gr.items.length-1)/n)*2*Math.PI - Math.PI/2;
-    const am=(a0+a1)/2;
-    const tx=CX+R_THEME*Math.cos(am), ty=CY+R_THEME*Math.sin(am);
+  groups.forEach((gr,gi)=>{
+    const span=(gr.items.length+PAD)/totalW*2*Math.PI;
+    const am=cursor+span/2;
+    const inner=span*0.86;
+    const RT=R_THEME;
+    const tx=CX+RT*Math.cos(am), ty=CY+RT*Math.sin(am);
     edges.appendChild(line(CX,CY,tx,ty,"edge"));
-    gr.items.forEach(s=>{
-      const a=(idx/n)*2*Math.PI - Math.PI/2; idx++;
+    gr.items.forEach((s,j)=>{
+      const a=am-inner/2+inner*(j+0.5)/gr.items.length;
       const x=CX+R_LEAF*Math.cos(a), y=CY+R_LEAF*Math.sin(a);
       edges.appendChild(line(tx,ty,x,y,"edge"));
       const nd=document.createElementNS(NS,"g");
@@ -1087,10 +1830,18 @@ function buildGraph(){
     tc.setAttribute("fill",themeColor[gr.k]);
     tn.appendChild(tc);
     const tt=document.createElementNS(NS,"text");
-    tt.setAttribute("x",tx);tt.setAttribute("y",ty-20);tt.setAttribute("text-anchor","middle");
+    // 沿輻條方向旋轉排列，相鄰主題角度發散、不會重疊
+    const tflip=Math.cos(am)<0;
+    const tlx=CX+(RT+22)*Math.cos(am), tly=CY+(RT+22)*Math.sin(am);
+    const tdeg=am*180/Math.PI;
+    tt.setAttribute("x",tlx);tt.setAttribute("y",tly);
+    tt.setAttribute("transform","rotate("+(tflip?tdeg+180:tdeg)+" "+tlx+" "+tly+")");
+    tt.setAttribute("text-anchor",tflip?"end":"start");
+    tt.setAttribute("dominant-baseline","middle");
     tt.textContent=DATA.themes[gr.k]+"("+gr.items.length+")";
     tn.appendChild(tt);
     nodes.appendChild(tn);
+    cursor+=span;
   });
   const ctr=document.createElementNS(NS,"g"); ctr.setAttribute("class","themeNode");
   const cc=document.createElementNS(NS,"circle");
@@ -1191,6 +1942,13 @@ themeKeys.forEach(k=>{
 document.getElementById("fAtt").onclick=function(){fAtt=!fAtt;this.classList.toggle("on",fAtt);renderCards();};
 document.getElementById("searchBox").oninput=function(){fQ=this.value.trim().toLowerCase();renderCards();};
 renderCards();
+
+const pbar=document.getElementById("progressBar");
+addEventListener("scroll",()=>{
+  const d=document.documentElement;
+  const p=d.scrollTop/(d.scrollHeight-d.clientHeight||1);
+  pbar.style.width=(p*100).toFixed(2)+"%";
+},{passive:true});
 </script>
 </body>
 </html>
