@@ -35,7 +35,7 @@ nav#topnav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);
   display:flex;gap:4px;justify-content:center;padding:10px 8px}
 nav#topnav a{text-decoration:none;color:var(--ink);padding:8px 18px;border-radius:20px;font-size:14px;font-weight:600}
 nav#topnav a:hover{background:#eef2ff}
-.page{max-width:1280px;margin:0 auto;padding:56px 40px}
+.page{max-width:1520px;margin:0 auto;padding:56px 40px}
 .page>h2{font-size:24px;margin-bottom:6px}
 .page>p.desc{color:var(--muted);font-size:14px;margin-bottom:24px}
 @media(max-width:700px){.page{padding:40px 18px}}
@@ -81,7 +81,7 @@ nav#topnav a:hover{background:#eef2ff}
 @keyframes chFade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 .essay-block .callout{margin:12px 0 12px 22px;padding:10px 16px;border-left:3px solid var(--accent);background:#eff6ff;border-radius:0 8px 8px 0;font-size:15px;color:#1e3a8a;font-weight:600}
 #progressBar{position:fixed;top:0;left:0;height:3px;background:var(--accent);width:0;z-index:200}
-.essay-cols{display:flex;gap:26px;align-items:flex-start}
+.essay-cols{display:flex;gap:26px;align-items:center}
 .essay-cols .txt{flex:1.45;min-width:0}
 .essay-cols .figside{flex:1;min-width:0}
 .figside figure{margin:0;background:#f8fafc;border:1px solid var(--line);border-radius:10px;padding:14px;text-align:center}
@@ -2335,6 +2335,23 @@ document.querySelectorAll("#essay .chapter").forEach(ch=>{
   btn.addEventListener("click",()=>{open=!open;render();
     if(!open)ch.scrollIntoView({behavior:"smooth",block:"center"});});
   ch.appendChild(btn); render();
+});
+
+/* ============ slide picture auto-replace ============
+   把與段落標題同名的 PNG 放進 slide picture/，會自動取代該段的 SVG 概念圖 */
+document.querySelectorAll("#essay .essay-block").forEach(sec=>{
+  const h3=sec.querySelector("h3"), fig=sec.querySelector(".figside figure");
+  if(!h3||!fig) return;
+  const img=new Image();
+  img.alt=h3.textContent.trim();
+  img.style.borderRadius="6px";
+  img.onload=()=>{
+    const cap=fig.querySelector("figcaption");
+    fig.textContent="";
+    fig.appendChild(img);
+    if(cap) fig.appendChild(cap);
+  };
+  img.src=encodeURI("slide picture/"+h3.textContent.trim()+".png");
 });
 
 const pbar=document.getElementById("progressBar");
