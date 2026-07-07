@@ -69,6 +69,16 @@ nav#topnav a:hover{background:#eef2ff}
   border-radius:16px;border:1px solid var(--line);background:#f1f5f9;cursor:pointer;color:var(--ink)}
 .chip:hover{border-color:var(--accent);background:#eef2ff}
 .chip .dot{width:8px;height:8px;border-radius:50%}
+.chapter{max-width:760px;margin:70px auto 30px;text-align:center;border-top:1px solid var(--line);padding-top:44px}
+.chapter.first{border-top:none;padding-top:6px;margin-top:20px}
+.chapter .ck{display:inline-block;font-size:12px;letter-spacing:3px;color:var(--accent);border:1px solid var(--accent);border-radius:14px;padding:3px 16px;margin-bottom:12px}
+.chapter h3{font-size:21px;color:var(--navy);margin-bottom:10px}
+.chapter p{font-size:14px;color:var(--muted);line-height:1.9}
+.chToggle{margin-top:14px;border:1px solid var(--accent);color:var(--accent);background:#fff;
+  border-radius:18px;padding:7px 22px;font-size:13.5px;cursor:pointer;font-weight:600}
+.chToggle:hover{background:#eef2ff}
+.chapter-body{animation:chFade .25s ease}
+@keyframes chFade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 .essay-block .callout{margin:12px 0 12px 22px;padding:10px 16px;border-left:3px solid var(--accent);background:#eff6ff;border-radius:0 8px 8px 0;font-size:15px;color:#1e3a8a;font-weight:600}
 #progressBar{position:fixed;top:0;left:0;height:3px;background:var(--accent);width:0;z-index:200}
 .essay-cols{display:flex;gap:26px;align-items:flex-start}
@@ -151,6 +161,12 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:40px 20px;bor
   <p class="desc">每個段落下方的小卡，是與該段觀點相關的場次，點擊可看影片連結或下載講稿。</p>
 
   <!-- 心得段落：複製整個 section 即可新增；figside 放 SVG 或 img -->
+  <div class="chapter first">
+    <span class="ck">PART 1</span>
+    <h3>起點：第二次的 QCon</h3>
+    <p>從 2024 上海到 2026 北京——先聊聊我為什麼一去再去，以及這兩年會場裡變了什麼。</p>
+  </div>
+
   <section class="essay-block">
     <h3>兩次 QCon：從砍掉重練開始</h3>
     <div class="essay-cols">
@@ -193,7 +209,8 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:40px 20px;bor
         把職場比喻成戰場：<br>
         對 Junior 或完全不懂行的人來說，做軟體工程項目，大概就是拿到一把刀；<br>
         但對 Senior、對技術有熱情的人來說，那是拿到坦克或飛彈這麼誇張。</p>
-        <div class="callout">同一件神器，有人拿到刀，有人拿到坦克——「經驗」成了 AI 應用時代真正的壁壘。</div>
+        <div class="callout">同一個 AI 工具，有人覺得拿到刀，有人覺得拿到坦克<br>
+        ——「經驗」成了 AI 應用時代真正的壁壘。</div>
         <p>Senior 工程師的優勢，在於長期累積、內化的經驗——<br>
         我們知道著手一個項目的時候，要怎麼跟 AI 協作才會順。</p>
         <p>話題有點扯遠了。<br>
@@ -242,13 +259,14 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:40px 20px;bor
         2024 年，大家還在摸索——哪個模型好用？Prompt 要怎麼寫？embedding 跟 RAG 怎麼做？<br>
         2026 年，大家在問的是——要怎麼導入實作？導入之後，企業和團隊發現了什麼問題？組織發生了什麼質變？</p>
         <p>所以你會發現，2026 年的會議內容不太討論技術了。</p>
-        <div class="callout">不是技術消失了，是聽眾的「出廠設定」升級了——2024 年那輪技術討論，大家早就摸熟了。</div>
+        <div class="callout">不是技術消失了，是聽眾的「出廠設定」升級了<br>
+        ——2024 年那輪的技術討論，技術已經摸熟不再是重點，焦點放在落地應用。</div>
         <p>現在檯面上討論的，是這些走在前面的企業：<br>
         導入 AI 之後，他們觀察到什麼問題？又是怎麼解決的？</p>
-        <p>這件事讓我有點差距感。<br>
-        坦白說，很難在不了解 AI 技術的情況下，跳過「理解應用」直接進到「導入」環節。<br>
-        這樣做很容易打不到痛點、為了導入而導入——<br>
-        因為一開始就沒辦法理解 AI 應用的邊界，導入後的預期自然會產生巨大落差。<br>
+        <p>這件事讓我有點差距感。</p>
+        <div class="callout">在不了解 AI 技術的情況下，跳過「理解應用」直接進到「導入」環節<br>
+        ——為了導入而導入，很容易打不到痛點。</div>
+        <p>因為一開始就沒辦法理解 AI 應用的邊界，導入後的預期自然會產生巨大落差。<br>
         最慘的情況，是導入之後才回頭看成效。</p>
       </div>
       <div class="figside">
@@ -287,14 +305,18 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:40px 20px;bor
         <div class="callout">網頁上有標「★」的場次，代表我有全程錄影，可以上 YouTube 聽完整的演講。</div>
         <p>總共 109 場，我參加會議基本上不想休息、不想有斷檔，<br>
         3 天下來最多也只能跑 23 場，<br>
-        而我只有 1 小時可以跟大家分享。<br>
-        如果這樣你們都能聽懂，那你們都是老師了——這就不是演講，是報告了。</p>
+        而我只有 1 小時可以跟大家分享。</p>
         <p>所以我一直在想：參加完回來，我到底想跟大家說什麼？<br>
-        這些 AI 應用技術，本來就不是 1 小時能弄明白的東西。<br>
-        我想分享的，是這些科技巨頭和企業導入 AI 之後，<br>
-        那些可能跟大家目前認知「有落差」的觀點。<br>
-        個人觀點會有些偏頗，但鐵定不是空穴來風——我都有影片留存佐證。</p>
-        <p>其實人類就跟 AI 一樣：window context 有限的情況下，鐵定解決不了資訊細節遺失的問題。</p>
+        這些 AI 應用技術，<br>
+        本來就不是 1 小時能弄明白的東西。</p>
+        <p>仔細琢磨過後，我想…</p>
+        <div class="callout">應該分享這些科技巨頭和企業導入 AI 之後<br>
+        ——那些普遍認知「有落差」的觀點。</div>
+        <p>我個人的觀點可能會有些偏頗，<br>
+        但也不是空穴來風，<br>
+        畢竟我都有相關的影片上傳至 YouTube 佐證。</p>
+        <div class="callout">其實人類就跟 AI 一樣<br>
+        ——window context 有限的情況下，鐵定解決不了資訊「細節遺失」的問題。</div>
       </div>
       <div class="figside">
         <figure>
@@ -311,6 +333,12 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:40px 20px;bor
     </div>
   </section>
 
+  <div class="chapter">
+    <span class="ck">PART 2</span>
+    <h3>AI Coding × 企業組織</h3>
+    <p>這部分聊的是：當整個團隊的人都用 AI 工作，組織會發生什麼事——流水線為什麼卡住、又有人怎麼把它打散重組。</p>
+  </div>
+
   <section class="essay-block" data-refs="s09,s11,s12,s13,s15">
     <h3>AI Coding 對企業的影響：流水線的困境</h3>
     <div class="essay-cols">
@@ -320,7 +348,8 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:40px 20px;bor
         我有興趣的方向，集中在【AI Coding】相關的場次。<br>
         前面說了我們不聊技術，<br>
         那就來聊聊這次很多場演講都提到的——AI Coding 對企業的影響。</p>
-        <div class="callout">我先說結論：未來一個高效的 AI Native 團隊，勢必不會再把工作範圍做明顯的劃分。</div>
+        <div class="callout">我先說結論<br>
+        ——未來一個高效的 AI Native 團隊，勢必不會再把工作範圍做明顯的劃分。</div>
         <p>什麼是「工作範圍的劃分」？<br>
         隨便看看我們眼下大部分的專案是怎麼分工的：<br>
         PO、PM、SA、SD、PG、QA、DevOps、DBA……基本上就是這樣切，對吧？</p>
@@ -370,17 +399,23 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:40px 20px;bor
         PM 看了需求、跟 PO 討論之後，改了這份文件。</p>
         <p>好，「改」這個動作——是誰改的？<br>
         如果該由 PO 改，那 PO 是讓 AI 改嗎？<br>
-        如果不是，PO 人工改完再轉給 PM——<br>
-        這裡就出現了第一道裂縫：PO 跟「PO 的 AI」，認知不連貫了。</p>
-        <p>接下來，PRD 交到 SA、SD 手上。<br>
-        SA、SD 一看：技術上有困難；或者這需求牽涉跨系統，PO／PM 對系統的認知根本有誤——<br>
+        如果不是，PO 人工改完再轉給 PM</p>
+        <div class="callout">這裡就出現了第一道裂縫<br>
+        ——PO 跟「PO 的 AI」，AI 的認知不連貫了。</div>
+        <p>接下來，<br>
+        PRD 交到 SA、SD 手上。<br>
+        SA、SD 一看：技術上有困難</p>
+        <p>或者<br>
+        這需求牽涉跨系統，PO／PM 對系統的認知根本有誤，<br>
         只好退回去，讓 PO／PM 重新討論確認。</p>
-        <p>又或者，PG 開發到一半，發現業務邏輯跑不通，<br>
+        <p>又或者，<br>
+        PG 開發到一半，發現業務邏輯跑不通，<br>
         口頭問了 SA 或 SD。<br>
         這時候我相信絕大多數人，就是直接先改 Code，<br>
         不會有人要求 SA／SD 重發一份 SDD。</p>
-        <p>好，就算一切都按流程走——<br>
-        每個環節只要沒拿到最新版的 PRD、SDD，就是不能動工。</p>
+        <div class="callout">一切都按流程走<br>
+        ——每個環節只要沒拿到最新版的 PRD、SDD，就是不能動工。<br>
+        ——會發現組織的瓶頸在「人」，人越多、角色越多，溝通的成本只會增加。</div>
       </div>
       <div class="figside">
         <figure>
@@ -415,24 +450,27 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:40px 20px;bor
         <p>有沒有看到，整個流程下來有哪些問題？</p>
         <p><b>1. 溝通成本增加非常多。</b><br>
         以前是「人＋文件」，現在多了 AI。<br>
-        用過 AI 的人都知道，跟 AI 協作有個非常重要的前提：<br>
-        要讓 AI 所理解的世界，跟實際狀況保持一致。<br>
-        今天東西是人動手改的、AI 不知道，<br>
+        用過 AI 的人都知道，</p>
+        <div class="callout">跟 AI 協作有個非常重要的前提<br>
+        ——要讓 AI 所理解的世界，跟實際狀況保持一致。</div>
+        <p>今天東西是人動手改的、AI 不知道，<br>
         那在同一個對話視窗裡，AI 還以為文件是舊的——整個思考討論就有嚴重的盲區。</p>
         <p><b>2. 每個人都用了 AI，提效在哪？</b><br>
         現在整條鏈路的人都在用 AI，<br>
-        但現實中開會、電話裡談定的內容，<br>
-        每個人還得額外花時間，跟「各自的 AI」再說明一次——<br>
-        而每個人的理解、表達能力又都不一樣。</p>
-        <div class="callout">最核心的靈魂拷問：用了 AI，有辦法承接 2 倍以上的工作量嗎？如果不行，那為什麼要用？</div>
+        但現實中開會、電話裡談定的內容，</p>
+        <div class="callout">每個人還得額外花時間，跟「各自的 AI」再說明一次<br>
+        ——而每個人的理解、表達能力又都不一樣。</div>
+        <div class="callout">最核心的靈魂拷問：<br>
+        ——用了 AI，有辦法承接 2 倍以上的工作量嗎？如果不行，那為什麼要用？</div>
         <p><b>3. AI 的認知極端割裂。</b><br>
         我們每個人都在跟自己的 AI 協作，<br>
         但 AI 能看到的，永遠只有那個崗位上的窗口，<br>
         每個環節的 AI，都只能就「當下的認知」做輸出。<br>
         任何一個環節有異動，只要沒有從頭到尾把資訊傳遞完，各自的 AI 就會開始產生歧異。</p>
-        <p>而且，異動點並不總是發生在流水線的最前端——<br>
-        可能是 PG 發現業務跑不通，也可能是 SA 在設計時就覺得不對勁。</p>
-        <p>如果工作依然維持這種流水線架構，AI 應用只會增加溝通成本。</p>
+        <p>而且，異動點可能是 PG 發現業務跑不通，<br>
+        也可能是 SA 在設計時就覺得不對勁。</p>
+        <div class="callout">如果工作依然維持這種流水線架構，AI 應用只會增加溝通成本<br>
+        ——異動點並不總是發生在流水線的最前端。</div>
       </div>
       <div class="figside">
         <figure>
@@ -471,9 +509,9 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:40px 20px;bor
         <p>AI 現在已經是通用型的應用，<br>
         所以能直接壓縮掉原本工作職掌的切割問題：<br>
         寫 PRD、SDD、開發、測試的時候，AI 認知得到所有的流程細節。</p>
-        <p>人的專項能力被弱化，轉而專注在商業 knowhow 上。<br>
-        今天已經不需要專門有人負責寫 PRD、SDD、測試腳本——<br>
-        這些 AI 都做得到，不需要特化的執掌角色。</p>
+        <div class="callout">人的專項能力被弱化，轉而專注在商業 knowhow 上。<br>
+        今天已經不需要專門有人負責寫 PRD、SDD、測試腳本<br>
+        ——這些 AI 都做得到，不需要「特化」的執掌角色。</div>
         <p>當然，本來就有這些技能的人，在溝通上還是有優勢，<br>
         只是優勢的差距變小了——<br>
         因為文件幾乎都由 AI 產生，人只需要站在「給指示、給目標」的位置上協作。</p>
@@ -519,7 +557,8 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:40px 20px;bor
         <p>所以在讓 AI 真正進入協作之前，<br>
         該思考的其實是：怎麼解決前面說的溝通成本與資訊破碎問題。<br>
         一個「所有人目標明確、對 AI 認知友善」的環境，尤為重要。</p>
-        <div class="callout">這也是為什麼，這次 QCon 有這麼多講者不約而同地提到——「AI 共享記憶」的設計。</div>
+        <div class="callout">這也是為什麼，這次 QCon 有這麼多講者不約而同地提到<br>
+        ——「AI 共享記憶」的設計。</div>
         <p>而要落實這個概念，不同規模的公司有不同的樣貌：<br>
         小公司偏向「所有人都必須熟悉這套工作流，不能適應的人淘汰」；<br>
         大公司則是投入大量團隊，去打造能這樣運作的環境。<br>
@@ -551,6 +590,12 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:40px 20px;bor
     </div>
   </section>
 
+  <div class="chapter">
+    <span class="ck">PART 3</span>
+    <h3>AI Coding × 軟體工程師</h3>
+    <p>接下來換個視角：工程師自己的工作內容，被改變了多少——從不寫代碼、來不及 Review，到 QA 與知識圖譜。</p>
+  </div>
+
   <section class="essay-block" data-refs="s01,s02">
     <h3>AI Coding 之後，工程師的工作變成什麼樣？</h3>
     <div class="essay-cols">
@@ -562,7 +607,8 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:40px 20px;bor
         但現在，我可以 100% 確定：可行。<br>
         重點只剩下——你對業務跟技術的掌握度，高不高。</p>
         <p>QCon 第一天早上的開場演講，台上 Speaker 的見解就很直接：</p>
-        <div class="callout">Coding 基本上已經死掉了，軟件正迎來「寒武紀大爆發」的時代。</div>
+        <div class="callout">Coding 基本上已經死掉了<br>
+        ——軟件正迎來「寒武紀大爆發」的時代。</div>
         <p>他說，前幾年參加大會，主辦方會提前一個月跟他要 PPT；<br>
         現在他可以很大方地說：<br>
         「我要是現在就給你 PPT，等我上台演講的時候，內容早就不是這麼回事了。」<br>
@@ -590,7 +636,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:40px 20px;bor
   </section>
 
   <section class="essay-block" data-refs="s15">
-    <h3>三種人，同一個訂票系統</h3>
+    <h3>三種人，設計、實作 同一個訂票系統</h3>
     <div class="essay-cols">
       <div class="txt">
         <p>沒有【編程語言】，就沒有【軟件】。<br>
@@ -599,22 +645,24 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:40px 20px;bor
         <p>那現況是什麼？<br>
         一個人只要會說話、會打字，就能當軟體工程師嗎？</p>
         <p>舉個例子，現在有 3 種人：<br>
-        完全不會寫代碼的人、Junior 工程師、Senior 工程師。<br>
-        我認為這 3 種人，基本上都能靠 AI 完成一個訂票系統，<br>
-        而且終點都一樣——系統穩定、沒有問題。<br>
-        差別只差在【開發速度與質量】：</p>
+        1. 完全不會寫代碼的人<br>
+        2. Junior 工程師<br>
+        3. Senior 工程師</p>
+        <div class="callout">我認為這 3 種人，基本上都能靠 AI 完成一個訂票系統<br>
+        ——差別只差在【開發速度與質量】</div>
         <p><b>完全不會寫代碼的人：</b>可能連環境都不會裝，AI 得先花時間，帶著他把語言跟軟體裝起來。<br>
         <b>Junior 工程師：</b>可以很快地把工作交辦給 AI，但想像不到系統未來會長出什麼功能，架構的彈性很低。<br>
         <b>Senior 工程師：</b>一開始就能明確評估系統壓力、未來擴充性、維運便利性——可能要等上線後，才會遇到那些從沒想過的問題。</p>
         <p>這 3 種人終究都能把功能做出來，<br>
-        但時程可以是 6 個月、1 個月、1 個禮拜的差距。<br>
-        而且這個差距，會隨著 LLM 越來越強而縮短——<br>
-        因為我們可能不需要跟 AI 講那麼多，AI 自己就想得到。</p>
+        但時程可以是 6 個月、1 個月、1 個禮拜的差距。</p>
+        <div class="callout">這個差距，會隨著 LLM 越來越強而縮短<br>
+        ——因為我們可能不需要跟 AI 講那麼多，AI 自己就想得到。</div>
         <p>目前解決個體差異的方式，是靠 Skill 與 Agent 的設計：<br>
         所有人都一樣跟 AI 對話，<br>
         但 AI 透過標準流程、參考文件，穩定地輸出生產力。</p>
         <p>這正好呼應我一開始說的：</p>
-        <div class="callout">大家用的 AI 都一樣，但個體差異，可以讓生產力差十萬八千里。</div>
+        <div class="callout">大家用的 AI 都一樣<br>
+        ——但個體差異，可以讓生產力差十萬八千里。</div>
         <p>所以企業導入 AI 出現「不符預期」的現象，有一部分原因就在這：<br>
         個體之間使用 AI，本來就存在差異。<br>
         這些差異目前看起來，只能靠個人的經驗積累，或 Skill、Agent 文本來彌補。<br>
@@ -657,7 +705,8 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:40px 20px;bor
         <p>但在這次 QCon 上，許多講師都表示：基本上已經不手動碰任何代碼了。<br>
         這是一個滿有意義的指標——<br>
         我觀察，這次能站上講台的講師，大多來自大公司：AWS、螞蟻金服、京東……</p>
-        <div class="callout">當這些世界級 Tier 0、Tier 1 的工程師都不碰代碼時，很難再有理由說服我需要手寫程式。</div>
+        <div class="callout">當這些世界級 Tier 0、Tier 1 的工程師都不碰代碼時<br>
+        ——很難再有理由說服我需要手寫程式。</div>
         <p>所以對軟體工程師來說，第一個最大的衝擊是：<br>
         不手寫代碼，工作流要怎麼變？<br>
         其實這代表——碼農已死。<br>
@@ -696,16 +745,19 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:40px 20px;bor
         以前一年做 2~3 個，從構想到落地少說半年起跳，<br>
         中間還有大量學習程式語言的成本——<br>
         產出速度，完全被個人的學習能力跟時間綁死。</p>
-        <p>但說到底，做 Side Project 終究是為了解決生活中的某個困難。<br>
-        「有需求」的 Side Project，永遠活得比「純學習」的久非常多。</p>
-        <p>而在 AI Gen Code 的時代，Side Project 實現與迭代的速度飛快——<br>
-        Code 根本看不完。<br>
-        以前寫半天才實現一個小功能，現在 2 天就能做出一個雛形。</p>
+        <p>但說到底，做 Side Project 終究是為了解決生活中的某個困難。</p>
+        <div class="callout">「有需求」的 Side Project<br>
+        ——永遠活得比「純學習」的久非常多。</div>
+        <p>而在 AI Gen Code 的時代，</p>
+        <div class="callout">代碼實現與迭代的速度飛快<br>
+        ——Code 根本看不完。</div>
+        <p>以前寫半天才實現一個小功能，現在 2 天就能做出一個雛形。</p>
         <p>甚至我現在許多 Side Project，按正常編制起碼要 5~6 個人才做得起來；<br>
         我完全不會前端開發，如今卻已經實作了不少前端應用。</p>
-        <p>這也呼應到現況：美國矽谷有非常多小公司如雨後春筍般冒出來。<br>
-        寫代碼的門檻降低了，做出一個 Prototype 變得很輕鬆。<br>
-        而當代碼生產飛快，Code Review 反而成了專案開發週期最大的瓶頸。</p>
+        <p>這也呼應到現況：美國矽谷有非常多小公司如雨後春筍般冒出來。</p>
+        <div class="callout">寫代碼的門檻降低了，做出一個 Prototype 變得很輕鬆。<br>
+        而當代碼生產飛快，<br>
+        ——Code Review 反而成了專案開發週期最大的瓶頸。</div>
       </div>
       <div class="figside">
         <figure>
@@ -741,7 +793,8 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:40px 20px;bor
         <p>而在現行的開發流程裡，這個「回問」都是丟回給 PG、SA——<br>
         但真正理解業務需求的人，其實還在更前面。<br>
         這樣的循環，讓整體開發效率低下。</p>
-        <div class="callout">從大企業到新創：會善用 AI 的團隊，人員編制都不多，事情卻推進得異常快。</div>
+        <div class="callout">不論是大企業到新創公司，善於使用 AI 的團隊<br>
+        ——人員編制都不多，事情卻推進得異常快。</div>
       </div>
       <div class="figside">
         <figure>
@@ -768,14 +821,15 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:40px 20px;bor
     <h3>測試的難題：單一專案視角行不通</h3>
     <div class="essay-cols">
       <div class="txt">
-        <p>所以大家可以回到上面的知識圖看看：<br>
-        這次跟測試相關的會議大幅增加，幾乎 3 成的場次都與測試有關。</p>
+        <p>大家可以回到最上面首頁呈現的會議圖譜，觀察一下<br>
+        這次跟「測試相關」的會議大幅增加，幾乎 3 成的場次都與測試有關。</p>
         <p>而許多測試都面臨同一個問題——<br>
         所謂的測試，不應該圍繞著「單一專案」來思考。</p>
         <p>今天 QA 團隊替某個專案寫了測試腳本，<br>
         我們都希望它的可複用性很好，回歸測試可以輕鬆做。<br>
         但現實是：測試資料會變、程式邏輯會變、公司內部有成千上萬個專案……</p>
-        <div class="callout">用單一專案的視角做測試，最後只會發現一件事：需求根本做不完。</div>
+        <div class="callout">用單一專案的視角做測試，最後只會發現一件事<br>
+        ——需求根本做不完。</div>
         <p>從程式代碼反向建立測試腳本，市面上已經有很多好用的 AI 工具，<br>
         但多半只做到「檢核面」的測試。<br>
         真正大的那一塊，是所謂「業務的知識圖譜」——<br>
@@ -816,7 +870,8 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:40px 20px;bor
         所有 AI 協作情境，都躲不開「內容檢索」與「工程管理」這兩件事。<br>
         這幾天跟許多 Speaker 交流下來，<br>
         這一塊，都是用非常大的人力、時間與金錢砸出來的。</p>
-        <div class="callout">企業的 domain 知識，才是 AI 落地真正的關卡——而它從來不在頂尖模型的訓練資料裡。</div>
+        <div class="callout">企業的 domain 知識，才是 AI 落地真正的關卡<br>
+        ——而它從來不在頂尖模型的訓練資料裡。</div>
       </div>
       <div class="figside">
         <figure>
@@ -842,18 +897,21 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:40px 20px;bor
         <p>今年讓我最有感的一場——也是唯一一場我全程站著聽完的——<br>
         就是「從 AI 取數到智能分析：企業級數據 Agent 的多階段演進與工程化落地」。</p>
         <p>這位講師要解決的問題，跟我的專案可以說 100% 一樣：<br>
-        透過自然語言，提取資料庫訊息。<br>
-        感動的是，他們團隊花了 3 年迭代，<br>
-        Step 1、Step 2 用的技術、解決困難的思路，幾乎跟我一模一樣；<br>
-        但看到後續的產品演化，我發現：那個方向，我幾乎不可能獨力完成。</p>
-        <p>會後我跟講師聊了 30~40 分鐘，也滿確定了一件事：<br>
-        要讓 AI 理解企業內部的知識圖譜，有很大一關需要「自己訓練模型」——<br>
-        這已經超出我目前的認知範圍。<br>
-        也就是在這個時候，我理解到：看樣子，我知道這個專案的終點在哪了。</p>
-        <p>他們的團隊有 20~25 人，一個月大約要燒 600~800 萬台幣，<br>
-        而且在他們公司裡，這屬於偏「科研」性質的團隊，不是以商業導向在拓展的。</p>
-        <p>其實滿開心的，能在這次會議中遇到一位講師，<br>
-        分享著跟我一模一樣的專案發展心路歷程。<br>
+        透過自然語言，提取資料庫訊息。</p>
+        <p>他們團隊花了 3 年迭代，<br>
+        Step 1、Step 2 用的技術、解決困難的思路，幾乎跟我一模一樣；</p>
+        <div class="callout">但看到後續的產品演化，我發現<br>
+        ——那個方向，我幾乎不可能獨力完成。</div>
+        <p>會後我跟講師聊了 30~40 分鐘，也滿確定了一件事：</p>
+        <div class="callout">要讓 AI 理解企業內部的知識圖譜，終點是「企業需要訓練屬於自己的模型」<br>
+        ——訓練模型這個終點，已經超出我目前的認知範圍。</div>
+        <p>也就是在這個時候，我理解到：看樣子，我知道這個專案的終點在哪了。</p>
+        <p>他們的團隊有 20~25 人，<br>
+        一個月大約要燒 600~800 萬台幣，</p>
+        <p>而在蝦皮這間公司裡，<br>
+        這個單位屬於偏「科研」性質的團隊，還不是以商業導向在拓展的。</p>
+        <p>其實滿開心的，<br>
+        能在這次會議中遇到一位講師，分享著跟我一模一樣的專案發展心路歷程。<br>
         同時，也安慰自己——</p>
         <div class="callout">有多少資源，做多少事。</div>
       </div>
@@ -880,16 +938,244 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:40px 20px;bor
     </div>
   </section>
 
-  <section class="essay-block">
-    <h3>未完待續</h3>
+  <div class="chapter">
+    <span class="ck">PART 4</span>
+    <h3>綜合觀察：把所有場次放在一起看</h3>
+    <p>前面聊的，都是單一場次帶給我的衝擊；接下來這五個觀察，是我把所有場次的筆記攤開、交叉比對之後才浮現出來的訊號——單看任何一場，都看不到。</p>
+  </div>
+
+  <section class="essay-block" data-refs="s09,s10,s11,s15">
+    <h3>觀察一：導入 AI，沒有一套固定的方法論</h3>
     <div class="essay-cols">
       <div class="txt">
-        <p class="placeholder">［後續還會再補充，敬請期待……］</p>
+        <p>第一個發現：導入 AI 應用，幾乎「沒有」一套固定的方法論。</p>
+        <p>1. 做醫院信息系統的 TocoAI（120 個核心模塊、錯不得），<br>
+        　　選擇層層約束的 DSL（Domain-Specific Language，領域特定語言）；<br>
+        2. 服務非技術用戶做網站的螞蟻 Muse<br>
+        　　（MAU 破萬，Monthly Active Users 月活躍用戶數，其中一半還不是工程師），<br>
+        　　反而最放任，喊出「不要再用固定工作流限制 AI」；<br>
+        3. 做超大倉庫檢索的京東、做測試的 Ubiquiti，則都選擇工具組合，不對路線表態。</p>
+        <p>也許有人會問：「該 Spec-driven 還是 Vibe？」<br>
+        這兩種策略，後續延伸的方向差非常多：<br>
+        Spec-driven 背後，需要龐大的業務 domain 文本支持；<br>
+        Vibe 則需要提供各式各樣的環境工具讓 LLM 呼叫。</p>
+        <div class="callout">在回答「選哪條路」之前，應該先問自己<br>
+        ——如果 AI 回答錯誤，要付出多少成本？</div>
+        <p>我之前在 YouTube 看許多 AI 應用技術大佬的爐邊會議，<br>
+        他們討論過一個議題：<br>
+        當我們推出一套系統，一開始用戶就覺得不好用，<br>
+        後來就算系統優化改善了，要再挽回客戶的難度，遠比想像的高。</p>
+        <p>這也提供了一個思考方向：<br>
+        有時候，應用場景本身就已經「偏好」某種技術路線了。</p>
       </div>
       <div class="figside">
         <figure>
-          <div style="height:90px;display:flex;align-items:center;justify-content:center;color:#94a3b8;font-size:13px;border:1px dashed #cbd5e1;border-radius:8px">To be continued…</div>
-          <figcaption>下集預告</figcaption>
+          <svg viewBox="0 0 260 160" xmlns="http://www.w3.org/2000/svg">
+<line x1="24" y1="80" x2="236" y2="80" stroke="#cbd5e1" stroke-width="2"/>
+<path d="M230 74 L238 80 L230 86" stroke="#cbd5e1" stroke-width="2" fill="none"/>
+<text x="26" y="66" font-size="10" fill="#64748b">出錯代價低</text>
+<text x="234" y="66" text-anchor="end" font-size="10" fill="#64748b">出錯代價高</text>
+<circle cx="58" cy="80" r="7" fill="#0d9488"/>
+<text x="58" y="104" text-anchor="middle" font-size="10" fill="#115e59">螞蟻 Muse</text>
+<text x="58" y="118" text-anchor="middle" font-size="9.5" fill="#0d9488">放任 Vibe</text>
+<circle cx="130" cy="80" r="7" fill="#64748b"/>
+<text x="130" y="104" text-anchor="middle" font-size="10" fill="#475569">京東 / Ubiquiti</text>
+<text x="130" y="118" text-anchor="middle" font-size="9.5" fill="#64748b">工具組合</text>
+<circle cx="208" cy="80" r="7" fill="#dc2626"/>
+<text x="208" y="104" text-anchor="middle" font-size="10" fill="#b91c1c">TocoAI 醫院</text>
+<text x="208" y="118" text-anchor="middle" font-size="9.5" fill="#dc2626">DSL 層層約束</text>
+<text x="130" y="148" text-anchor="middle" font-size="10.5" fill="#475569">約束的鬆緊 ∝ 出錯的代價</text></svg>
+          <figcaption>方法論跟著場景走，不是跟著流行走</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="essay-block" data-refs="s05,s06,s08,s14">
+    <h3>觀察二：共同瓶頸不是模型，是「量不出來」</h3>
+    <div class="essay-cols">
+      <div class="txt">
+        <p>第二個發現：所有人真正的共同瓶頸，不是模型，是「量不出來」。<br>
+        ColaOS 坦承「只會定義 What 和 Why，但沒有量化 How 的效果」；<br>
+        Shopee 踩過「線下評測分數越來越高、線上效果差距越大」的坑；<br>
+        菜鳥直說「沒有觀測和評測閉環，Agent 看起來能跑，但很難持續優化」；<br>
+        Mem0 則抱怨現有 benchmark 根本不適合 Agent 場景。</p>
+        <p>四個不同領域的團隊，撞的是同一面牆。</p>
+        <div class="callout">「為了導入而導入」的深層原因，不是企業笨，是這個行業目前「會蓋、不會量」<br>
+        ——導入後沒有客觀的尺去判斷成效，只能事後回頭看。</div>
+        <p>這件事，我在行內建立【AI 智能測資查找系統】的時候，也有非常深的感悟：<br>
+        AI 系統不是 API 系統。<br>
+        input 取決於每個人的描述——什麼可以問？什麼不能問？沒有辦法用選單來規範。<br>
+        那要怎麼測試？怎麼量化效益？<br>
+        從這些公司的分享裡，都能看到同樣「難以量化」的問題。</p>
+      </div>
+      <div class="figside">
+        <figure>
+          <svg viewBox="0 0 260 160" xmlns="http://www.w3.org/2000/svg">
+<g font-size="9.5" text-anchor="middle">
+<rect x="12" y="16" width="54" height="30" rx="4" fill="#eef2ff" stroke="#2563eb"/><text x="39" y="35" fill="#1d4ed8">ColaOS</text>
+<rect x="74" y="16" width="54" height="30" rx="4" fill="#eef2ff" stroke="#2563eb"/><text x="101" y="35" fill="#1d4ed8">Shopee</text>
+<rect x="136" y="16" width="54" height="30" rx="4" fill="#eef2ff" stroke="#2563eb"/><text x="163" y="35" fill="#1d4ed8">菜鳥</text>
+<rect x="198" y="16" width="50" height="30" rx="4" fill="#eef2ff" stroke="#2563eb"/><text x="223" y="35" fill="#1d4ed8">Mem0</text></g>
+<line x1="39" y1="50" x2="39" y2="82" stroke="#94a3b8"/><line x1="101" y1="50" x2="101" y2="82" stroke="#94a3b8"/>
+<line x1="163" y1="50" x2="163" y2="82" stroke="#94a3b8"/><line x1="223" y1="50" x2="223" y2="82" stroke="#94a3b8"/>
+<rect x="12" y="86" width="236" height="34" rx="4" fill="#fee2e2" stroke="#dc2626"/>
+<text x="130" y="103" text-anchor="middle" font-size="11" fill="#b91c1c">同一面牆：評測與觀測的缺口</text>
+<text x="130" y="115" text-anchor="middle" font-size="9.5" fill="#991b1b">蓋得出來，量不出來</text>
+<text x="130" y="146" text-anchor="middle" font-size="10" fill="#94a3b8">導入後沒有客觀的尺，只能事後回頭看</text></svg>
+          <figcaption>四個領域，撞同一面牆</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="essay-block" data-refs="s14,s15">
+    <h3>觀察三：帳單，沒人放在標題的暗線</h3>
+    <div class="essay-cols">
+      <div class="txt">
+        <p>第三個發現：帳單是整場大會沒人放在標題、但到處都能看到蛛絲馬跡的暗線。<br>
+        菜鳥提到內部工程師「每人每天燒 150 美金的 token」，<br>
+        甚至有運營同學的月 token 成本，是自己薪水的兩倍；<br>
+        螞蟻的案例用戶，第一個月帳單 5000 元人民幣、燒了 6 億 token——<br>
+        逼得他們把 Prompt Cache 做到 80% 命中率（命中後費用打一折）才扛得住。</p>
+        <div class="callout">那些「10 倍提效」的故事都是真的，但帳單也是真的<br>
+        ——成本到底該公司出？還是個人出？</div>
+      </div>
+      <div class="figside">
+        <figure>
+          <svg viewBox="0 0 260 160" xmlns="http://www.w3.org/2000/svg">
+<rect x="14" y="14" width="232" height="30" rx="6" fill="#fef3c7" stroke="#ca8a04"/>
+<text x="130" y="33" text-anchor="middle" font-size="10.5" fill="#854d0e">菜鳥：工程師每人每天 $150 token</text>
+<rect x="14" y="52" width="232" height="30" rx="6" fill="#ffedd5" stroke="#ea580c"/>
+<text x="130" y="71" text-anchor="middle" font-size="10.5" fill="#9a3412">運營同學：月 token ＝ 薪水 × 2</text>
+<rect x="14" y="90" width="232" height="30" rx="6" fill="#fee2e2" stroke="#dc2626"/>
+<text x="130" y="109" text-anchor="middle" font-size="10.5" fill="#b91c1c">螞蟻用戶：首月 ¥5000、6 億 token</text>
+<text x="130" y="146" text-anchor="middle" font-size="10.5" fill="#475569">活路：Prompt Cache 80% 命中，費用打一折</text></svg>
+          <figcaption>提效是頭條，帳單是註腳</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="essay-block" data-refs="s08,s10,s11,s13,s15">
+    <h3>觀察四：解法正在收斂回「文件」</h3>
+    <div class="essay-cols">
+      <div class="txt">
+        <p>第四個發現：大家的解法，正在收斂到一個出乎意料的地方——回到最原始的文件樣貌。<br>
+        網易說「文件即記憶」；<br>
+        螞蟻說「文件是 AI 時代的一等公民、一切文件用 Git 管理、Markdown 是第一語言」；<br>
+        Shopee 把分析的中間結果外置到文件系統；<br>
+        Ubiquiti 和京東的檢索，都繞著 grep 和索引打轉。</p>
+        <p>公司內部有非常多的系統，知識散落在 Word、PDF、網站、甚至 DB 裡。<br>
+        但以目前來看，儲存知識的載體，正在往「純文本」的形式靠攏。</p>
+        <p>或許以後 LLM 的多模態理解能力會更好，<br>
+        但眼下在與 AI 溝通的這條路上——<br>
+        文字表達能力越突出的人，在 AI 這個賽道上會很吃香。</p>
+        <div class="callout">光是「打字快」，就已經是一個很大的優勢。</div>
+      </div>
+      <div class="figside">
+        <figure>
+          <svg viewBox="0 0 260 160" xmlns="http://www.w3.org/2000/svg">
+<g font-size="9.5" text-anchor="middle">
+<rect x="14" y="14" width="50" height="24" rx="4" fill="#f1f5f9" stroke="#94a3b8"/><text x="39" y="30" fill="#475569">Word</text>
+<rect x="72" y="14" width="50" height="24" rx="4" fill="#f1f5f9" stroke="#94a3b8"/><text x="97" y="30" fill="#475569">PDF</text>
+<rect x="130" y="14" width="50" height="24" rx="4" fill="#f1f5f9" stroke="#94a3b8"/><text x="155" y="30" fill="#475569">網站</text>
+<rect x="188" y="14" width="50" height="24" rx="4" fill="#f1f5f9" stroke="#94a3b8"/><text x="213" y="30" fill="#475569">DB</text></g>
+<path d="M39 42 Q60 66 118 74 M97 42 Q108 58 122 70 M155 42 Q144 58 132 70 M213 42 Q192 66 136 74" stroke="#94a3b8" stroke-width="1.2" fill="none"/>
+<rect x="70" y="76" width="120" height="34" rx="6" fill="#eef2ff" stroke="#2563eb"/>
+<text x="130" y="91" text-anchor="middle" font-size="10.5" fill="#1d4ed8">純文本 / Markdown</text>
+<text x="130" y="104" text-anchor="middle" font-size="9.5" fill="#1e40af">grep 讀得到、Git 管得住</text>
+<text x="130" y="132" text-anchor="middle" font-size="10" fill="#475569">最新的範式，擁抱最古老的載體</text>
+<text x="130" y="150" text-anchor="middle" font-size="10" fill="#94a3b8">文字表達力 ＝ AI 時代的口才</text></svg>
+          <figcaption>知識的載體，正在向文本收斂</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="essay-block" data-refs="s05">
+    <h3>觀察五：成功案例，是失敗堆疊起來的</h3>
+    <div class="essay-cols">
+      <div class="txt">
+        <p>第五個發現：成功案例的背後，是無數的失敗堆疊起來的。<br>
+        大家還記得前面說的「任務酒館」嗎？<br>
+        這個改變，並不是一次就成功到位！</p>
+        <p>任務酒館其實是個「局部改革」：<br>
+        任務小隊之下，還保留了一層「專家委員會」負責日常的標準化、髒活累活。<br>
+        結果隨著業務壓力上升，事務型工作變成大頭，<br>
+        所有人又被吸回去，變回了專家委員會——<br>
+        連做出明星產品的新人，都很快被「同化」掉了。</p>
+        <div class="callout">死因：環境沒改，行為就會回歸。<br>
+        ——他們改了「任務怎麼分配」，卻沒改「日常工作往哪裡流」<br>
+        ——舊環境像重力一樣，把每個被解放出來的人又拉回原位。</div>
+        <p>所以他們做了第二版：Work With Agent。<br>
+        這次刻意給了全員「一到兩週的混沌期」——不寫代碼、純探索、純思考。<br>
+        管理層明知道這段時間看起來「沒有人在產出業務」，也要忍住。<br>
+        原因是講者的那句話：</p>
+        <div class="callout">「當他沒有做好心理準備的時候，他帶著舊習慣去踏入一個新框架裡<br>
+        ——只會把這個新框架做成一個舊的變種。」</div>
+        <p>第一版就是死在這裡——沒有混沌期，舊習慣直接搬進了新框架。</p>
+        <p>v1 解決的是「組織溝通問題」；<br>
+        v2 解決的才是「人與 AI 怎麼一起工作」。</p>
+        <p>而且不只 ColaOS——菜鳥那邊也是同樣的故事：<br>
+        CEO 兩個月一次匯報、全員布道，推了六個月以上，組織才真正動起來。</p>
+        <div class="callout">技術是按月迭代的，組織是按年改變的<br>
+        ——大部分企業導入 AI 的失敗，會死在這個<b>「時間差」</b>上，而不是死在技術選型。<br>
+        ——AI 導入最難的不是技術選型，是你敢不敢動那個會把人吸回原位的<b>「舊環境」</b>。</div>
+
+      </div>
+      <div class="figside">
+        <figure>
+          <svg viewBox="0 0 260 180" xmlns="http://www.w3.org/2000/svg">
+<rect x="14" y="14" width="110" height="56" rx="8" fill="#fef2f2" stroke="#dc2626"/>
+<text x="69" y="34" text-anchor="middle" font-size="11" fill="#b91c1c">v1 任務酒館</text>
+<text x="69" y="50" text-anchor="middle" font-size="9.5" fill="#991b1b">局部改革</text>
+<text x="69" y="63" text-anchor="middle" font-size="9.5" fill="#991b1b">舊環境把人拉回原位</text>
+<path d="M69 74 Q60 92 69 108 Q78 92 69 74" fill="none" stroke="#dc2626" stroke-width="1.2" stroke-dasharray="3 3"/>
+<text x="69" y="126" text-anchor="middle" font-size="9.5" fill="#b91c1c">慣性 ＝ 重力</text>
+<path d="M130 42 L146 42" stroke="#94a3b8" stroke-width="1.5"/>
+<path d="M142 37 L148 42 L142 47" stroke="#94a3b8" stroke-width="1.5" fill="none"/>
+<rect x="152" y="14" width="94" height="56" rx="8" fill="#f0fdfa" stroke="#0d9488"/>
+<text x="199" y="34" text-anchor="middle" font-size="11" fill="#115e59">v2 Work With Agent</text>
+<text x="199" y="50" text-anchor="middle" font-size="9.5" fill="#0f766e">先給 1~2 週混沌期</text>
+<text x="199" y="63" text-anchor="middle" font-size="9.5" fill="#0f766e">再進新框架</text>
+<text x="199" y="96" text-anchor="middle" font-size="9.5" fill="#475569">不留混沌期，</text>
+<text x="199" y="110" text-anchor="middle" font-size="9.5" fill="#475569">新框架只會變成</text>
+<text x="199" y="124" text-anchor="middle" font-size="9.5" fill="#475569">「舊的變種」</text>
+<text x="130" y="158" text-anchor="middle" font-size="10.5" fill="#1d4ed8">改組織，比改技術難十倍</text></svg>
+          <figcaption>任務酒館 v1 的死因，比它的成功更值錢</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="essay-block" data-refs="s01,s02">
+    <h3>結語：躺著的人享受便利，跑的人享受紅利</h3>
+    <div class="essay-cols">
+      <div class="txt">
+        <p>最後。<br>
+        這場 AI 應用的發展，遠比以前各位的想像還要快。<br>
+        不只是軟體開發——事實上有太多的領域，因為 AI 有了高速的進展。</p>
+        <p>很多講師也提到，這場變革只是開始。<br>
+        不只是他們製作簡報很痛苦，<br>
+        軟體這條路，未來會變化得更快。<br>
+        如果追得很辛苦——有時候，躺著也是一種策略。</p>
+        <div class="callout">我個人的觀點<br>
+        ——躺著的人享受便利，跑的人享受紅利。</div>
+        <p>我相信 AI 會是人類史上重要的奇異點。<br>
+        無論怎麼選擇，<br>
+        這場 AI 的技術變革，每個人終將都是贏家。</p>
+      </div>
+      <div class="figside">
+        <figure>
+          <svg viewBox="0 0 260 160" xmlns="http://www.w3.org/2000/svg">
+<line x1="20" y1="118" x2="240" y2="118" stroke="#cbd5e1" stroke-width="2"/>
+<path d="M20 112 Q130 96 238 30" stroke="#2563eb" stroke-width="2" fill="none"/>
+<text x="196" y="26" text-anchor="end" font-size="10.5" fill="#1d4ed8">跑的人：享受紅利</text>
+<path d="M20 114 L238 96" stroke="#0d9488" stroke-width="2" fill="none"/>
+<text x="234" y="90" text-anchor="end" font-size="10.5" fill="#115e59">躺著的人：享受便利</text>
+<text x="130" y="142" text-anchor="middle" font-size="10.5" fill="#475569">奇異點之後，兩條線都向上——每個人終將都是贏家</text></svg>
+          <figcaption>這場變革，沒有輸家</figcaption>
         </figure>
       </div>
     </div>
@@ -944,7 +1230,7 @@ const DATA = {
    "theme": "K",
    "attended": true,
    "pdf": null,
-   "yt": "",
+   "yt": "https://youtu.be/PRJS4D-Giw0",
    "transcripts": [
     "0573_3天會議開場_逐字稿_校正版.md"
    ]
@@ -956,7 +1242,7 @@ const DATA = {
    "theme": "K",
    "attended": true,
    "pdf": "黄东旭-The Age of Autonomous Systems 自主系统的时代.pdf",
-   "yt": "",
+   "yt": "https://youtu.be/hbgzpyYqp7s",
    "transcripts": [
     "0574_The Age of Autonomous Systems 自主系统的时代_逐字稿_校正版.md"
    ]
@@ -968,7 +1254,7 @@ const DATA = {
    "theme": "S",
    "attended": true,
    "pdf": "韦韬博士-智能革命时代：自主智能体兴起与安全范式重塑.pdf",
-   "yt": "",
+   "yt": "https://youtu.be/UQKCIJzjzYQ",
    "transcripts": [
     "0575_智能革命时代：自主智能体兴起与安全范式重塑_校正版.md"
    ]
@@ -980,7 +1266,7 @@ const DATA = {
    "theme": "K",
    "attended": true,
    "pdf": null,
-   "yt": "",
+   "yt": "https://youtu.be/cQhtwWrE-tY",
    "transcripts": [
     "0577_模型之外_校正版.md"
    ]
@@ -992,7 +1278,16 @@ const DATA = {
    "theme": "W",
    "attended": true,
    "pdf": "徐文健-杀死&ldquo;流水线&rdquo;： ColaOS（ListenHub）如何构建 AI 时代的液态超级团队.pdf",
-   "yt": "",
+   "yt": [
+    {
+     "t": "上半場",
+     "u": "https://youtu.be/J-x9GqfrPJg"
+    },
+    {
+     "t": "下半場",
+     "u": "https://youtu.be/TmreCtEPGwk"
+    }
+   ],
    "transcripts": [
     "0578_杀死“流水线”： ColaOS（ListenHub）如何构建 AI 时代的液态超级团队(上半場)_校正版.md",
     "0578_杀死“流水线”： ColaOS（ListenHub）如何构建 AI 时代的液态超级团队(下半場)_逐字稿_校正版.md"
@@ -1005,7 +1300,16 @@ const DATA = {
    "theme": "M",
    "attended": true,
    "pdf": "季旭 博士-AI Agent 的记忆中间件：火山 Mem0 架构拆解及落地实践.pdf",
-   "yt": "",
+   "yt": [
+    {
+     "t": "上半場",
+     "u": "https://youtu.be/I6CgOfhhmB8"
+    },
+    {
+     "t": "下半場",
+     "u": "https://youtu.be/XhiQPLFIWXY"
+    }
+   ],
    "transcripts": [
     "0582-0583_AI Agent 的记忆中间件：火山 Mem0 架构拆解及落地实践_校正版.md"
    ]
@@ -1017,7 +1321,7 @@ const DATA = {
    "theme": "K",
    "attended": true,
    "pdf": null,
-   "yt": "",
+   "yt": "https://youtu.be/GyS8Igz9tr0",
    "transcripts": [
     "0584_圓桌_逐字稿_校正版.md"
    ]
@@ -1029,7 +1333,7 @@ const DATA = {
    "theme": "D",
    "attended": true,
    "pdf": "王新波-从 AI 取数到智能分析：企业级数据-Agent 的多阶段演进与工程化落地.pdf",
-   "yt": "",
+   "yt": "https://youtu.be/iUCC3etqqwY",
    "transcripts": [
     "Shopee_从AI取数到智能分析_逐字稿_校正版.md"
    ]
@@ -1041,7 +1345,16 @@ const DATA = {
    "theme": "C",
    "attended": true,
    "pdf": "曹偲-DSL-Spec：TocoAI 的后端 Harness Engineering 实践.pdf",
-   "yt": "",
+   "yt": [
+    {
+     "t": "上半場",
+     "u": "https://youtu.be/sL4oDDKcjvI"
+    },
+    {
+     "t": "下半場",
+     "u": "https://youtu.be/cpsm3Q0222o"
+    }
+   ],
    "transcripts": [
     "TocoAI_DSL-Spec後端HarnessEngineering_逐字稿_校正版.md"
    ]
@@ -1053,7 +1366,16 @@ const DATA = {
    "theme": "C",
    "attended": true,
    "pdf": "蔡明哲-从单点辅助到 Agent 闭环.pdf",
-   "yt": "",
+   "yt": [
+    {
+     "t": "上半場",
+     "u": "https://youtu.be/PBKFLimhssk"
+    },
+    {
+     "t": "下半場",
+     "u": "https://youtu.be/yAAmT5GACIU"
+    }
+   ],
    "transcripts": [
     "Ubiquiti_從單點輔助到Agent閉環_逐字稿_校正版.md"
    ]
@@ -1065,7 +1387,16 @@ const DATA = {
    "theme": "C",
    "attended": true,
    "pdf": "徐翔-尽在上下文&mdash;&mdash;JoyCode 的企业级 AI Coding 实践.pdf",
-   "yt": "",
+   "yt": [
+    {
+     "t": "上半場",
+     "u": "https://youtu.be/5ECcIqeOfW0"
+    },
+    {
+     "t": "下半場",
+     "u": "https://youtu.be/KEDjl-RJy_o"
+    }
+   ],
    "transcripts": [
     "京東JoyCode_盡在上下文_逐字稿_校正版.md"
    ]
@@ -1077,7 +1408,16 @@ const DATA = {
    "theme": "C",
    "attended": true,
    "pdf": "邓立山-可复制的 AI Coding 全栈实战：比 OpenSpec 更轻量、更丝滑.pdf",
-   "yt": "",
+   "yt": [
+    {
+     "t": "上半場",
+     "u": "https://youtu.be/YmOQyL9hqd0"
+    },
+    {
+     "t": "下半場",
+     "u": "https://youtu.be/Gv1AbPi2kMs"
+    }
+   ],
    "transcripts": [
     "淘寶閃購_可複製的AICoding全棧實戰_逐字稿_校正版.md"
    ]
@@ -1089,7 +1429,16 @@ const DATA = {
    "theme": "C",
    "attended": true,
    "pdf": null,
-   "yt": "",
+   "yt": [
+    {
+     "t": "上半場",
+     "u": "https://youtu.be/-PuDTe8IINQ"
+    },
+    {
+     "t": "下半場",
+     "u": "https://youtu.be/yHLd12jeoZ0"
+    }
+   ],
    "transcripts": [
     "網易智企_從VibeCoding到SpecDriven_逐字稿_校正版.md"
    ]
@@ -1101,7 +1450,16 @@ const DATA = {
    "theme": "A",
    "attended": true,
    "pdf": null,
-   "yt": "",
+   "yt": [
+    {
+     "t": "上半場",
+     "u": "https://youtu.be/rG7LjtwZ0L0"
+    },
+    {
+     "t": "下半場",
+     "u": "https://youtu.be/u43snNB_0BM"
+    }
+   ],
    "transcripts": [
     "菜鳥_從雲原生到AgentEngineering_逐字稿_校正版.md"
    ]
@@ -1113,7 +1471,16 @@ const DATA = {
    "theme": "C",
    "attended": true,
    "pdf": "彭佩乔-让每个员工都有一个 Coding Agent：蚂蚁 Vibe Coding 平台落地半年后的实践经验 .pdf",
-   "yt": "",
+   "yt": [
+    {
+     "t": "上半場",
+     "u": "https://youtu.be/dXgMV0jhHs0"
+    },
+    {
+     "t": "下半場",
+     "u": "https://youtu.be/JqIMFEDIqmk"
+    }
+   ],
    "transcripts": [
     "螞蟻Muse_讓每個員工都有CodingAgent_逐字稿_校正版.md"
    ]
@@ -1770,9 +2137,13 @@ modalBg.onclick=e=>{if(e.target===modalBg)modalBg.classList.remove("show");};
 function esc(t){const d=document.createElement("div");d.textContent=t;return d.innerHTML;}
 function linkBtns(s,big){
   let h="";
-  if(s.attended) h += s.yt
-    ? `<a class="btn yt" target="_blank" rel="noopener" href="${s.yt}">▶ YouTube 影片</a>`
-    : `<span class="btn dis">▶ YouTube 連結待補</span>`;
+  if(s.attended){
+    const list = !s.yt ? [] : (Array.isArray(s.yt) ? s.yt : [{t:"",u:s.yt}]);
+    if(list.length) list.forEach(o=>{
+      h += `<a class="btn yt" target="_blank" rel="noopener" href="${o.u}">▶ YouTube${o.t?"（"+o.t+"）":" 影片"}</a>`;
+    });
+    else h += `<span class="btn dis">▶ YouTube 連結待補</span>`;
+  }
   if(s.pdf) h += `<a class="btn pdf" href="PDF/${encodeURIComponent(s.pdf)}" download>⬇ 講稿 PDF</a>`;
   return h;
 }
@@ -1942,6 +2313,29 @@ themeKeys.forEach(k=>{
 document.getElementById("fAtt").onclick=function(){fAtt=!fAtt;this.classList.toggle("on",fAtt);renderCards();};
 document.getElementById("searchBox").oninput=function(){fQ=this.value.trim().toLowerCase();renderCards();};
 renderCards();
+
+/* ============ chapter collapse ============ */
+document.querySelectorAll("#essay .chapter").forEach(ch=>{
+  const body=document.createElement("div");
+  body.className="chapter-body";
+  let n=ch.nextElementSibling;
+  while(n && !n.classList.contains("chapter")){
+    const nx=n.nextElementSibling; body.appendChild(n); n=nx;
+  }
+  ch.after(body);
+  const cnt=body.querySelectorAll(".essay-block").length;
+  if(!cnt) return;
+  const btn=document.createElement("button");
+  btn.className="chToggle";
+  let open=false;
+  const render=()=>{
+    body.style.display=open?"":"none";
+    btn.textContent=open?"▲ 收合此部分":"▼ 展開閱讀（"+cnt+" 段）";
+  };
+  btn.addEventListener("click",()=>{open=!open;render();
+    if(!open)ch.scrollIntoView({behavior:"smooth",block:"center"});});
+  ch.appendChild(btn); render();
+});
 
 const pbar=document.getElementById("progressBar");
 addEventListener("scroll",()=>{

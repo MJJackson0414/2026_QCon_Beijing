@@ -1,0 +1,15 @@
+0573_3天會議開場_逐字稿_校正版==>https://youtu.be/PRJS4D-Giw0
+The Age of Autonomous Systems 自主系统的时代==>https://youtu.be/hbgzpyYqp7s
+智能革命时代：自主智能体兴起与安全范式重塑==>https://youtu.be/UQKCIJzjzYQ
+模型之外==>https://youtu.be/cQhtwWrE-tY
+杀死“流水线”： ColaOS（ListenHub）如何构建 AI 时代的液态超级团队==>(上半場):https://youtu.be/J-x9GqfrPJg 、(下半場):https://youtu.be/TmreCtEPGwk
+AI Agent 的记忆中间件：火山 Mem0 架构拆解及落地实践==>(上半場):https://youtu.be/I6CgOfhhmB8 、(下半場):https://youtu.be/XhiQPLFIWXY
+【圆桌】Agent 落地的真实代价：从 Demo 到生产，哪些系统设计必须被重写？==>https://youtu.be/GyS8Igz9tr0
+Shopee_从AI取数到智能分析 ==>https://youtu.be/iUCC3etqqwY
+TocoAI_DSL-Spec後端HarnessEngineering ==>(上半場):https://youtu.be/sL4oDDKcjvI 、(下半場):https://youtu.be/cpsm3Q0222o
+Ubiquiti_從單點輔助到Agent閉環 ==> (上半場):https://youtu.be/PBKFLimhssk 、(下半場):https://youtu.be/yAAmT5GACIU
+京東JoyCode_盡在上下文 ==>(上半場):https://youtu.be/5ECcIqeOfW0 、(下半場):https://youtu.be/KEDjl-RJy_o
+淘寶閃購_可複製的AICoding全棧實戰==>(上半場):https://youtu.be/YmOQyL9hqd0 、(下半場):https://youtu.be/Gv1AbPi2kMs
+菜鳥_從雲原生到AgentEngineering==>(上半場):	https://youtu.be/rG7LjtwZ0L0 、(下半場):https://youtu.be/u43snNB_0BM
+網易智企_從VibeCoding到SpecDriven==>(上半場):https://youtu.be/-PuDTe8IINQ 、(下半場):https://youtu.be/yHLd12jeoZ0
+螞蟻Muse_讓每個員工都有CodingAgent==>(上半場):https://youtu.be/dXgMV0jhHs0 、(下半場):https://youtu.be/JqIMFEDIqmk
