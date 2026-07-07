@@ -2216,14 +2216,21 @@ function buildGraph(){
   });
   const ctr=document.createElementNS(NS,"g"); ctr.setAttribute("class","themeNode");
   const cc=document.createElementNS(NS,"circle");
-  cc.setAttribute("cx",CX);cc.setAttribute("cy",CY);cc.setAttribute("r",46);cc.setAttribute("fill","#0f172a");
+  cc.setAttribute("cx",CX);cc.setAttribute("cy",CY);cc.setAttribute("r",78);
+  cc.setAttribute("fill","#2563eb");cc.setAttribute("stroke","#1e40af");cc.setAttribute("stroke-width","4");
   ctr.appendChild(cc);
-  const ct=document.createElementNS(NS,"text");
-  ct.setAttribute("x",CX);ct.setAttribute("y",CY);ct.setAttribute("text-anchor","middle");
-  ct.setAttribute("dominant-baseline","middle");ct.setAttribute("fill","#fff");
-  ct.setAttribute("style","fill:#fff;font-size:15px;font-weight:700");
-  ct.textContent="QCon 2026";
-  ctr.appendChild(ct);
+  const ct1=document.createElementNS(NS,"text");
+  ct1.setAttribute("x",CX);ct1.setAttribute("y",CY-14);ct1.setAttribute("text-anchor","middle");
+  ct1.setAttribute("dominant-baseline","middle");
+  ct1.setAttribute("style","fill:#ffffff;font-size:30px;font-weight:800;stroke:none");
+  ct1.textContent="QCon";
+  ctr.appendChild(ct1);
+  const ct2=document.createElementNS(NS,"text");
+  ct2.setAttribute("x",CX);ct2.setAttribute("y",CY+20);ct2.setAttribute("text-anchor","middle");
+  ct2.setAttribute("dominant-baseline","middle");
+  ct2.setAttribute("style","fill:#ffffff;font-size:26px;font-weight:700;stroke:none");
+  ct2.textContent="2026";
+  ctr.appendChild(ct2);
   nodes.appendChild(ctr);
   applyView();
 }
@@ -2243,7 +2250,7 @@ function applyView(){
 svg.addEventListener("wheel",e=>{
   e.preventDefault();
   const f=e.deltaY<0?1.12:0.89;
-  const nk=Math.min(5,Math.max(.4,view.k*f));
+  const nk=Math.min(5,Math.max(.8,view.k*f));
   view.x=600-(600-view.x)*(nk/view.k); view.y=600-(600-view.y)*(nk/view.k);
   view.k=nk; applyView();
 },{passive:false});
