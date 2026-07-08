@@ -42,22 +42,34 @@ nav#topnav a:hover{background:#eef2ff}
 /* ---- graph ---- */
 #graphWrap{position:relative;background:var(--card);border:1px solid var(--line);
   border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(15,23,42,.06)}
-#graphSvg{display:block;width:100%;height:640px;cursor:grab;touch-action:none}
-#graphSvg.dragging{cursor:grabbing}
-#graphTools{position:absolute;top:12px;left:12px;display:flex;gap:8px;flex-wrap:wrap}
+#mindmap{height:640px;overflow:auto;padding:56px 24px 24px 24px}
+#graphTools{position:absolute;top:12px;left:12px;display:flex;gap:8px;flex-wrap:wrap;z-index:5}
 #graphTools button{border:1px solid var(--line);background:#fff;border-radius:8px;
   padding:6px 12px;font-size:13px;cursor:pointer}
 #graphTools button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
-#legend{position:absolute;bottom:12px;left:12px;background:rgba(255,255,255,.9);
-  border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:12px;color:var(--muted)}
-.node{cursor:pointer}
-.node text{font-size:11px;fill:#475569;pointer-events:none}
-.node.attended text{fill:#1d4ed8;font-weight:700}
-.node circle{stroke:#fff;stroke-width:1.5}
-.themeNode{cursor:default}
-.themeNode text{font-size:13px;font-weight:700;fill:var(--ink);paint-order:stroke;stroke:#ffffffcc;stroke-width:4}
-.edge{stroke:#cbd5e1;stroke-width:1;fill:none}
-.edge.hi{stroke:var(--accent);stroke-width:2}
+#legend{position:absolute;bottom:12px;left:12px;background:rgba(255,255,255,.92);
+  border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:12px;color:var(--muted);z-index:5}
+.mnode{display:flex;align-items:center}
+.mchildren{display:flex;flex-direction:column;gap:10px;padding-left:30px;position:relative}
+.mchild{position:relative;padding-left:28px}
+.mchild::before{content:"";position:absolute;left:0;top:50%;width:28px;height:2px;background:#93c5fd}
+.mchild::after{content:"";position:absolute;left:0;top:0;bottom:0;width:2px;background:#93c5fd}
+.mchild:first-child::after{top:50%}
+.mchild:last-child::after{bottom:50%}
+.mchild:only-child::after{display:none}
+.mcard{border:1.5px solid #cbd5e1;border-radius:10px;padding:8px 16px;font-size:14px;
+  background:#fff;cursor:pointer;max-width:480px;line-height:1.5}
+.mroot{background:#ede9fe;border-color:#8b5cf6;color:#4c1d95;font-weight:700;font-size:17px;
+  padding:14px 24px;cursor:default;white-space:nowrap}
+.mtheme{font-weight:600;display:flex;gap:10px;align-items:center;white-space:nowrap}
+.mcount{background:#fff;border-radius:10px;font-size:11px;padding:1px 8px;border:1px solid #cbd5e1;color:#64748b}
+.msess{background:#f8fafc;font-size:13px;color:#475569}
+.msess:hover{border-color:#94a3b8}
+.msess.att{background:#eff6ff;border-color:#2563eb;color:#1d4ed8;font-weight:600}
+.msess.att:hover{background:#dbeafe}
+.mtoggle{margin-left:8px;min-width:24px;height:24px;border-radius:50%;border:1px solid #93c5fd;
+  background:#dbeafe;color:#1d4ed8;cursor:pointer;font-size:13px;line-height:1;font-weight:700}
+.mtoggle:hover{background:#bfdbfe}
 /* ---- essay ---- */
 .essay-block{background:var(--card);border:1px solid var(--line);border-radius:14px;
   padding:26px 28px;margin-bottom:22px;box-shadow:0 2px 10px rgba(15,23,42,.04)}
@@ -87,7 +99,12 @@ nav#topnav a:hover{background:#eef2ff}
 .figside figure{margin:0;background:#f8fafc;border:1px solid var(--line);border-radius:10px;padding:14px;text-align:center}
 .figside img,.figside svg{max-width:100%;height:auto;display:block;margin:0 auto}
 .figside figcaption{font-size:12px;color:var(--muted);margin-top:8px}
-@media(max-width:760px){.essay-cols{flex-direction:column}}
+@media(max-width:760px){
+  .essay-cols{flex-direction:column}
+  .essay-block .txt p br{display:none}
+  .essay-block .txt p{line-height:1.9}
+  .essay-block .callout{margin-left:8px}
+}
 /* ---- list ---- */
 #filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;align-items:center}
 #filters button{border:1px solid var(--line);background:#fff;border-radius:16px;
@@ -121,7 +138,7 @@ nav#topnav a:hover{background:#eef2ff}
 #modal .btn{font-size:14px;padding:8px 16px}
 #mClose{float:right;border:none;background:none;font-size:20px;cursor:pointer;color:var(--muted)}
 footer{text-align:center;color:var(--muted);font-size:13px;padding:40px 20px;border-top:1px solid var(--line);margin-top:40px}
-@media(max-width:640px){#graphSvg{height:480px}}
+@media(max-width:640px){#mindmap{height:520px}}
 </style>
 </head>
 <body>
@@ -145,14 +162,15 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:40px 20px;bor
 
 <section class="page" id="graph">
   <h2>會議知識圖</h2>
-  <p class="desc">滾輪縮放、拖曳平移；點擊場次節點可查看 YouTube 影片或下載 PDF 講稿。藍色＝我有到場聆聽的場次。</p>
+  <p class="desc">點主題節點（或 › 按鈕）展開該分支的場次；點場次卡片可查看 YouTube 影片或下載 PDF 講稿。藍色＝我有到場聆聽的場次。</p>
   <div id="graphWrap">
-    <svg id="graphSvg" viewBox="0 0 1200 1200" xmlns="http://www.w3.org/2000/svg"></svg>
+    <div id="mindmap"></div>
     <div id="graphTools">
       <button id="btnOnlyAtt">只看有參加 ★</button>
-      <button id="btnReset">重設視角</button>
+      <button id="btnExpand">全部展開</button>
+      <button id="btnCollapse">全部收合</button>
     </div>
-    <div id="legend">● 藍點＝我有參加、有錄影（15 場）　● 灰點＝僅講稿 PDF　字級大＝主題節點</div>
+    <div id="legend">★ 藍卡＝我有參加、有錄影　·　灰卡＝講稿 PDF　·　點主題展開場次，點場次卡看連結</div>
   </div>
 </section>
 
@@ -2148,126 +2166,57 @@ function linkBtns(s,big){
   return h;
 }
 
-/* ============ knowledge graph ============ */
-const svg=document.getElementById("graphSvg");
-const NS="http://www.w3.org/2000/svg";
-const CX=600, CY=600, R_THEME=205, R_LEAF=430;
+/* ============ mind map ============ */
+const mm=document.getElementById("mindmap");
 let onlyAtt=false;
-function buildGraph(){
-  svg.innerHTML="";
-  const g=document.createElementNS(NS,"g"); g.id="viewport"; svg.appendChild(g);
-  const list = DATA.sessions.filter(s=>!onlyAtt||s.attended);
-  const groups = themeKeys.map(k=>({k, items:list.filter(s=>s.theme===k)})).filter(t=>t.items.length);
-  const PAD=2.4;
-  const totalW=groups.reduce((t,gr)=>t+gr.items.length+PAD,0);
-  let cursor=-Math.PI/2;
-  const edges=document.createElementNS(NS,"g"); g.appendChild(edges);
-  const nodes=document.createElementNS(NS,"g"); g.appendChild(nodes);
-  groups.forEach((gr,gi)=>{
-    const span=(gr.items.length+PAD)/totalW*2*Math.PI;
-    const am=cursor+span/2;
-    const inner=span*0.86;
-    const RT=R_THEME;
-    const tx=CX+RT*Math.cos(am), ty=CY+RT*Math.sin(am);
-    edges.appendChild(line(CX,CY,tx,ty,"edge"));
-    gr.items.forEach((s,j)=>{
-      const a=am-inner/2+inner*(j+0.5)/gr.items.length;
-      const x=CX+R_LEAF*Math.cos(a), y=CY+R_LEAF*Math.sin(a);
-      edges.appendChild(line(tx,ty,x,y,"edge"));
-      const nd=document.createElementNS(NS,"g");
-      nd.setAttribute("class","node"+(s.attended?" attended":""));
-      const c=document.createElementNS(NS,"circle");
-      c.setAttribute("cx",x);c.setAttribute("cy",y);
-      c.setAttribute("r",s.attended?8:5.5);
-      c.setAttribute("fill",s.attended?"#2563eb":themeColor[s.theme]+"99");
-      nd.appendChild(c);
-      const t=document.createElementNS(NS,"text");
-      let deg=a*180/Math.PI, flip=(deg>90||deg<-90);
-      const lx=CX+(R_LEAF+14)*Math.cos(a), ly=CY+(R_LEAF+14)*Math.sin(a);
-      t.setAttribute("x",lx);t.setAttribute("y",ly);
-      t.setAttribute("transform",`rotate(${flip?deg+180:deg} ${lx} ${ly})`);
-      t.setAttribute("text-anchor",flip?"end":"start");
-      t.setAttribute("dominant-baseline","middle");
-      t.textContent=(s.attended?"★":"")+trunc(s.title,16);
-      nd.appendChild(t);
-      nd.addEventListener("click",()=>openModal(s));
-      nd.addEventListener("mouseenter",()=>c.setAttribute("r",s.attended?11:8));
-      nd.addEventListener("mouseleave",()=>c.setAttribute("r",s.attended?8:5.5));
-      nodes.appendChild(nd);
-    });
-    const tn=document.createElementNS(NS,"g"); tn.setAttribute("class","themeNode");
-    const tc=document.createElementNS(NS,"circle");
-    tc.setAttribute("cx",tx);tc.setAttribute("cy",ty);tc.setAttribute("r",13);
-    tc.setAttribute("fill",themeColor[gr.k]);
-    tn.appendChild(tc);
-    const tt=document.createElementNS(NS,"text");
-    // 沿輻條方向旋轉排列，相鄰主題角度發散、不會重疊
-    const tflip=Math.cos(am)<0;
-    const tlx=CX+(RT+22)*Math.cos(am), tly=CY+(RT+22)*Math.sin(am);
-    const tdeg=am*180/Math.PI;
-    tt.setAttribute("x",tlx);tt.setAttribute("y",tly);
-    tt.setAttribute("transform","rotate("+(tflip?tdeg+180:tdeg)+" "+tlx+" "+tly+")");
-    tt.setAttribute("text-anchor",tflip?"end":"start");
-    tt.setAttribute("dominant-baseline","middle");
-    tt.textContent=DATA.themes[gr.k]+"("+gr.items.length+")";
-    tn.appendChild(tt);
-    nodes.appendChild(tn);
-    cursor+=span;
-  });
-  const ctr=document.createElementNS(NS,"g"); ctr.setAttribute("class","themeNode");
-  const cc=document.createElementNS(NS,"circle");
-  cc.setAttribute("cx",CX);cc.setAttribute("cy",CY);cc.setAttribute("r",78);
-  cc.setAttribute("fill","#2563eb");cc.setAttribute("stroke","#1e40af");cc.setAttribute("stroke-width","4");
-  ctr.appendChild(cc);
-  const ct1=document.createElementNS(NS,"text");
-  ct1.setAttribute("x",CX);ct1.setAttribute("y",CY-14);ct1.setAttribute("text-anchor","middle");
-  ct1.setAttribute("dominant-baseline","middle");
-  ct1.setAttribute("style","fill:#ffffff;font-size:30px;font-weight:800;stroke:none");
-  ct1.textContent="QCon";
-  ctr.appendChild(ct1);
-  const ct2=document.createElementNS(NS,"text");
-  ct2.setAttribute("x",CX);ct2.setAttribute("y",CY+20);ct2.setAttribute("text-anchor","middle");
-  ct2.setAttribute("dominant-baseline","middle");
-  ct2.setAttribute("style","fill:#ffffff;font-size:26px;font-weight:700;stroke:none");
-  ct2.textContent="2026";
-  ctr.appendChild(ct2);
-  nodes.appendChild(ctr);
-  applyView();
-}
-function line(x1,y1,x2,y2,cls){
-  const l=document.createElementNS(NS,"line");
-  l.setAttribute("x1",x1);l.setAttribute("y1",y1);l.setAttribute("x2",x2);l.setAttribute("y2",y2);
-  l.setAttribute("class",cls);return l;
-}
+const expanded=new Set();
+function el(t,c){const e=document.createElement(t);if(c)e.className=c;return e;}
 function trunc(t,n){return t.length>n?t.slice(0,n)+"…":t;}
-
-/* pan / zoom */
-let view={x:0,y:0,k:1};
-function applyView(){
-  const vp=document.getElementById("viewport");
-  if(vp)vp.setAttribute("transform",`translate(${view.x} ${view.y}) scale(${view.k})`);
+function buildMap(){
+  mm.innerHTML="";
+  const list=DATA.sessions.filter(s=>!onlyAtt||s.attended);
+  const groups=themeKeys.map(k=>({k,items:list.filter(s=>s.theme===k)})).filter(g=>g.items.length);
+  const root=el("div","mnode");
+  const rc=el("div","mcard mroot"); rc.textContent="2026 北京 QCon 參會心得";
+  root.appendChild(rc);
+  const kids=el("div","mchildren");
+  groups.forEach(g=>{
+    const child=el("div","mchild");
+    const node=el("div","mnode");
+    const open=expanded.has(g.k);
+    const card=el("div","mcard mtheme");
+    card.style.background=themeColor[g.k]+"1f";
+    card.style.borderColor=themeColor[g.k];
+    card.innerHTML=`${esc(DATA.themes[g.k])}<span class="mcount">${g.items.length} 場</span>`;
+    const tg=el("button","mtoggle");
+    tg.textContent=open?"‹":"›";
+    tg.title=open?"收合":"展開";
+    const flip=()=>{open?expanded.delete(g.k):expanded.add(g.k);buildMap();};
+    tg.addEventListener("click",flip);
+    card.addEventListener("click",flip);
+    node.appendChild(card); node.appendChild(tg);
+    if(open){
+      const sk=el("div","mchildren");
+      g.items.forEach(s=>{
+        const sc=el("div","mchild");
+        const scard=el("div","mcard msess"+(s.attended?" att":""));
+        scard.textContent=(s.attended?"★ ":"")+s.title;
+        scard.addEventListener("click",e=>{e.stopPropagation();openModal(s);});
+        sc.appendChild(scard); sk.appendChild(sc);
+      });
+      node.appendChild(sk);
+    }
+    child.appendChild(node); kids.appendChild(child);
+  });
+  root.appendChild(kids);
+  mm.appendChild(root);
 }
-svg.addEventListener("wheel",e=>{
-  e.preventDefault();
-  const f=e.deltaY<0?1.12:0.89;
-  const nk=Math.min(5,Math.max(.8,view.k*f));
-  view.x=600-(600-view.x)*(nk/view.k); view.y=600-(600-view.y)*(nk/view.k);
-  view.k=nk; applyView();
-},{passive:false});
-let drag=null;
-svg.addEventListener("pointerdown",e=>{drag={x:e.clientX,y:e.clientY};svg.classList.add("dragging");svg.setPointerCapture(e.pointerId);});
-svg.addEventListener("pointermove",e=>{
-  if(!drag)return;
-  const sc=1200/svg.clientWidth;
-  view.x+=(e.clientX-drag.x)*sc; view.y+=(e.clientY-drag.y)*sc;
-  drag={x:e.clientX,y:e.clientY}; applyView();
-});
-svg.addEventListener("pointerup",()=>{drag=null;svg.classList.remove("dragging");});
-document.getElementById("btnReset").onclick=()=>{view={x:0,y:0,k:1};applyView();};
 document.getElementById("btnOnlyAtt").onclick=function(){
-  onlyAtt=!onlyAtt; this.classList.toggle("on",onlyAtt); buildGraph();
+  onlyAtt=!onlyAtt; this.classList.toggle("on",onlyAtt); buildMap();
 };
-buildGraph();
+document.getElementById("btnExpand").onclick=()=>{themeKeys.forEach(k=>expanded.add(k));buildMap();};
+document.getElementById("btnCollapse").onclick=()=>{expanded.clear();buildMap();};
+buildMap();
 
 /* ============ essay ref chips ============ */
 document.querySelectorAll(".essay-block").forEach(b=>{
