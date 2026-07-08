@@ -58,7 +58,8 @@ nav#topnav a:hover{background:#eef2ff}
 .mchild:last-child::after{bottom:50%}
 .mchild:only-child::after{display:none}
 .mcard{border:1.5px solid #cbd5e1;border-radius:10px;padding:8px 16px;font-size:14px;
-  background:#fff;cursor:pointer;max-width:480px;line-height:1.5}
+  background:#fff;cursor:pointer;width:max-content;max-width:480px;line-height:1.5}
+.mchild,.mnode{flex-shrink:0}
 .mroot{background:#ede9fe;border-color:#8b5cf6;color:#4c1d95;font-weight:700;font-size:17px;
   padding:14px 24px;cursor:default;white-space:nowrap}
 .mtheme{font-weight:600;display:flex;gap:10px;align-items:center;white-space:nowrap}
@@ -93,6 +94,7 @@ nav#topnav a:hover{background:#eef2ff}
 @keyframes chFade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 .essay-block .callout{margin:12px 0 12px 22px;padding:10px 16px;border-left:3px solid var(--accent);background:#eff6ff;border-radius:0 8px 8px 0;font-size:15px;color:#1e3a8a;font-weight:600}
 #progressBar{position:fixed;top:0;left:0;height:3px;background:var(--accent);width:0;z-index:200}
+.ln{display:block}
 .essay-cols{display:flex;gap:26px;align-items:center}
 .essay-cols .txt{flex:1.45;min-width:0}
 .essay-cols .figside{flex:1;min-width:0}
@@ -101,9 +103,11 @@ nav#topnav a:hover{background:#eef2ff}
 .figside figcaption{font-size:12px;color:var(--muted);margin-top:8px}
 @media(max-width:760px){
   .essay-cols{flex-direction:column}
-  .essay-block .txt p br{display:none}
-  .essay-block .txt p{line-height:1.9}
+  .essay-block .txt p{line-height:1.85}
   .essay-block .callout{margin-left:8px}
+  .ln{padding-left:1.1em;text-indent:-1.1em}
+  .mcard{max-width:74vw}
+  #mindmap{padding:52px 12px 16px 12px}
 }
 /* ---- list ---- */
 #filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;align-items:center}
@@ -2217,6 +2221,12 @@ document.getElementById("btnOnlyAtt").onclick=function(){
 document.getElementById("btnExpand").onclick=()=>{themeKeys.forEach(k=>expanded.add(k));buildMap();};
 document.getElementById("btnCollapse").onclick=()=>{expanded.clear();buildMap();};
 buildMap();
+
+/* ============ line blocks（斷行→懸掛縮排） ============ */
+document.querySelectorAll(".essay-block .txt p, .essay-block .callout").forEach(p=>{
+  const parts=p.innerHTML.split(/<br\s*\/?>/i).map(s=>s.trim()).filter(Boolean);
+  if(parts.length>1) p.innerHTML=parts.map(s=>`<span class="ln">${s}</span>`).join("");
+});
 
 /* ============ essay ref chips ============ */
 document.querySelectorAll(".essay-block").forEach(b=>{
