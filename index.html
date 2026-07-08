@@ -95,6 +95,7 @@ nav#topnav a:hover{background:#eef2ff}
 .essay-block .callout{margin:12px 0 12px 22px;padding:10px 16px;border-left:3px solid var(--accent);background:#eff6ff;border-radius:0 8px 8px 0;font-size:15px;color:#1e3a8a;font-weight:600}
 #progressBar{position:fixed;top:0;left:0;height:3px;background:var(--accent);width:0;z-index:200}
 .ln{display:block}
+.cbr{display:inline}
 .essay-cols{display:flex;gap:26px;align-items:center}
 .essay-cols .txt{flex:1.45;min-width:0}
 .essay-cols .figside{flex:1;min-width:0}
@@ -106,6 +107,7 @@ nav#topnav a:hover{background:#eef2ff}
   .essay-block .txt p{line-height:1.85}
   .essay-block .callout{margin-left:8px}
   .ln{padding-left:1.1em;text-indent:-1.1em}
+  .cbr{display:block;height:0}
   .mcard{max-width:74vw}
   #mindmap{padding:52px 12px 16px 12px}
 }
@@ -2226,6 +2228,21 @@ buildMap();
 document.querySelectorAll(".essay-block .txt p, .essay-block .callout").forEach(p=>{
   const parts=p.innerHTML.split(/<br\s*\/?>/i).map(s=>s.trim()).filter(Boolean);
   if(parts.length>1) p.innerHTML=parts.map(s=>`<span class="ln">${s}</span>`).join("");
+});
+/* 手機規則：遇「，」換行（桌機隱形） */
+document.querySelectorAll(".essay-block .txt p, .essay-block .callout").forEach(p=>{
+  const w=document.createTreeWalker(p,NodeFilter.SHOW_TEXT);
+  const nodes=[];
+  while(w.nextNode()) if(w.currentNode.nodeValue.includes("，")) nodes.push(w.currentNode);
+  nodes.forEach(n=>{
+    const parts=n.nodeValue.split("，");
+    const frag=document.createDocumentFragment();
+    parts.forEach((t,i)=>{
+      frag.appendChild(document.createTextNode(t+(i<parts.length-1?"，":"")));
+      if(i<parts.length-1){const s=document.createElement("span");s.className="cbr";frag.appendChild(s);}
+    });
+    n.parentNode.replaceChild(frag,n);
+  });
 });
 
 /* ============ essay ref chips ============ */
