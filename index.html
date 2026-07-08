@@ -2233,16 +2233,24 @@ document.querySelectorAll(".essay-block .txt p, .essay-block .callout").forEach(
 document.querySelectorAll(".essay-block .txt p, .essay-block .callout").forEach(p=>{
   const w=document.createTreeWalker(p,NodeFilter.SHOW_TEXT);
   const nodes=[];
-  while(w.nextNode()) if(/[，；：]/.test(w.currentNode.nodeValue)) nodes.push(w.currentNode);
+  while(w.nextNode()) if(/[，；：。？]/.test(w.currentNode.nodeValue)) nodes.push(w.currentNode);
   nodes.forEach(n=>{
-    const raw=n.nodeValue.split(/([，；：])/);
+    const raw=n.nodeValue.split(/([，；：。？])/);
     const parts=[];
     for(let i=0;i<raw.length;i+=2) parts.push(raw[i]+(raw[i+1]||""));
+    /* 收尾符號（」』）等）不落單：併回前一段 */
+    const merged=[];
+    parts.forEach(t=>{
+      if(merged.length){
+        const m=t.match(/^[」』）】〉》…！？。]+/);
+        if(m){merged[merged.length-1]+=m[0];t=t.slice(m[0].length);}
+      }
+      if(t) merged.push(t);
+    });
     const frag=document.createDocumentFragment();
-    parts.forEach((t,i)=>{
-      if(!t)return;
+    merged.forEach((t,i)=>{
       frag.appendChild(document.createTextNode(t));
-      if(i<parts.length-1){const s=document.createElement("span");s.className="cbr";frag.appendChild(s);}
+      if(i<merged.length-1){const s=document.createElement("span");s.className="cbr";frag.appendChild(s);}
     });
     n.parentNode.replaceChild(frag,n);
   });
