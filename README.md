@@ -31,6 +31,7 @@ git clone https://github.com/MJJackson0414/2026_QCon_Beijing.git
    - `data-refs` 填相關場次 id（如 `s02,s08`），段落底部自動產生連結卡
 2. **補 YouTube 連結**：搜尋 `const DATA`，在對應場次的 `"yt": ""` 填入網址（★ 的 15 場）
 3. **推版**：commit 後 push 到 `main`，GitHub Pages 會自動重新部署
+4. **流量統計**：GoatCounter 儀表板在 https://mjjackson.goatcounter.com/（追蹤碼已嵌在 `index.html` 底部）
 
 ## 待辦
 
