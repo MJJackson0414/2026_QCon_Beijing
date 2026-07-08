@@ -106,7 +106,6 @@ nav#topnav a:hover{background:#eef2ff}
   .essay-cols{flex-direction:column}
   .essay-block .txt p{line-height:1.85}
   .essay-block .callout{margin-left:8px}
-  .ln{padding-left:1.1em;text-indent:-1.1em}
   .cbr{display:block;height:0}
   .mcard{max-width:74vw}
   #mindmap{padding:52px 12px 16px 12px}
@@ -2233,24 +2232,38 @@ document.querySelectorAll(".essay-block .txt p, .essay-block .callout").forEach(
 document.querySelectorAll(".essay-block .txt p, .essay-block .callout").forEach(p=>{
   const w=document.createTreeWalker(p,NodeFilter.SHOW_TEXT);
   const nodes=[];
-  while(w.nextNode()) if(/[，；：。？]/.test(w.currentNode.nodeValue)) nodes.push(w.currentNode);
+  while(w.nextNode()) if(/——|[，；：。？]/.test(w.currentNode.nodeValue)) nodes.push(w.currentNode);
   nodes.forEach(n=>{
-    const raw=n.nodeValue.split(/([，；：。？])/);
-    const parts=[];
-    for(let i=0;i<raw.length;i+=2) parts.push(raw[i]+(raw[i+1]||""));
-    /* 收尾符號（」』）等）不落單：併回前一段 */
-    const merged=[];
-    parts.forEach(t=>{
-      if(merged.length){
-        const m=t.match(/^[」』）】〉》…！？。]+/);
-        if(m){merged[merged.length-1]+=m[0];t=t.slice(m[0].length);}
-      }
-      if(t) merged.push(t);
+    const raw=n.nodeValue.split(/(——|[，；：。？])/);
+    /* 組段：標點收在段尾，「——」開新段 */
+    let segs=[],cur="";
+    raw.forEach(tok=>{
+      if(!tok) return;
+      if(tok==="——"){ if(cur)segs.push(cur); cur="——"; }
+      else if(/^[，；：。？]$/.test(tok)){ cur+=tok; segs.push(cur); cur=""; }
+      else cur+=tok;
     });
+    if(cur) segs.push(cur);
+    /* 收尾符號（」』）等）不落單 */
+    let parts=[];
+    segs.forEach(t=>{
+      if(parts.length){
+        const m=t.match(/^[」』）】〉》…！？。]+/);
+        if(m){parts[parts.length-1]+=m[0];t=t.slice(m[0].length);}
+      }
+      if(t) parts.push(t);
+    });
+    /* 太短不換行：斷點前累積不足 6 字就併入下一段 */
+    const MIN=6, out=[]; let buf="";
+    parts.forEach(t=>{
+      buf+=t;
+      if(buf.length>=MIN){ out.push(buf); buf=""; }
+    });
+    if(buf){ if(out.length) out[out.length-1]+=buf; else out.push(buf); }
     const frag=document.createDocumentFragment();
-    merged.forEach((t,i)=>{
+    out.forEach((t,i)=>{
       frag.appendChild(document.createTextNode(t));
-      if(i<merged.length-1){const s=document.createElement("span");s.className="cbr";frag.appendChild(s);}
+      if(i<out.length-1){const s=document.createElement("span");s.className="cbr";frag.appendChild(s);}
     });
     n.parentNode.replaceChild(frag,n);
   });
